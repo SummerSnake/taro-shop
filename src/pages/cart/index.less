@@ -1,0 +1,120 @@
+.orderWrap {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 0 30px;
+  .userInfo {
+    padding: 30px 0;
+    color: #666;
+    font-size: 32px;
+    border-bottom: 10px solid #d8d8d8;
+    .userInfoTxt {
+      display: inline-block;
+      width: 345px;
+    }
+    .userInfoAddr {
+      width: 100%;
+      padding-top: 10px;
+      word-break: break-all;
+    }
+  }
+  .goodsWrap {
+    .goodsTitle {
+      height: 80px;
+      line-height: 80px;
+      font-size: 40px;
+      color: #2083e4;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #d8d8d8;
+    }
+    .goodsList {
+      display: flex;
+      padding: 10px;
+      border-bottom: 2px solid #d8d8d8;
+      .goodName {
+        flex: 1;
+        height: 60px;
+        line-height: 60px;
+        font-size: 28px;
+        color: #666;
+      }
+      .goodOperate {
+        flex: 1;
+        .goodIcon {
+          display: inline-block;
+        }
+        .goodNum {
+          height: 60px;
+          line-height: 60px;
+          margin: 0 10px;
+          font-size: 30px;
+          color: #666;
+          text-align: center;
+        }
+      }
+      .goodPrice {
+        color: #d82b2f;
+        text-align: right;
+      }
+    }
+    .couponPicker {
+      height: 80px;
+      line-height: 80px;
+      font-size: 30px;
+      color: #333;
+      padding: 0 10px;
+      border-bottom: 2px solid #d8d8d8;
+      .couponTxt {
+        float: right;
+      }
+    }
+    .totalMoney {
+      text-align: right;
+      height: 80px;
+      line-height: 80px;
+      font-size: 32px;
+      color: #666;
+      border-bottom: 10px solid #d8d8d8;
+      .totalMoneyNum {
+        font-size: 40px;
+        color: #d82b2f;
+      }
+    }
+  }
+  .orderBottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 120px;
+    box-sizing: border-box;
+    padding: 10px 0 10px 30px;
+    background-color: #666;
+    .bottomTotal {
+      height: 50px;
+      line-height: 50px;
+      font-size: 36px;
+      color: #fff;
+    }
+    .bottomCoupon {
+      height: 50px;
+      line-height: 50px;
+      font-size: 30px;
+      color: #999;
+      padding-left: 10px;
+    }
+    .confirmPay {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 120px;
+      line-height: 120px;
+      text-align: center;
+      color: #fff;
+      font-size: 40px;
+      background-color: #2083e4;
+    }
+  }
+}

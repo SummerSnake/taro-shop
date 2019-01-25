@@ -1,0 +1,52 @@
+.shadePanel {
+  position: absolute;
+  z-index: 7;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  .buyingInfo {
+    position: absolute;
+    z-index: 99;
+    bottom: 120px;
+    left: 0;
+    width: 100vw;
+    min-height: 80px;
+    .orderDom {
+      display: flex;
+      text-align: center;
+      height: 80px;
+      line-height: 80px;
+      background-color: #fff;
+      .buyingItemTxt {
+        flex: 1;
+      }
+      .buyingItemTxt:nth-of-type(2) {
+        color: #d82b2f;
+      }
+      .buyingItemOperate {
+        flex: 1;
+        .buyingItemNum {
+          margin: 0 10px;
+        }
+        .buyingItemIcon {
+          display: inline-block;
+          width: 80px;
+        }
+      }
+      .inlineView {
+        display: inline-block;
+      }
+    }
+  }
+  .nullCartTxt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    font-size: 60px;
+    white-space: nowrap;
+    color: #fff;
+  }
+}

@@ -1,0 +1,15 @@
+{
+	"miniprogramRoot": "dist/",
+	"projectname": "haifeng_mini",
+	"description": "海丰小程序",
+	"appid": "wx33bea6a8be451c65",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"condition": {}
+}

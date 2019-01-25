@@ -1,0 +1,118 @@
+.goodInfoWrap {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  font-family: "Microsoft YaHei UI", serif;
+  .scrollDom {
+    height: calc(~"100vh - 120px");
+  }
+  .swipImgWrap {
+    width: 100%;
+    height: 150px;
+    .swipImg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .briefWrap {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px 30px;
+    border-top: 1px solid #d8d8d8;
+    border-bottom: 1px solid #d8d8d8;
+    .briefTop {
+      height: 40px;
+      line-height: 40px;
+      font-size: 36px;
+      .briefSalesVolume {
+        float: right;
+        font-size: 28px;
+        color: #666;
+      }
+    }
+    .briefMid {
+      height: 40px;
+      line-height: 40px;
+      font-size: 30px;
+      color: #666;
+      padding: 16px 0;
+    }
+    .briefBottom {
+      height: 40px;
+      line-height: 40px;
+      font-size: 40px;
+      color: #d82b2f;
+    }
+  }
+  .detailWrap {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px 30px;
+    background-color: #f8f8f8;
+    .detailTitle {
+      font-size: 40px;
+      text-align: center;
+      font-weight: 600;
+    }
+    .detailTxt {
+      font-size: 32px;
+      text-align: center;
+      color: #666;
+      padding: 16px 0;
+    }
+    .detailImgWrap {
+      width: 600px;
+      height: 150px;
+      margin: 0 auto;
+      border-radius: 16px;
+      box-shadow: 3px 3px 3px 3px rgba(212, 212, 212, 0.5);
+      overflow: hidden;
+      .detailImg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .detailConWrap:nth-of-type(odd) {
+    background-color: #fff;
+  }
+  .goodInfoBottom {
+    display: flex;
+    position: absolute;
+    z-index: 8;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 120px;
+    background-color: #666;
+    .bottomIconWrap {
+      display: flex;
+      align-items: center;
+      width: 40%;
+      .bottomIcon {
+        flex: 1;
+        text-align: center;
+        .iconTxt {
+          font-size: 28px;
+          color: #fff;
+        }
+      }
+    }
+    .addToCart {
+      width: 30%;
+      height: 120px;
+      line-height: 120px;
+      text-align: center;
+      background-color: #ee7600;
+      color: #fff;
+    }
+    .goPay {
+      width: 30%;
+      height: 120px;
+      line-height: 120px;
+      text-align: center;
+      background-color: #2083e4;
+      color: #fff;
+    }
+  }
+}
