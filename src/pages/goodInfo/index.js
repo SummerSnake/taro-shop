@@ -4,7 +4,7 @@ import { AtIcon, AtBadge } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { addToCart } from '../../store/actions/cartActions';
 import CartGoodList from '../../components/CartGoodList/index';
-import { apiUrl } from '../../utils/api';
+import apiUrl from '../../utils/api';
 import './index.less';
 
 @connect(({ cartReducer }) => ({
@@ -37,7 +37,7 @@ export default class GoodInfo extends Component {
     });
     const id = preload.id;
     Taro.request({
-      url: `${apiUrl}/mock/5c47cf65f513860f4ceef6a3/example/haiFengMiNi/proDetail`,
+      url: `${apiUrl}/mock/5c47cf65f513860f4ceef6a3/example/taroMini/proDetail`,
       data: { id },
       method: 'POST',
       header: {

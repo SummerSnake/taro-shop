@@ -1,8 +1,8 @@
 {
-  "name": "haifeng_mini",
+  "name": "taro_mini",
   "version": "1.0.0",
   "private": true,
-  "description": "海丰小程序",
+  "description": "微信小程序商城",
   "scripts": {
     "build:weapp": "taro build --type weapp",
     "build:swan": "taro build --type swan",

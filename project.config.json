@@ -1,7 +1,7 @@
 {
 	"miniprogramRoot": "dist/",
-	"projectname": "haifeng_mini",
-	"description": "海丰小程序",
+	"projectname": "taro_mini",
+	"description": "微信小程序商城",
 	"appid": "wx33bea6a8be451c65",
 	"setting": {
 		"urlCheck": true,

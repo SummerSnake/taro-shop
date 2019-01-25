@@ -13,7 +13,7 @@ export default class Cart extends Component {
     super(...arguments);
     this.state = {
       fetchData: {
-        name: '海丰海参'
+        name: '测试'
       },
       selector: ['5元', '10元', '20元', '50元'],
       selectorChecked: '请选择优惠券',
