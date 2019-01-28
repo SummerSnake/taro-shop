@@ -6,7 +6,7 @@ import './index.less';
 export default class PersonCenter extends Component {
 
   config = {
-    navigationBarTitleText: '首页',
+    navigationBarTitleText: '个人中心',
     navigationBarBackgroundColor: '#000',
     navigationBarTextStyle: "#fff",
   };
