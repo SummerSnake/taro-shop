@@ -32,9 +32,8 @@ export default class Index extends Component {
   subtractNum = (id, e) => {
     e.stopPropagation();
     this.props.dispatch(deleteFromCart(id));
-    const { cartReducer } = this.props;
     this.props.onIsOpen('3');
-    if (cartReducer.cart.length < 1) {
+    if (this.props.cartReducer.cart.length < 1) {
       this.props.onIsOpen('1');
     }
   };
@@ -80,7 +79,7 @@ export default class Index extends Component {
           className='nullCartTxt'
           style={{ display: (isOpen && cart.length < 1) ? 'block' : 'none' }}
         >
-          不买瞎点什么！！！
+          购物车是空的
         </View>
       </View>
     );

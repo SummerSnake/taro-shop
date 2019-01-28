@@ -1,6 +1,133 @@
 .homeWrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+  width: 100vw;
   height: 100vh;
+  font-family: "Microsoft YaHei UI", serif;
+  .scrollDom {
+    height: calc(~"100vh - 120px");
+  }
+  .headWrap {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+    background-color: #ccc;
+    overflow: hidden;
+    .userInfoWrap {
+      text-align: center;
+      .avatarWrap {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+        border-radius: 50%;
+        overflow: hidden;
+        .avatarImg {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .nickName {
+        color: #fff;
+        font-size: 30px;
+        margin: 0 auto;
+      }
+    }
+    .backImg {
+      position: absolute;
+      z-index: -1;
+      width: 100%;
+      filter: blur(20px);
+    }
+  }
+  .iconListWrap {
+    padding: 40px 0;
+    .iconList {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin-top: 40px;
+      .iconItem {
+        flex: 1;
+        text-align: center;
+        .iconItemTxt {
+          color: #999;
+          font-size: 30px;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+  .gridListWrap {
+    border-top: 20px solid #d8d8d8;
+    border-bottom: 20px solid #d8d8d8;
+    .gridList {
+      display: flex;
+      width: 100%;
+      .gridItem {
+        position: relative;
+        flex: 1;
+        box-sizing: border-box;
+        padding: 40px 0 40px 140px;
+        .gridItemIcon {
+          position: absolute;
+          top: 50%;
+          left: 10%;
+          transform: translateY(-50%);
+        }
+        .gridItemTxt {
+          .girdItemTitle {
+            color: #666;
+            font-size: 36px;
+          }
+          .gridItemCon {
+            color: #999;
+          }
+        }
+      }
+      .gridItem:nth-of-type(1) {
+        border-right: 1px solid #d8d8d8;
+        border-bottom: 1px solid #d8d8d8;
+      }
+      .gridItem:nth-of-type(2) {
+        border-bottom: 1px solid #d8d8d8;
+      }
+      .gridItem:nth-of-type(3) {
+        border-right: 1px solid #d8d8d8;
+      }
+    }
+  }
+  .sysList {
+    width: 100%;
+    border-bottom: 20px solid #d8d8d8;
+    .sysItem {
+      width: 100%;
+      height: 80px;
+      line-height: 80px;
+      font-size: 32px;
+      padding-left: 30px;
+    }
+    .sysItem:first-child {
+      border-bottom: 1px solid #d8d8d8;
+    }
+  }
+  .bottomList {
+    position: absolute;
+    left: 0;
+    bottom:0;
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    .bottomIcon {
+      flex: 1;
+      text-align: center;
+      .bottomTxt {
+        color: #999;
+        font-size: 30px;
+      }
+    }
+  }
 }
