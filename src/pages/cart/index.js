@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
-import { Picker, AtInput, AtIcon } from 'taro-ui';
+import { Picker, AtInput, AtIcon, AtToast } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { addToCart, deleteFromCart } from '../../store/actions/cartActions';
 import './index.less';
@@ -15,9 +15,17 @@ export default class Cart extends Component {
       fetchData: {
         name: '测试'
       },
-      selector: ['5元', '10元', '20元', '50元'],
+      selector: [
+        { id: 1, value: 5, name: '5元' },
+        { id: 2, value: 10, name: '10元' },
+        { id: 3, value: 15, name: '15元' },
+        { id: 4, value: 20, name: '20元' },
+      ],
       selectorChecked: '请选择优惠券',
+      discountMoney: 0, // 优惠券金额
+      actualMoney: this.props.cartReducer.totalMoney, // 实际应付金额
       inputVal: '',
+      isOpen: false,
     };
   }
 
@@ -34,6 +42,11 @@ export default class Cart extends Component {
    */
   addGood = async (id, name, price) => {
     this.props.dispatch(addToCart(id, name, price));
+    this.setState({
+      selectorChecked: '请选择优惠券',
+      discountMoney: 0,
+      actualMoney: this.props.cartReducer.totalMoney,
+    });
   };
 
   /**
@@ -42,6 +55,11 @@ export default class Cart extends Component {
    */
   subtractNum = (id) => {
     this.props.dispatch(deleteFromCart(id));
+    this.setState({
+      selectorChecked: '请选择优惠券',
+      discountMoney: 0,
+      actualMoney: this.props.cartReducer.totalMoney,
+    });
   };
 
   /**
@@ -49,8 +67,22 @@ export default class Cart extends Component {
    * @param e
    */
   onSelectChange = e => {
+    const totalMoney = this.props.cartReducer.totalMoney;
+    const selected = this.state.selector[e.detail.value];
+    let discountMoney = selected.value;
+    let actualMoney = 0;
+
+    if (discountMoney <=  totalMoney) {
+      actualMoney = (totalMoney - discountMoney).toFixed(2);
+    } else {
+      discountMoney = 0;
+      this.setState({ isOpen: true });
+    }
+
     this.setState({
-      selectorChecked: this.state.selector[e.detail.value]
+      selectorChecked: selected.value <=  totalMoney ? selected.name : this.state.selectorChecked,
+      discountMoney,
+      actualMoney,
     });
   };
 
@@ -91,8 +123,9 @@ export default class Cart extends Component {
   };
 
   render() {
-    const { fetchData } = this.state;
-    const { cart, totalMoney } = this.props.cartReducer;
+    const { fetchData, selector, discountMoney, actualMoney, isOpen } = this.state;
+    const { cart } = this.props.cartReducer;
+
     return (
       <View className='orderWrap'>
         <View className='userInfo'>
@@ -122,12 +155,14 @@ export default class Cart extends Component {
               );
             })
           }
-          <Picker mode='selector' range={this.state.selector} onChange={this.onSelectChange}>
+          <Picker mode='selector' range={selector} rangeKey='name' onChange={this.onSelectChange}>
             <View className='couponPicker'>
               红包<Text className='couponTxt'>{this.state.selectorChecked}</Text>
             </View>
           </Picker>
-          <View className='totalMoney'>合计：<Text className='totalMoneyNum'>￥{totalMoney}</Text></View>
+          <View className='totalMoney'>合计：
+            <Text className='totalMoneyNum'>￥{actualMoney}</Text>
+          </View>
           <View>
             <AtInput
               name='value'
@@ -141,10 +176,12 @@ export default class Cart extends Component {
         </View>
 
         <View className='orderBottom'>
-          <View className='bottomTotal'>待支付：{totalMoney}</View>
-          <View className='bottomCoupon'>已优惠：{totalMoney}</View>
+          <View className='bottomTotal'>待支付：￥{actualMoney}</View>
+          <View className='bottomCoupon'>已优惠：￥{discountMoney}</View>
           <View className='confirmPay' onClick={this.confirmPay}>确认支付</View>
         </View>
+
+        <AtToast isOpened={isOpen} text='优惠券金额不可以大于总金额' icon='sketch' />
       </View>
     );
   }

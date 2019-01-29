@@ -85,9 +85,9 @@ export default class GoodInfo extends Component {
   /**
    * 跳转商品列表
    */
-  goProList = () => {
+  goGoodList = () => {
     Taro.navigateTo({
-      url: `/pages/proList/index`
+      url: `/pages/goodList/index`
     });
   };
   /**
@@ -176,7 +176,7 @@ export default class GoodInfo extends Component {
               <AtIcon value='home' size='30' color='#fff' />
               <View className='iconTxt'>首页</View>
             </View>
-            <View className='bottomIcon' onClick={this.goProList}>
+            <View className='bottomIcon' onClick={this.goGoodList}>
               <AtIcon value='bullet-list' size='30' color='#fff' />
               <View className='iconTxt'>分类</View>
             </View>

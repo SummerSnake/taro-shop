@@ -22,16 +22,16 @@ export default class Index extends Component {
   /**
    * 跳转商品列表
    */
-  goToGoodList = () => {
+  goGoodList = () => {
     Taro.navigateTo({
-      url: `/pages/proList/index`
+      url: `/pages/goodList/index`
     });
   };
 
   /**
    * 跳转个人中心
    */
-  goToPersonCenter = () => {
+  goPersonCenter = () => {
     // 获取用户信息
     Taro.getUserInfo({
       success: (res)=>{
@@ -48,10 +48,10 @@ export default class Index extends Component {
     return (
       <View className='homeWrap'>
         <View className='btnWrap'>
-          <AtButton type='secondary' onClick={this.goToGoodList}>商品列表</AtButton>
+          <AtButton type='secondary' onClick={this.goGoodList}>商品列表</AtButton>
         </View>
         <View className='btnWrap'>
-          <AtButton type='secondary' onClick={this.goToPersonCenter}>个人中心</AtButton>
+          <AtButton type='secondary' onClick={this.goPersonCenter}>个人中心</AtButton>
         </View>
       </View>
     );
