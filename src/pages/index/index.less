@@ -1,8 +1,36 @@
 .homeWrap {
+  position: relative;
   height: 100vh;
   .btnWrap {
     width: 80%;
     margin: 0 auto;
     margin-top: 30px;
+  }
+  .loginWrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    .loginTxt {
+      float: left;
+      width: 150px;
+      height: 80px;
+      line-height: 80px;
+      font-size: 32px;
+      color: #666;
+    }
+    .loginInput {
+      width: 350px;
+      height: 80px;
+      line-height: 80px;
+      vertical-align: middle;
+      border-bottom: 1px solid #d8d8d8;
+      margin-top: 20px;
+      font-size: 36px;
+    }
+    .submitBtn {
+      margin-top: 50px;
+    }
   }
 }
