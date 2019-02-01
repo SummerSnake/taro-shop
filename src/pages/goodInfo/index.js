@@ -4,7 +4,7 @@ import { AtIcon, AtBadge } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { addToCart } from '../../store/actions/cartActions';
 import CartGoodList from '../../components/CartGoodList/index';
-import apiUrl from '../../utils/api';
+import { postRequest } from '../../utils/api';
 import './index.less';
 
 @connect(({ cartReducer }) => ({
@@ -25,10 +25,10 @@ export default class GoodInfo extends Component {
   config = {
     navigationBarTitleText: '商品详情',
     navigationBarBackgroundColor: '#000',
-    navigationBarTextStyle: "#fff",
+    navigationBarTextStyle: "white",
   };
 
-  componentDidMount() {
+  componentDidMount = async() => {
     const preload = this.$router.preload;
     this.setState({
       id: preload.id,
@@ -36,19 +36,15 @@ export default class GoodInfo extends Component {
       price: preload.price,
     });
     const id = preload.id;
-    Taro.request({
-      url: `${apiUrl}/mock/5c47cf65f513860f4ceef6a3/example/taroMini/proDetail`,
-      data: { id },
-      method: 'POST',
-      header: {
-        'content-type': 'application/json'
-      }
-    }).then((res) => {
-      this.setState({
-        fetchData: res.data.data
-      });
+    const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/example/taroMini/proDetail',{
+      id,
     });
-  }
+    if (data.code === 0) {
+      this.setState({
+        fetchData: data.data
+      });
+    }
+  };
 
   componentDidShow() {
     const { cartReducer } = this.props;
@@ -103,7 +99,7 @@ export default class GoodInfo extends Component {
    * CartGoodList 子组件回调
    * @param type
    */
-  callback(type) {
+  callback = (type) => {
     if (type === '1') {
       this.setState({ isOpen: false });
     } else if (type === '2') {
@@ -119,7 +115,7 @@ export default class GoodInfo extends Component {
         badgeNum: badgeNum,
       });
     }
-  }
+  };
 
   render() {
     const { fetchData, id, name, price, isOpen, badgeNum } = this.state;

@@ -25,7 +25,7 @@ export default class GoodList extends Component {
   config = {
     navigationBarTitleText: '购物车',
     navigationBarBackgroundColor: '#000',
-    navigationBarTextStyle: "#fff",
+    navigationBarTextStyle: "white",
   };
 
   componentDidShow() {
@@ -40,12 +40,12 @@ export default class GoodList extends Component {
    * 侧边栏按钮点击
    * @param index
    */
-  handleClick(index) {
+  handleClick = (index) => {
     this.setState({
       anchorIndex: `anchor${index}`,
       anchorIndex2: `anchor${index}`
     });
-  }
+  };
 
   /**
    * 监听滚动条滚动

@@ -32,7 +32,7 @@ export default class Cart extends Component {
   config = {
     navigationBarTitleText: '购物车',
     navigationBarBackgroundColor: '#000',
-    navigationBarTextStyle: "#fff",
+    navigationBarTextStyle: "white",
   };
   /**
    * 添加商品

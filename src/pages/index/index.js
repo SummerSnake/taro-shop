@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View } from '@tarojs/components';
-import { AtButton, AtInput } from 'taro-ui';
-import apiUrl from '../../utils/api';
+import { AtButton, AtInput, AtToast } from 'taro-ui';
+import { postRequest } from '../../utils/api';
 import './index.less';
 
 export default class Index extends Component {
@@ -10,103 +10,79 @@ export default class Index extends Component {
     this.state = {
       userVal: '',
       passwordVal: '',
+      isOpen: false,
+      toastTxt: '',
     };
   }
 
   config = {
     navigationBarTitleText: '首页',
     navigationBarBackgroundColor: '#000',
-    navigationBarTextStyle: "#fff",
+    navigationBarTextStyle: "white",
   };
-
-  componentWillMount() {
-    Taro.login({
-      success: (res) => {
-        console.log(res.code);
-      }
-    });
-  }
 
   /**
    * 用户名输入框
+   * @param value
    */
-  handleUserChange(value) {
+  handleUserChange = (value) => {
     this.setState({
       userVal: value,
     });
-  }
+  };
 
   /**
    * 密码输入框
+   * @param value
    */
-  handlePasswordChange(value) {
+  handlePasswordChange = (value) => {
     this.setState({
       passwordVal: value,
     });
-  }
+  };
 
   /**
    * 提交登陆
    */
-  onSubmit() {
-    Taro.request({
-      url: `${apiUrl}/mock/5c47cf65f513860f4ceef6a3/example/taroMini/login`,
-      data: {
-        username: this.state.userVal.toString(),
-        password: this.state.passwordVal.toString(),
-      },
-      method: 'POST',
-      header: {
-        'content-type': 'application/json'
-      }
-    }).then((res) => {
-      console.log(res);
-      // this.setState({
-      //   fetchData: res.data.data
-      // });
-    });
-  }
-
-  /**
-   * 跳转商品列表
-   */
-  goGoodList = () => {
-    Taro.navigateTo({
-      url: `/pages/goodList/index`
-    });
-  };
-
-  /**
-   * 跳转个人中心
-   */
-  goPersonCenter = () => {
+  onSubmit = async () => {
     // 获取用户信息
     Taro.getUserInfo({
       success: (res) => {
         Taro.setStorageSync('userInfo', res.userInfo);
       }
     });
-    // 跳转
-    Taro.navigateTo({
-      url: `/pages/personCenter/index`
+    // 登陆接口
+    const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/example/taroMini/login', {
+      username: this.state.userVal.toString(),
+      password: this.state.passwordVal.toString(),
     });
+    if (data.code === 0) {
+      this.setState({
+        toastTxt: '登陆成功',
+        isOpen: true,
+      });
+      setTimeout(() => {
+        Taro.navigateTo({
+          url: `/pages/homepage/index`
+        });
+      }, 2000);
+    } else {
+      this.setState({
+        toastTxt: '登陆失败',
+        isOpen: true,
+      });
+    }
   };
 
   render() {
     return (
       <View className='homeWrap'>
-        <View className='btnWrap'>
-        <AtButton type='secondary' onClick={this.goGoodList}>商品列表</AtButton>
-        </View>
-        <View className='btnWrap'>
-        <AtButton type='secondary' onClick={this.goPersonCenter}>个人中心</AtButton>
-        </View>
-
-        <View className='loginWrap' style={{ display: 'none' }}>
+        <View className='homeTitle'>泰罗商城</View>
+        <View className='loginWrap' style={{ display: 'block' }}>
           <AtInput
             name='username'
             title='用户名'
-            type='number'
+            type='text'
             placeholder='请输入用户名'
             value={this.state.userVal}
             onChange={this.handleUserChange.bind(this)}
@@ -120,6 +96,8 @@ export default class Index extends Component {
             onChange={this.handlePasswordChange.bind(this)}
           />
           <AtButton type='primary' className='submitBtn' onClick={this.onSubmit}>提交</AtButton>
+
+          <AtToast isOpened={this.state.isOpen} text={this.state.toastTxt} icon='heart-2' />
         </View>
       </View>
     );

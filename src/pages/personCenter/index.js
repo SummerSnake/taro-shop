@@ -8,7 +8,7 @@ export default class PersonCenter extends Component {
   config = {
     navigationBarTitleText: '个人中心',
     navigationBarBackgroundColor: '#000',
-    navigationBarTextStyle: "#fff",
+    navigationBarTextStyle: "white",
   };
 
   componentDidMount = async () => {
