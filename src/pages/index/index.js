@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
-import { View } from '@tarojs/components';
-import { AtButton, AtInput, AtToast } from 'taro-ui';
+import { View, Button } from '@tarojs/components';
+import { AtInput, AtToast } from 'taro-ui';
 import { postRequest } from '../../utils/api';
 import './index.less';
 
@@ -95,7 +95,7 @@ export default class Index extends Component {
             value={this.state.passwordVal}
             onChange={this.handlePasswordChange.bind(this)}
           />
-          <AtButton type='primary' className='submitBtn' onClick={this.onSubmit}>提交</AtButton>
+          <Button open-type='getUserInfo' className='submitBtn' onClick={this.onSubmit}>提交</Button>
 
           <AtToast isOpened={this.state.isOpen} text={this.state.toastTxt} icon='heart-2' />
         </View>

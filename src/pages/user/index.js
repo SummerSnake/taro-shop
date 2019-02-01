@@ -1,9 +1,10 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Image, ScrollView } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
+import GlobalFooter from '../../components/GlobalFooter/index';
 import './index.less';
 
-export default class PersonCenter extends Component {
+export default class User extends Component {
 
   config = {
     navigationBarTitleText: '个人中心',
@@ -120,24 +121,7 @@ export default class PersonCenter extends Component {
           </View>
         </ScrollView>
 
-        <View className='bottomList'>
-          <View className='bottomIcon'>
-            <AtIcon value='home' size='30' color='#999' />
-            <View className='bottomTxt'>首页</View>
-          </View>
-          <View className='bottomIcon'>
-            <AtIcon value='bullet-list' size='30' color='#999' />
-            <View className='bottomTxt'>分类</View>
-          </View>
-          <View className='bottomIcon'>
-            <AtIcon value='shopping-cart' size='30' color='#999' />
-            <View className='bottomTxt'>购物车</View>
-          </View>
-          <View className='bottomIcon'>
-            <AtIcon value='user' size='30' color='#999' />
-            <View className='bottomTxt'>我的</View>
-          </View>
-        </View>
+        <GlobalFooter isActive='04' />
       </View>
     );
   }

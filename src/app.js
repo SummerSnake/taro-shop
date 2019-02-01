@@ -21,7 +21,7 @@ class App extends Component {
       'pages/cart/index',
       'pages/goodList/index',
       'pages/goodInfo/index',
-      'pages/personCenter/index',
+      'pages/user/index',
     ],
     window: {
       backgroundTextStyle: 'light',
