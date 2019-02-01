@@ -23,7 +23,7 @@ export default class GoodList extends Component {
   }
 
   config = {
-    navigationBarTitleText: '购物车',
+    navigationBarTitleText: '商品列表',
     navigationBarBackgroundColor: '#000',
     navigationBarTextStyle: "white",
   };

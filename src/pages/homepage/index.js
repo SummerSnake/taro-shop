@@ -1,7 +1,8 @@
 import Taro, { Component } from '@tarojs/taro';
-import { View } from '@tarojs/components';
-import { AtButton } from 'taro-ui';
+import { View, Image, Swiper, SwiperItem } from '@tarojs/components';
+import { AtIcon } from 'taro-ui';
 import GlobalFooter from '../../components/GlobalFooter/index';
+import { imgList, iconList } from './mock-data';
 import './index.less';
 
 export default class Index extends Component {
@@ -15,34 +16,42 @@ export default class Index extends Component {
     navigationBarTextStyle: "white",
   };
 
-  /**
-   * 跳转商品列表
-   */
-  goGoodList = () => {
-    Taro.navigateTo({
-      url: `/pages/goodList/index`
-    });
-  };
-
-  /**
-   * 跳转个人中心
-   */
-  goPersonCenter = () => {
-    // 跳转
-    Taro.navigateTo({
-      url: `/pages/personCenter/index`
-    });
-  };
-
   render() {
     return (
       <View className='homeWrap'>
-        <View className='btnWrap'>
-          <AtButton type='secondary' onClick={this.goGoodList}>商品列表</AtButton>
+        <Swiper
+          indicatorColor='#999'
+          indicatorActiveColor='#333'
+          circular
+          indicatorDots
+          autoplay
+        >
+          {
+            Array.isArray(imgList) && imgList.length > 0 && imgList.map((img) => {
+              return (
+                <SwiperItem key={img.id}>
+                  <Image className='slideImg' src={img.imgUrl} />
+                </SwiperItem>
+              );
+            })
+          }
+        </Swiper>
+
+        <View className='iconList'>
+          {
+            Array.isArray(iconList) && iconList.length > 0 && iconList.map((icon) => {
+              return (
+                <View className='iconItem'>
+                  <View className='iconWrap' key={icon.id}>
+                    <AtIcon value={icon.iconType} size='28' color='#fff' />
+                  </View>
+                  <View className='iconTitle'>{icon.title}</View>
+                </View>
+              );
+            })
+          }
         </View>
-        <View className='btnWrap'>
-          <AtButton type='secondary' onClick={this.goPersonCenter}>个人中心</AtButton>
-        </View>
+
         <GlobalFooter isActive='01' />
       </View>
     );
