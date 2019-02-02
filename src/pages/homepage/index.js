@@ -1,8 +1,9 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Image, Swiper, SwiperItem } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
+import Single from './components/Single/index';
 import GlobalFooter from '../../components/GlobalFooter/index';
-import { imgList, iconList } from './mock-data';
+import { imgList, iconList, logoImgUrl } from './mock-data';
 import './index.less';
 
 export default class Index extends Component {
@@ -21,7 +22,7 @@ export default class Index extends Component {
       <View className='homeWrap'>
         <Swiper
           indicatorColor='#999'
-          indicatorActiveColor='#333'
+          indicatorActiveColor='#fff'
           circular
           indicatorDots
           autoplay
@@ -41,8 +42,8 @@ export default class Index extends Component {
           {
             Array.isArray(iconList) && iconList.length > 0 && iconList.map((icon) => {
               return (
-                <View className='iconItem'>
-                  <View className='iconWrap' key={icon.id}>
+                <View className='iconItem' key={icon.id}>
+                  <View className='iconWrap'>
                     <AtIcon value={icon.iconType} size='28' color='#fff' />
                   </View>
                   <View className='iconTitle'>{icon.title}</View>
@@ -51,6 +52,12 @@ export default class Index extends Component {
             })
           }
         </View>
+
+        <View className='logoWrap'>
+          <Image className='logoImg' src={logoImgUrl} />
+        </View>
+
+        <Single />
 
         <GlobalFooter isActive='01' />
       </View>

@@ -44,3 +44,6 @@ export const iconList = [
     title: '折扣优惠',
   },
 ];
+
+export const logoImgUrl = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549082716066&di=a4582959de746e0edf68cc6ce66efb4f&imgtype=0&src=http%3A%2F%2Fphoto.16pic.com%2F00%2F50%2F46%2F16pic_5046517_b.jpg';
+
