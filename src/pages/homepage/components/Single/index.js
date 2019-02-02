@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro';
-import { View, Text, Image } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 import singleList from './mock-data';
 import './index.less';
 
@@ -11,7 +11,6 @@ export default class Single extends Component {
   render() {
     return (
       <View className='singleWrap'>
-        <Text className='singleH1'>精选单品</Text>
         {
           Array.isArray(singleList) && singleList.length > 0 && singleList.map((single) => {
             return (

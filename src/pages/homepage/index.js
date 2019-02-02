@@ -2,6 +2,7 @@ import Taro, { Component } from '@tarojs/taro';
 import { View, Image, Swiper, SwiperItem } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
 import Single from './components/Single/index';
+import Special from './components/Special/index';
 import GlobalFooter from '../../components/GlobalFooter/index';
 import { imgList, iconList, logoImgUrl } from './mock-data';
 import './index.less';
@@ -57,7 +58,10 @@ export default class Index extends Component {
           <Image className='logoImg' src={logoImgUrl} />
         </View>
 
+        <View className='titleDom'>精选单品</View>
         <Single />
+
+        <Special />
 
         <GlobalFooter isActive='01' />
       </View>
