@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
-import singleList from './mock-data';
+import specialList from './mock-data';
 import './index.less';
 
 export default class Special extends Component {
@@ -13,7 +13,7 @@ export default class Special extends Component {
       <View className='specialWrap'>
         <View className='specialH1'>专题推荐</View>
         {
-          Array.isArray(singleList) && singleList.length > 0 && singleList.map((special) => {
+          Array.isArray(specialList) && specialList.length > 0 && specialList.map((special) => {
             return (
               <View className='specialItemWrap' key={special.id}>
                 <View className='specialImgWrap'>

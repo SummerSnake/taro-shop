@@ -3,6 +3,7 @@ import { View, Image, Swiper, SwiperItem } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
 import Single from './components/Single/index';
 import Special from './components/Special/index';
+import More from './components/More/index';
 import GlobalFooter from '../../components/GlobalFooter/index';
 import { imgList, iconList, logoImgUrl } from './mock-data';
 import './index.less';
@@ -62,6 +63,8 @@ export default class Index extends Component {
         <Single />
 
         <Special />
+
+        <More />
 
         <GlobalFooter isActive='01' />
       </View>
