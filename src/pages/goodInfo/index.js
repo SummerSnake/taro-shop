@@ -79,6 +79,15 @@ export default class GoodInfo extends Component {
   };
 
   /**
+   * 跳转首页
+   */
+  goGoodList = () => {
+    Taro.navigateTo({
+      url: `/pages/homepage/index`
+    });
+  };
+
+  /**
    * 跳转商品列表
    */
   goGoodList = () => {
@@ -86,6 +95,7 @@ export default class GoodInfo extends Component {
       url: `/pages/goodList/index`
     });
   };
+
   /**
    * 跳转购物车
    */
@@ -169,7 +179,7 @@ export default class GoodInfo extends Component {
         <View className='goodInfoBottom'>
           <View className='bottomIconWrap'>
             <View className='bottomIcon'>
-              <AtIcon value='home' size='30' color='#fff' />
+              <AtIcon value='home' size='30' color='#fff' onClick={this.goHomepage.bind(this)} />
               <View className='iconTxt'>首页</View>
             </View>
             <View className='bottomIcon' onClick={this.goGoodList.bind(this)}>

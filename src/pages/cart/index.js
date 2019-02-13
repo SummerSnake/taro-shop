@@ -3,6 +3,7 @@ import { View, Text } from '@tarojs/components';
 import { Picker, AtInput, AtIcon, AtToast } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { addToCart, deleteFromCart } from '../../store/actions/cartActions';
+import { postRequest } from '../../utils/api';
 import './index.less';
 
 @connect(({ cartReducer }) => ({
@@ -103,27 +104,17 @@ export default class Cart extends Component {
   /**
    * 支付
    */
-  confirmPay = () => {
-    Taro.request({
-      url: 'http://localhost:8080/test',
-      data: {
-        foo: 'foo',
-        bar: 10
-      },
-      header: {
-        'content-type': 'application/json'
-      }
-    }).then(res => {
-      if (res.code === 0) {
-        Taro.requestPayment({
-          'timeStamp': 1,
-          'nonceStr': 1,
-          'package': 1,
-          'signType': 1,
-          'paySign': 1,
-        });
-      }
-    });
+  confirmPay = async() => {
+    const data = await postRequest('/mock/payApi');
+    if (data.code === 0) {
+      Taro.requestPayment({
+        'timeStamp': 1,
+        'nonceStr': 1,
+        'package': 1,
+        'signType': 1,
+        'paySign': 1,
+      });
+    }
   };
 
   render() {
