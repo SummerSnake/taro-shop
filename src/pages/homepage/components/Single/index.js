@@ -36,7 +36,7 @@ export default class Single extends Component {
                 key={single.id}
                 onClick={this.goGoodInfo.bind(this, single.id, single.name, single.price)}
               >
-                <View className='singleTitle'>{single.title}</View>
+                <View className='singleTitle'>{single.name}</View>
                 <View className='singleCon'>{single.content}</View>
                 <View className='singleImgWrap'>
                   <Image className='singleImg' src={single.imgUrl} />

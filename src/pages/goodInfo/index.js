@@ -46,13 +46,13 @@ export default class GoodInfo extends Component {
     }
   };
 
-  componentDidShow() {
+  componentDidShow = () => {
     const { cartReducer } = this.props;
 
     this.setState({
       badgeNum: cartReducer.badgeNum,
     });
-  }
+  };
 
   /**
    * 添加商品
@@ -72,11 +72,11 @@ export default class GoodInfo extends Component {
   /**
    * 打开关闭购物车详情
    */
-  buyingInfo() {
+  buyingInfo = () => {
     this.setState({
       isOpen: !this.state.isOpen,
     });
-  }
+  };
 
   /**
    * 跳转商品列表

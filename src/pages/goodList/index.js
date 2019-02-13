@@ -62,7 +62,7 @@ export default class GoodList extends Component {
    * 监听滚动条滚动
    * @param e
    */
-  onScrollView(e) {
+  onScrollView = (e) => {
     if (e.currentTarget.id === 'panelRight' && Array.isArray(this.state.tabData)) {
       let tabDataArr = JSON.parse(JSON.stringify(this.state.tabData));
       let curTopArr = [];
@@ -82,7 +82,7 @@ export default class GoodList extends Component {
           }).exec();
       });
     }
-  }
+  };
 
   /**
    * 添加商品
@@ -105,11 +105,11 @@ export default class GoodList extends Component {
   /**
    * 打开关闭购物车详情
    */
-  buyingInfo() {
+  buyingInfo = () => {
     this.setState({
       isOpen: !this.state.isOpen,
     });
-  }
+  };
 
   /**
    * 跳转购物车页面
@@ -137,7 +137,7 @@ export default class GoodList extends Component {
    * CartGoodList 子组件回调
    * @param type
    */
-  callback(type) {
+  callback = (type) => {
     if (type === '1') {
       this.setState({ isOpen: false });
     } else if (type === '2') {
@@ -153,7 +153,7 @@ export default class GoodList extends Component {
         badgeNum: badgeNum,
       });
     }
-  }
+  };
 
   render() {
     const { anchorIndex, anchorIndex2, isOpen, totalMoney, badgeNum } = this.state;

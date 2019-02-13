@@ -40,7 +40,7 @@ export default class Special extends Component {
                 <View className='specialImgWrap'>
                   <Image className='specialImg' src={special.imgUrl} />
                 </View>
-                <View className='specialTitle'>{special.title}</View>
+                <View className='specialTitle'>{special.name}</View>
                 <View className='specialPrice'>￥{special.price}</View>
               </View>
             );
