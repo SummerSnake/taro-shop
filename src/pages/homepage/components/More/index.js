@@ -8,6 +8,23 @@ export default class More extends Component {
     super(...arguments);
   }
 
+  /**
+   * 跳转商品详情
+   * @param id
+   * @param name
+   * @param price
+   */
+  goGoodInfo = (id, name, price) => {
+    this.$preload({
+      id,
+      name,
+      price,
+    });
+    Taro.navigateTo({
+      url: `/pages/goodInfo/index`
+    });
+  };
+
   render() {
     return (
       <View className='moreWrap'>
@@ -15,11 +32,15 @@ export default class More extends Component {
         {
           Array.isArray(moreList) && moreList.length > 0 && moreList.map((more) => {
             return (
-              <View className='moreItemWrap' key={more.id}>
+              <View
+                className='moreItemWrap'
+                key={more.id}
+                onClick={this.goGoodInfo.bind(this, more.id, more.name, more.price)}
+              >
                 <View className='moreImgWrap'>
                   <Image className='moreImg' src={more.imgUrl} />
                 </View>
-                <View className='moreTitle'>{more.title}</View>
+                <View className='moreTitle'>{more.name}</View>
                 <View className='morePrice'>￥{more.price}</View>
               </View>
             );

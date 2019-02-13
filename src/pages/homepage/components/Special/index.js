@@ -8,6 +8,23 @@ export default class Special extends Component {
     super(...arguments);
   }
 
+  /**
+   * 跳转商品详情
+   * @param id
+   * @param name
+   * @param price
+   */
+  goGoodInfo = (id, name, price) => {
+    this.$preload({
+      id,
+      name,
+      price,
+    });
+    Taro.navigateTo({
+      url: `/pages/goodInfo/index`
+    });
+  };
+
   render() {
     return (
       <View className='specialWrap'>
@@ -15,7 +32,11 @@ export default class Special extends Component {
         {
           Array.isArray(specialList) && specialList.length > 0 && specialList.map((special) => {
             return (
-              <View className='specialItemWrap' key={special.id}>
+              <View
+                className='specialItemWrap'
+                key={special.id}
+                onClick={this.goGoodInfo.bind(this, special.id, special.name, special.price)}
+              >
                 <View className='specialImgWrap'>
                   <Image className='specialImg' src={special.imgUrl} />
                 </View>

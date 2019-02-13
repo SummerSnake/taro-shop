@@ -19,6 +19,17 @@ export default class Index extends Component {
     navigationBarTextStyle: "white",
   };
 
+  /**
+   * 跳转商品列表
+   * @param iconId
+   */
+  goGoodList = (iconId) => {
+    this.$preload({ iconId });
+    Taro.navigateTo({
+      url: `/pages/goodList/index`
+    });
+  };
+
   render() {
     return (
       <View className='homeWrap'>
@@ -44,7 +55,7 @@ export default class Index extends Component {
           {
             Array.isArray(iconList) && iconList.length > 0 && iconList.map((icon) => {
               return (
-                <View className='iconItem' key={icon.id}>
+                <View className='iconItem' key={icon.id} onClick={this.goGoodList.bind(this, icon.id)}>
                   <View className='iconWrap'>
                     <AtIcon value={icon.iconType} size='28' color='#fff' />
                   </View>

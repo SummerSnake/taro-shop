@@ -28,13 +28,24 @@ export default class GoodList extends Component {
     navigationBarTextStyle: "white",
   };
 
-  componentDidShow() {
+  componentDidShow = () => {
     const { cartReducer } = this.props;
     this.setState({
       totalMoney: cartReducer.totalMoney,
       badgeNum: cartReducer.badgeNum,
     });
-  }
+  };
+
+  componentDidMount = () => {
+    tabData.map((item, index) => {
+      if (item.id === this.$router.preload.iconId) {
+        this.setState({
+          anchorIndex: `anchor${index}`,
+          anchorIndex2: `anchor${index}`
+        });
+      }
+    });
+  };
 
   /**
    * 侧边栏按钮点击
