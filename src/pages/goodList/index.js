@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Image, Text, ScrollView } from '@tarojs/components';
-import { AtIcon, AtBadge } from 'taro-ui';
+import { AtIcon } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { addToCart } from '../../store/actions/cartActions';
 import CartGoodList from '../../components/CartGoodList/index';
@@ -37,14 +37,16 @@ export default class GoodList extends Component {
   };
 
   componentDidMount = () => {
-    tabData.map((item, index) => {
-      if (item.id === this.$router.preload.iconId) {
-        this.setState({
-          anchorIndex: `anchor${index}`,
-          anchorIndex2: `anchor${index}`
-        });
-      }
-    });
+    if (typeof this.$router.preload !== 'undefined') {
+      tabData.map((item, index) => {
+        if (item.id === this.$router.preload.iconId) {
+          this.setState({
+            anchorIndex: `anchor${index}`,
+            anchorIndex2: `anchor${index}`
+          });
+        }
+      });
+    }
   };
 
   /**
@@ -139,18 +141,22 @@ export default class GoodList extends Component {
    */
   callback = (type) => {
     if (type === '1') {
-      this.setState({ isOpen: false });
+      this.setState({
+        isOpen: false
+      });
     } else if (type === '2') {
       let badgeNum = this.state.badgeNum;
       badgeNum += 1;
       this.setState({
         badgeNum: badgeNum,
+        totalMoney: this.props.cartReducer.totalMoney,
       });
     } else if (type === '3') {
       let badgeNum = this.state.badgeNum;
       badgeNum -= 1;
       this.setState({
         badgeNum: badgeNum,
+        totalMoney: this.props.cartReducer.totalMoney,
       });
     }
   };
@@ -232,13 +238,17 @@ export default class GoodList extends Component {
         </ScrollView>
 
         <View className='buyingWrap'>
-          <View className='buyingIcon' onClick={this.buyingInfo}>
-            <AtBadge value={badgeNum > 0 ? badgeNum : ''}>
+            <View className='buyingIcon' onClick={this.buyingInfo.bind(this)}>
+              <View
+                className='badgeDom'
+                style={{ display: badgeNum > 0 ? 'block' : 'none' }}
+              >
+                {badgeNum}
+              </View>
               <AtIcon value='shopping-cart' size='30' color='#fff' />
-            </AtBadge>
-          </View>
+            </View>
           <View className='moneyDom'>合计：<Text className='moneyTxt'>￥{totalMoney}</Text></View>
-          <View className='goPay' onClick={this.goCart}>去结算</View>
+          <View className='goPay' onClick={this.goCart.bind(this)}>去结算</View>
         </View>
         <CartGoodList
           isOpen={isOpen}

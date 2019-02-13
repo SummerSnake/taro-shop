@@ -79,6 +79,7 @@
     background-color: #666;
     font-family: "Microsoft YaHei UI", serif;
     .buyingIcon {
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -87,6 +88,23 @@
       border-radius: 50%;
       background-color: #000;
       margin: 20px 0 0 20px;
+      .badgeDom {
+        position: absolute;
+        right: -6PX;
+        top: -14px;
+        z-index: 1;
+        transform: translate(50%, 0);
+        font-size: 20px;
+        text-align: center;
+        color: #fff;
+        height: 28px;
+        line-height: 28px;
+        padding: 0 10px;
+        border-radius: 14px 14px 14px 0;
+        overflow: hidden;
+        background: #FF4949;
+        box-shadow: 0 4px 8px 0 rgba(233, 59, 61, 0.2);
+      }
     }
     .moneyDom {
       position: absolute;

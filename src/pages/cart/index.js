@@ -75,8 +75,12 @@ export default class Cart extends Component {
     if (discountMoney <=  totalMoney) {
       actualMoney = (totalMoney - discountMoney).toFixed(2);
     } else {
-      discountMoney = 0;
+      discountMoney = this.state.discountMoney;
+      actualMoney = (totalMoney - this.state.discountMoney).toFixed(2);
       this.setState({ isOpen: true });
+      setTimeout(()=>{
+        this.setState({ isOpen: false });
+      }, 2000);
     }
 
     this.setState({

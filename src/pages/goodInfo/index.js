@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Text, Image, Swiper, SwiperItem, ScrollView } from '@tarojs/components';
-import { AtIcon, AtBadge } from 'taro-ui';
+import { AtIcon } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { addToCart } from '../../store/actions/cartActions';
 import CartGoodList from '../../components/CartGoodList/index';
@@ -28,7 +28,7 @@ export default class GoodInfo extends Component {
     navigationBarTextStyle: "white",
   };
 
-  componentDidMount = async() => {
+  componentDidMount = async () => {
     const preload = this.$router.preload;
     this.setState({
       id: preload.id,
@@ -36,7 +36,7 @@ export default class GoodInfo extends Component {
       price: preload.price,
     });
     const id = preload.id;
-    const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/example/taroMini/proDetail',{
+    const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/example/taroMini/proDetail', {
       id,
     });
     if (data.code === 0) {
@@ -172,14 +172,18 @@ export default class GoodInfo extends Component {
               <AtIcon value='home' size='30' color='#fff' />
               <View className='iconTxt'>首页</View>
             </View>
-            <View className='bottomIcon' onClick={this.goGoodList}>
+            <View className='bottomIcon' onClick={this.goGoodList.bind(this)}>
               <AtIcon value='bullet-list' size='30' color='#fff' />
               <View className='iconTxt'>分类</View>
             </View>
-            <View className='bottomIcon' onClick={this.buyingInfo}>
-              <AtBadge value={badgeNum > 0 ? badgeNum : ''}>
-                <AtIcon value='shopping-cart' size='30' color='#fff' />
-              </AtBadge>
+            <View className='bottomIcon' onClick={this.buyingInfo.bind(this)}>
+              <View
+                className='badgeDom'
+                style={{ display: badgeNum > 0 ? 'block' : 'none' }}
+              >
+                {badgeNum}
+              </View>
+              <AtIcon value='shopping-cart' size='30' color='#fff' />
               <View className='iconTxt'>购物车</View>
             </View>
           </View>

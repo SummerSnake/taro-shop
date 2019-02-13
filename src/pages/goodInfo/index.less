@@ -90,11 +90,29 @@
       align-items: center;
       width: 40%;
       .bottomIcon {
+        position: relative;
         flex: 1;
         text-align: center;
         .iconTxt {
           font-size: 28px;
           color: #fff;
+        }
+        .badgeDom {
+          position: absolute;
+          right: 6PX;
+          top: -10px;
+          z-index: 1;
+          transform: translate(50%, 0);
+          font-size: 20px;
+          text-align: center;
+          color: #fff;
+          height: 28px;
+          line-height: 28px;
+          padding: 0 10px;
+          border-radius: 14px 14px 14px 0;
+          overflow: hidden;
+          background: #FF4949;
+          box-shadow: 0 4px 8px 0 rgba(233, 59, 61, 0.2);
         }
       }
     }
