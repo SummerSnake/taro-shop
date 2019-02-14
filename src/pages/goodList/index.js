@@ -43,7 +43,7 @@ export default class GoodList extends Component {
       this.setState({ goodList: data.data.tabData });
     }
     if (typeof this.$router.preload !== 'undefined') {
-      data.tabData.map((item, index) => {
+      data.data.tabData.map((item, index) => {
         if (item.id === this.$router.preload.iconId) {
           this.setState({
             anchorIndex: `anchor${index}`,
