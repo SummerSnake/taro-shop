@@ -70,8 +70,8 @@ export default class GoodList extends Component {
    * @param e
    */
   onScrollView = (e) => {
-    if (e.currentTarget.id === 'panelRight' && Array.isArray(this.state.tabData)) {
-      let tabDataArr = JSON.parse(JSON.stringify(this.state.tabData));
+    if (e.currentTarget.id === 'panelRight' && Array.isArray(this.state.goodList)) {
+      let tabDataArr = JSON.parse(JSON.stringify(this.state.goodList));
       let curTopArr = [];
 
       tabDataArr.map((item, index) => {
