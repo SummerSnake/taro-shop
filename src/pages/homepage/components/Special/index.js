@@ -1,13 +1,11 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
-import specialList from './mock-data';
 import './index.less';
 
 export default class Special extends Component {
   constructor() {
     super(...arguments);
   }
-
   /**
    * 跳转商品详情
    * @param id
@@ -26,11 +24,12 @@ export default class Special extends Component {
   };
 
   render() {
+    const { moreList } = this.props;
     return (
       <View className='specialWrap'>
         <View className='specialH1'>专题推荐</View>
         {
-          Array.isArray(specialList) && specialList.length > 0 && specialList.map((special) => {
+          Array.isArray(moreList) && moreList.length > 0 && moreList.map((special) => {
             return (
               <View
                 className='specialItemWrap'

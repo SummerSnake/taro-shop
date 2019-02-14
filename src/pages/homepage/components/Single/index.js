@@ -1,6 +1,5 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
-import singleList from './mock-data';
 import './index.less';
 
 export default class Single extends Component {
@@ -26,6 +25,7 @@ export default class Single extends Component {
   };
 
   render() {
+    const { singleList } = this.props;
     return (
       <View className='singleWrap'>
         {

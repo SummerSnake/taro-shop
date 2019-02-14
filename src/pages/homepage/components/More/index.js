@@ -1,6 +1,5 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
-import moreList from './mock-data';
 import './index.less';
 
 export default class More extends Component {
@@ -26,6 +25,7 @@ export default class More extends Component {
   };
 
   render() {
+    const { moreList } = this.props;
     return (
       <View className='moreWrap'>
         <View className='moreH1'>更多推荐</View>

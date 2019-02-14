@@ -4,7 +4,7 @@ import { AtIcon } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { addToCart } from '../../store/actions/cartActions';
 import CartGoodList from '../../components/CartGoodList/index';
-import tabData from './mock-data';
+import { postRequest } from '../../utils/api';
 import './index.less';
 
 @connect(({ cartReducer }) => ({
@@ -19,6 +19,7 @@ export default class GoodList extends Component {
       isOpen: false, // 订单详情开关
       totalMoney: 0, // 合计总价
       badgeNum: 0, // 购物车 Icon 数字
+      goodList: [],
     };
   }
 
@@ -36,9 +37,13 @@ export default class GoodList extends Component {
     });
   };
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
+    const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/example/taroMini/goodList');
+    if (data.code === 0) {
+      this.setState({ goodList: data.data.tabData });
+    }
     if (typeof this.$router.preload !== 'undefined') {
-      tabData.map((item, index) => {
+      data.tabData.map((item, index) => {
         if (item.id === this.$router.preload.iconId) {
           this.setState({
             anchorIndex: `anchor${index}`,
@@ -162,7 +167,7 @@ export default class GoodList extends Component {
   };
 
   render() {
-    const { anchorIndex, anchorIndex2, isOpen, totalMoney, badgeNum } = this.state;
+    const { anchorIndex, anchorIndex2, isOpen, totalMoney, badgeNum, goodList } = this.state;
     return (
       <View className='cartWrap'>
         <ScrollView
@@ -171,7 +176,7 @@ export default class GoodList extends Component {
           className='panelLeft'
         >
           {
-            tabData.map((item, index) => {
+            goodList.map((item, index) => {
               return (
                 <View
                   key={item.id}
@@ -194,7 +199,7 @@ export default class GoodList extends Component {
           id='panelRight'
         >
           {
-            tabData.map((list, index) => {
+            goodList.map((list, index) => {
               return (
                 <View key={list.id}>
                   <View className='tabHead' id={`anchor${index}`}>
@@ -238,15 +243,15 @@ export default class GoodList extends Component {
         </ScrollView>
 
         <View className='buyingWrap'>
-            <View className='buyingIcon' onClick={this.buyingInfo.bind(this)}>
-              <View
-                className='badgeDom'
-                style={{ display: badgeNum > 0 ? 'block' : 'none' }}
-              >
-                {badgeNum}
-              </View>
-              <AtIcon value='shopping-cart' size='30' color='#fff' />
+          <View className='buyingIcon' onClick={this.buyingInfo.bind(this)}>
+            <View
+              className='badgeDom'
+              style={{ display: badgeNum > 0 ? 'block' : 'none' }}
+            >
+              {badgeNum}
             </View>
+            <AtIcon value='shopping-cart' size='30' color='#fff' />
+          </View>
           <View className='moneyDom'>合计：<Text className='moneyTxt'>￥{totalMoney}</Text></View>
           <View className='goPay' onClick={this.goCart.bind(this)}>去结算</View>
         </View>

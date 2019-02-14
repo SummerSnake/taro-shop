@@ -5,12 +5,20 @@ import Single from './components/Single/index';
 import Special from './components/Special/index';
 import More from './components/More/index';
 import GlobalFooter from '../../components/GlobalFooter/index';
-import { imgList, iconList, logoImgUrl } from './mock-data';
+import { postRequest } from '../../utils/api';
 import './index.less';
 
 export default class Index extends Component {
   constructor() {
     super(...arguments);
+    this.state = {
+      fetchData: {
+        imgList: [],
+        iconList: [],
+        singleList: [],
+        moreList: [],
+      },
+    };
   }
 
   config = {
@@ -19,6 +27,12 @@ export default class Index extends Component {
     navigationBarTextStyle: "white",
   };
 
+  componentDidMount = async () => {
+    const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/example/taroMini/homepage');
+    if (data.code === 0) {
+      this.setState({ fetchData: data.data });
+    }
+  };
   /**
    * 跳转商品列表
    * @param iconId
@@ -31,6 +45,7 @@ export default class Index extends Component {
   };
 
   render() {
+    const { imgList, iconList, singleList, moreList, logoImgUrl } = this.state.fetchData;
     return (
       <View className='homeWrap'>
         <Swiper
@@ -71,11 +86,11 @@ export default class Index extends Component {
         </View>
 
         <View className='titleDom'>精选单品</View>
-        <Single />
+        <Single singleList={singleList} />
 
-        <Special />
+        <Special moreList={moreList} />
 
-        <More />
+        <More moreList={moreList} />
 
         <GlobalFooter isActive='01' />
       </View>
