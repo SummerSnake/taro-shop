@@ -31,6 +31,12 @@ export default class GlobalFooter extends Component {
         });
         break;
       case '04':
+        // 获取用户信息
+        Taro.getUserInfo({
+          success: (res) => {
+            Taro.setStorageSync('userInfo', res.userInfo);
+          }
+        });
         Taro.navigateTo({
           url: '/pages/user/index'
         });
