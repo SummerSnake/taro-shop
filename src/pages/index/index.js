@@ -21,6 +21,20 @@ export default class Index extends Component {
     navigationBarTextStyle: "white",
   };
 
+  componentDidMount = () =>{
+    // Taro.login({
+    //   success : async(res)=> {
+    //     if (res.code) {
+    //       await postRequest('/member/addMemberInfo', {
+    //         code: res.code
+    //       });
+    //     } else {
+    //       console.log('登录失败！' + res.errMsg);
+    //     }
+    //   }
+    // });
+  };
+
   /**
    * 用户名输入框
    * @param value
