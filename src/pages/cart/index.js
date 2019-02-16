@@ -14,7 +14,9 @@ export default class Cart extends Component {
     super(...arguments);
     this.state = {
       fetchData: {
-        name: '测试'
+        name: '渣渣辉',
+        phone: '110',
+        address: '火星'
       },
       selector: [
         { id: 1, value: 5, name: '5元' },
@@ -125,8 +127,8 @@ export default class Cart extends Component {
       <View className='orderWrap'>
         <View className='userInfo'>
           <Text className='userInfoTxt'>收货人：{fetchData.name}</Text>
-          <Text className='userInfoTxt'>联系方式：{fetchData.name}</Text>
-          <View className='userInfoAddr'>收货地址：{fetchData.name}</View>
+          <Text className='userInfoTxt'>联系方式：{fetchData.phone}</Text>
+          <View className='userInfoAddr'>收货地址：{fetchData.address}</View>
         </View>
 
         <View className='goodsWrap'>

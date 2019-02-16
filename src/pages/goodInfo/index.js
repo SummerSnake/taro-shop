@@ -83,7 +83,7 @@ export default class GoodInfo extends Component {
    */
   goHomepage = () => {
     Taro.navigateTo({
-      url: `/pages/homepage/index`
+      url: `/pages/index/index`
     });
   };
 

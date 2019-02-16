@@ -17,7 +17,7 @@ export default class GlobalFooter extends Component {
     switch (type) {
       case '01':
         Taro.navigateTo({
-          url: '/pages/homepage/index'
+          url: '/pages/index/index'
         });
         break;
       case '02':
@@ -37,7 +37,7 @@ export default class GlobalFooter extends Component {
         break;
       default:
         Taro.navigateTo({
-          url: '/pages/homepage/index'
+          url: '/pages/index/index'
         });
     }
   };
