@@ -62,6 +62,7 @@ export default class Index extends Component {
         isOpen: true,
       });
       setTimeout(() => {
+        this.setState({ isOpen: false});
         Taro.navigateTo({
           url: `/pages/homepage/index`
         });

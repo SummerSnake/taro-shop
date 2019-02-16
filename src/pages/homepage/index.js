@@ -8,7 +8,7 @@ import GlobalFooter from '../../components/GlobalFooter/index';
 import { postRequest } from '../../utils/api';
 import './index.less';
 
-export default class Index extends Component {
+export default class Homepage extends Component {
   constructor() {
     super(...arguments);
     this.state = {

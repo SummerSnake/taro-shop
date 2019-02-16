@@ -20,6 +20,17 @@ export default class User extends Component {
     });
   };
 
+  /**
+   * 跳转订单列表
+   * @param type
+   */
+  goOrder = (type) => {
+    this.$preload({ type });
+    Taro.navigateTo({
+      url: '/pages/order/index'
+    });
+  };
+
   render() {
     const { avatar, nickName } = this.state;
     return (
@@ -41,32 +52,17 @@ export default class User extends Component {
 
           <View className='iconListWrap'>
             <View className='iconList'>
-              <View className='iconItem'>
-                <AtIcon value='analytics' size='30' color='#999' />
-                <View className='iconItemTxt'>待付款</View>
+              <View className='iconItem' onClick={this.goOrder.bind(this, '01')}>
+                <AtIcon value='lightning-bolt' size='30' color='#999' />
+                <View className='iconItemTxt'>全部订单</View>
               </View>
-              <View className='iconItem'>
-                <AtIcon value='equalizer' size='30' color='#999' />
+              <View className='iconItem' onClick={this.goOrder.bind(this, '02')}>
+                <AtIcon value='heart-2' size='30' color='#999' />
                 <View className='iconItemTxt'>待收货</View>
               </View>
-              <View className='iconItem'>
+              <View className='iconItem' onClick={this.goOrder.bind(this, '03')}>
                 <AtIcon value='heart' size='30' color='#999' />
-                <View className='iconItemTxt'>待评价</View>
-              </View>
-            </View>
-
-            <View className='iconList'>
-              <View className='iconItem'>
-                <AtIcon value='lightning-bolt' size='30' color='#999' />
-                <View className='iconItemTxt'>已付款</View>
-              </View>
-              <View className='iconItem'>
-                <AtIcon value='filter' size='30' color='#999' />
-                <View className='iconItemTxt'>已收货</View>
-              </View>
-              <View className='iconItem'>
-                <AtIcon value='heart-2' size='30' color='#999' />
-                <View className='iconItemTxt'>已评价</View>
+                <View className='iconItemTxt'>待支付</View>
               </View>
             </View>
           </View>
