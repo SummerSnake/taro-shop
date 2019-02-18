@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro';
-import { View } from '@tarojs/components';
+import { View, Button } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
 import './index.less';
 
@@ -33,12 +33,12 @@ export default class GlobalFooter extends Component {
       case '04':
         // 获取用户信息
         Taro.getUserInfo({
-          success: (res) => {
-            Taro.setStorageSync('userInfo', res.userInfo);
+          success: async(res) => {
+            await Taro.setStorageSync('userInfo', res.userInfo);
+            Taro.navigateTo({
+              url: '/pages/user/index'
+            });
           }
-        });
-        Taro.navigateTo({
-          url: '/pages/user/index'
         });
         break;
       default:
@@ -73,13 +73,14 @@ export default class GlobalFooter extends Component {
           <AtIcon value='shopping-cart' size='30' color={isActive === '03' ? '#2083e4' : '#999'} />
           <View className='footerTxt'>购物车</View>
         </View>
-        <View
+        <Button
           className={isActive === '04' ? 'footerIconActive' : 'footerIcon'}
           onClick={this.goHref.bind(this, '04')}
+          open-type='getUserInfo'
         >
           <AtIcon value='user' size='30' color={isActive === '04' ? '#2083e4' : '#999'} />
           <View className='footerTxt'>我的</View>
-        </View>
+        </Button>
       </View>
     );
   }
