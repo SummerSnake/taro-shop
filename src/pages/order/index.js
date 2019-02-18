@@ -39,7 +39,7 @@ export default class Order extends Component {
       orderList: list,
     });
     if (e.detail.value === '') {
-      this.fetchApi();
+      this.fetchApi('01');
     }
   };
 
@@ -50,7 +50,7 @@ export default class Order extends Component {
     this.setState({
       searchVal: '',
     });
-    this.fetchApi();
+    this.fetchApi('01');
   };
 
   /**
@@ -68,7 +68,7 @@ export default class Order extends Component {
       });
     }
     if (data.code === 0) {
-      await this.setState({
+      this.setState({
         orderList: list
       });
     }

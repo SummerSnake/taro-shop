@@ -1,7 +1,6 @@
 import Taro from '@tarojs/taro';
 
 export const apiUrl = 'https://www.easy-mock.com';
-// export const apiUrl = 'http://192.168.2.144:8083';
 
 export function postRequest(url, date) {
   return new Promise((resolve, reject) => {
