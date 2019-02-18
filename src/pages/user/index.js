@@ -1,9 +1,13 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Image, ScrollView } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
+import { connect } from '@tarojs/redux';
 import GlobalFooter from '../../components/GlobalFooter/index';
 import './index.less';
 
+@connect(({ userReducer }) => ({
+  userReducer
+}))
 export default class User extends Component {
 
   config = {
@@ -33,6 +37,7 @@ export default class User extends Component {
 
   render() {
     const { avatar, nickName } = this.state;
+    const { name, address, phone } = this.props.userReducer;
     return (
       <View className='homeWrap'>
         <ScrollView
@@ -74,8 +79,8 @@ export default class User extends Component {
                   <AtIcon value='lightning-bolt' size='30' color='#999' />
                 </View>
                 <View className='gridItemTxt'>
-                  <View className='gridItemTitle'>收货地址</View>
-                  <View className='gridItemCon'>...</View>
+                  <View className='gridItemTitle'>收货人</View>
+                  <View className='gridItemCon'>{name}</View>
                 </View>
               </View>
               <View className='gridItem'>
@@ -83,8 +88,8 @@ export default class User extends Component {
                   <AtIcon value='lightning-bolt' size='30' color='#999' />
                 </View>
                 <View className='gridItemTxt'>
-                  <View className='gridItemTitle'>联系方式</View>
-                  <View className='gridItemCon'>...</View>
+                  <View className='gridItemTitle'>收货地址</View>
+                  <View className='gridItemCon'>{address[0]}</View>
                 </View>
               </View>
             </View>
@@ -95,8 +100,8 @@ export default class User extends Component {
                   <AtIcon value='lightning-bolt' size='30' color='#999' />
                 </View>
                 <View className='gridItemTxt'>
-                  <View className='gridItemTitle'>我的订单</View>
-                  <View className='gridItemCon'>...</View>
+                  <View className='gridItemTitle'>联系方式</View>
+                  <View className='gridItemCon'>{phone}</View>
                 </View>
               </View>
               <View className='gridItem'>
