@@ -21,6 +21,7 @@ class App extends Component {
       'pages/goodInfo/index',
       'pages/user/index',
       'pages/order/index',
+      'pages/userEdit/index',
     ],
     window: {
       backgroundTextStyle: 'light',

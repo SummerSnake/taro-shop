@@ -2,14 +2,14 @@ const EDIT_USERINFO = 'EDIT_USERINFO';
 
 /**
  * 编辑个人信息
- * @param name
+ * @param consignee
  * @param address
  * @param phone
  */
-function editUserInfo(name, address, phone) {
+function editUserInfo(consignee, address, phone) {
   return {
     type: EDIT_USERINFO,
-    payload: { name, address, phone }
+    payload: { consignee, address, phone }
   };
 }
 

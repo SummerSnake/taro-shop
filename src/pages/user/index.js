@@ -16,6 +16,15 @@ export default class User extends Component {
     navigationBarTextStyle: "white",
   };
 
+  componentDidShow = () => {
+    const { userReducer } = this.props;
+    this.setState({
+      consignee: userReducer.consignee,
+      address: userReducer.address,
+      phone: userReducer.phone,
+    });
+  };
+
   componentDidMount = async () => {
     const userInfo = Taro.getStorageSync('userInfo');
     await this.setState({
@@ -35,9 +44,17 @@ export default class User extends Component {
     });
   };
 
+  /**
+   * 跳转订单列表
+   */
+  goUserEdit = () => {
+    Taro.navigateTo({
+      url: '/pages/userEdit/index'
+    });
+  };
+
   render() {
-    const { avatar, nickName } = this.state;
-    const { name, address, phone } = this.props.userReducer;
+    const { avatar, nickName, consignee, address, phone } = this.state;
     return (
       <View className='homeWrap'>
         <ScrollView
@@ -74,33 +91,33 @@ export default class User extends Component {
 
           <View className='gridListWrap'>
             <View className='gridList'>
-              <View className='gridItem'>
+              <View className='gridItem' onClick={this.goUserEdit.bind(this)}>
                 <View className='gridItemIcon'>
                   <AtIcon value='lightning-bolt' size='30' color='#999' />
                 </View>
                 <View className='gridItemTxt'>
                   <View className='gridItemTitle'>收货人</View>
-                  <View className='gridItemCon'>{name}</View>
+                  <View className='gridItemCon'>{consignee}</View>
                 </View>
               </View>
-              <View className='gridItem'>
+              <View className='gridItem' onClick={this.goUserEdit.bind(this)}>
                 <View className='gridItemIcon'>
                   <AtIcon value='lightning-bolt' size='30' color='#999' />
                 </View>
                 <View className='gridItemTxt'>
                   <View className='gridItemTitle'>收货地址</View>
-                  <View className='gridItemCon'>{address[0]}</View>
+                  <View className='gridItemCon'>{address}</View>
                 </View>
               </View>
             </View>
 
-            <View className='gridList'>
+            <View className='gridList' onClick={this.goUserEdit.bind(this)}>
               <View className='gridItem'>
                 <View className='gridItemIcon'>
                   <AtIcon value='lightning-bolt' size='30' color='#999' />
                 </View>
                 <View className='gridItemTxt'>
-                  <View className='gridItemTitle'>联系方式</View>
+                  <View className='gridItemTitle'>联系电话</View>
                   <View className='gridItemCon'>{phone}</View>
                 </View>
               </View>
