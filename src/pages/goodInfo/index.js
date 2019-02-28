@@ -4,6 +4,7 @@ import { AtIcon } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { addToCart } from '../../store/actions/cartActions';
 import CartGoodList from '../../components/CartGoodList/index';
+import Loading from '../../components/Loading/index';
 import { postRequest } from '../../utils/api';
 import './index.less';
 
@@ -29,6 +30,7 @@ export default class GoodInfo extends Component {
   };
 
   componentDidMount = async () => {
+    this.setState({ isLoading: true });
     const preload = this.$router.preload;
     this.setState({
       id: preload.id,
@@ -44,6 +46,7 @@ export default class GoodInfo extends Component {
         fetchData: data.data
       });
     }
+    this.setState({ isLoading: false });
   };
 
   componentDidShow = () => {
@@ -200,10 +203,13 @@ export default class GoodInfo extends Component {
           <View className='addToCart' onClick={this.addGood.bind(this, id, name, price)}>加入购物车</View>
           <View className='goPay' onClick={this.goPay}>去结算</View>
         </View>
+
         <CartGoodList
           isOpen={isOpen}
           onIsOpen={this.callback}
         />
+
+        <Loading isLoading={this.state.isLoading} />
       </View>
     );
   }

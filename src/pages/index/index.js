@@ -4,6 +4,7 @@ import { AtIcon } from 'taro-ui';
 import Single from './components/Single/index';
 import Special from './components/Special/index';
 import More from './components/More/index';
+import Loading from '../../components/Loading/index';
 import GlobalFooter from '../../components/GlobalFooter/index';
 import { postRequest } from '../../utils/api';
 import './index.less';
@@ -17,6 +18,7 @@ export default class Index extends Component {
         iconList: [],
         singleList: [],
         moreList: [],
+        isLoading: false
       },
     };
   }
@@ -28,10 +30,12 @@ export default class Index extends Component {
   };
 
   componentDidMount = async () => {
+    this.setState({ isLoading: true });
     const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/example/taroMini/homepage');
     if (data.code === 0) {
       this.setState({ fetchData: data.data });
     }
+    this.setState({ isLoading: false });
   };
   /**
    * 跳转商品列表
@@ -91,6 +95,8 @@ export default class Index extends Component {
         <Special moreList={moreList} />
 
         <More moreList={moreList} />
+
+        <Loading isLoading={this.state.isLoading} />
 
         <GlobalFooter isActive='01' />
       </View>

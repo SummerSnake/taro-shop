@@ -4,6 +4,7 @@ import { AtIcon } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { addToCart } from '../../store/actions/cartActions';
 import CartGoodList from '../../components/CartGoodList/index';
+import Loading from '../../components/Loading/index';
 import { postRequest } from '../../utils/api';
 import './index.less';
 
@@ -38,6 +39,7 @@ export default class GoodList extends Component {
   };
 
   componentDidMount = async () => {
+    this.setState({ isLoading: true });
     const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/example/taroMini/goodList');
     if (data.code === 0) {
       this.setState({ goodList: data.data.tabData });
@@ -52,6 +54,7 @@ export default class GoodList extends Component {
         }
       });
     }
+    this.setState({ isLoading: false });
   };
 
   /**
@@ -255,10 +258,13 @@ export default class GoodList extends Component {
           <View className='moneyDom'>合计：<Text className='moneyTxt'>￥{totalMoney}</Text></View>
           <View className='goPay' onClick={this.goCart.bind(this)}>去结算</View>
         </View>
+
         <CartGoodList
           isOpen={isOpen}
           onIsOpen={this.callback}
         />
+
+        <Loading isLoading={this.state.isLoading} />
       </View>
     );
   }
