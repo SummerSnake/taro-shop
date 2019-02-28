@@ -111,8 +111,8 @@ export default class User extends Component {
               </View>
             </View>
 
-            <View className='gridList' onClick={this.goUserEdit.bind(this)}>
-              <View className='gridItem'>
+            <View className='gridList'>
+              <View className='gridItem' onClick={this.goUserEdit.bind(this)}>
                 <View className='gridItemIcon'>
                   <AtIcon value='lightning-bolt' size='30' color='#999' />
                 </View>
