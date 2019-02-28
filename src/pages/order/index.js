@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Input, ScrollView, Image } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
+import Loading from '../../components/Loading/index';
 import { postRequest } from '../../utils/api';
 import './index.less';
 
@@ -29,6 +30,7 @@ export default class Order extends Component {
    * @param e
    */
   handleSearchValChange = async (e) => {
+    this.setState({ isLoading: true });
     this.setState({ searchVal: e.detail.value });
     const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/taroMini/orderList');
     const orderList = [...data.data.dataList];
@@ -41,6 +43,7 @@ export default class Order extends Component {
     if (e.detail.value === '') {
       this.fetchApi('01');
     }
+    this.setState({ isLoading: false });
   };
 
   /**
@@ -58,6 +61,7 @@ export default class Order extends Component {
    * @param type
    */
   fetchApi = async (type) => {
+    this.setState({ isLoading: true });
     let list = [];
     const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/taroMini/orderList');
     if (type === '01') {
@@ -72,10 +76,11 @@ export default class Order extends Component {
         orderList: list
       });
     }
+    this.setState({ isLoading: false });
   };
 
   render() {
-    const { orderList, searchVal } = this.state;
+    const { orderList, searchVal, isLoading } = this.state;
     return (
       <View className='orderContainer'>
         <View className='searchWrap'>
@@ -115,6 +120,8 @@ export default class Order extends Component {
             })
           }
         </ScrollView>
+
+        <Loading isLoading={isLoading} />
       </View>
     );
   }
