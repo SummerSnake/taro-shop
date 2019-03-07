@@ -6,18 +6,14 @@ import { addToCart, deleteFromCart } from '../../store/actions/cartActions';
 import { postRequest } from '../../utils/api';
 import './index.less';
 
-@connect(({ cartReducer }) => ({
-  cartReducer
+@connect(({ cartReducer, userReducer }) => ({
+  cartReducer,
+  userReducer
 }))
 export default class Cart extends Component {
   constructor() {
     super(...arguments);
     this.state = {
-      fetchData: {
-        name: '渣渣辉',
-        phone: '110',
-        address: '火星'
-      },
       selector: [
         { id: 1, value: 5, name: '5元' },
         { id: 2, value: 10, name: '10元' },
@@ -37,6 +33,7 @@ export default class Cart extends Component {
     navigationBarBackgroundColor: '#000',
     navigationBarTextStyle: "white",
   };
+
   /**
    * 添加商品
    * @param id
@@ -120,15 +117,16 @@ export default class Cart extends Component {
   };
 
   render() {
-    const { fetchData, selector, discountMoney, actualMoney, isOpen } = this.state;
+    const { selector, discountMoney, actualMoney, isOpen } = this.state;
     const { cart } = this.props.cartReducer;
+    const { consignee, address, phone } = this.props.userReducer;
 
     return (
       <View className='orderWrap'>
         <View className='userInfo'>
-          <Text className='userInfoTxt'>收货人：{fetchData.name}</Text>
-          <Text className='userInfoTxt'>联系方式：{fetchData.phone}</Text>
-          <View className='userInfoAddr'>收货地址：{fetchData.address}</View>
+          <Text className='userInfoTxt'>收货人：{consignee}</Text>
+          <Text className='userInfoTxt'>联系方式：{phone}</Text>
+          <View className='userInfoAddr'>收货地址：{address}</View>
         </View>
 
         <View className='goodsWrap'>
