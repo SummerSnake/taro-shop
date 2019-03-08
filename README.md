@@ -16,6 +16,20 @@ Taro 的语法规则基于 React 规范，它采用与 React 一致的组件化�
 
 接口使用 Easy Mock，Easy Mock 是一个可视化，并且能快速生成 模拟数据 的持久化服务。
 
+
+# 部分截图展示
+
+## 首页 && 商品列表
+ ![image](https://github.com/SummerSnake/taro_mini/raw/master/screenshots/1.jpg) ![image](https://github.com/SummerSnake/taro_mini/raw/master/screenshots/2.jpg)
+
+## 商品详情 && 购物车
+
+![image](https://github.com/SummerSnake/taro_mini/raw/master/screenshots/3.jpg) ![image](https://github.com/SummerSnake/taro_mini/raw/master/screenshots/4.jpg)
+
+## 我的 && 订单列表
+
+![image](https://github.com/SummerSnake/taro_mini/raw/master/screenshots/5.jpg) ![image](https://github.com/SummerSnake/taro_mini/raw/master/screenshots/6.jpg)
+
 # 项目运行
 
 ```
