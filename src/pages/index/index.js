@@ -31,7 +31,7 @@ export default class Index extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-    const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/example/taroMini/homepage');
+    const data = await postRequest('/taroMini/homepage');
     if (data.code === 0) {
       this.setState({ fetchData: data.data });
     }

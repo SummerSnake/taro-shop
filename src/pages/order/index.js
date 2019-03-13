@@ -32,7 +32,7 @@ export default class Order extends Component {
   handleSearchValChange = async (e) => {
     this.setState({ isLoading: true });
     this.setState({ searchVal: e.detail.value });
-    const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/taroMini/orderList');
+    const data = await postRequest('/taroMini/orderList');
     const orderList = [...data.data.dataList];
     let list = orderList.filter((cur) => {
       return e.detail.value === cur.title;
@@ -63,7 +63,7 @@ export default class Order extends Component {
   fetchApi = async (type) => {
     this.setState({ isLoading: true });
     let list = [];
-    const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/taroMini/orderList');
+    const data = await postRequest('/taroMini/orderList');
     if (type === '01') {
       list = data.data.dataList;
     } else {

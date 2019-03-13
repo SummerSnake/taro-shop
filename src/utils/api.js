@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro';
 
-export const apiUrl = 'https://www.easy-mock.com';
+export const apiUrl = 'https://www.easy-mock.com/mock/5c47cf65f513860f4ceef6a3/shop';
 
 export function postRequest(url, date) {
   return new Promise((resolve, reject) => {

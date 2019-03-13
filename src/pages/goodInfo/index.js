@@ -38,7 +38,7 @@ export default class GoodInfo extends Component {
       price: preload.price,
     });
     const id = preload.id;
-    const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/example/taroMini/goodInfo', {
+    const data = await postRequest('/taroMini/goodInfo', {
       id,
     });
     if (data.code === 0) {

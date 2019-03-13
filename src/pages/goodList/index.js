@@ -40,7 +40,7 @@ export default class GoodList extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-    const data = await postRequest('/mock/5c47cf65f513860f4ceef6a3/example/taroMini/goodList');
+    const data = await postRequest('/taroMini/goodList');
     if (data.code === 0) {
       this.setState({ goodList: data.data.tabData });
     }

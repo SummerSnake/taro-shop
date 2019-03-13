@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
-import { View, Text } from '@tarojs/components';
-import { Picker, AtInput, AtIcon, AtToast } from 'taro-ui';
+import { View, Picker, Text } from '@tarojs/components';
+import { AtInput, AtIcon, AtToast } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { addToCart, deleteFromCart } from '../../store/actions/cartActions';
 import { postRequest } from '../../utils/api';
