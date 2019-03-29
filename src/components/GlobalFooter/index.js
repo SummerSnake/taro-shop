@@ -16,17 +16,17 @@ export default class GlobalFooter extends Component {
   goHref = (type) => {
     switch (type) {
       case '01':
-        Taro.navigateTo({
+        Taro.redirectTo({
           url: '/pages/index/index'
         });
         break;
       case '02':
-        Taro.navigateTo({
+        Taro.redirectTo({
           url: '/pages/goodList/index'
         });
         break;
       case '03':
-        Taro.navigateTo({
+        Taro.redirectTo({
           url: '/pages/cart/index'
         });
         break;
@@ -35,14 +35,14 @@ export default class GlobalFooter extends Component {
         Taro.getUserInfo({
           success: async(res) => {
             await Taro.setStorageSync('userInfo', res.userInfo);
-            Taro.navigateTo({
+            Taro.redirectTo({
               url: '/pages/user/index'
             });
           }
         });
         break;
       default:
-        Taro.navigateTo({
+        Taro.redirectTo({
           url: '/pages/index/index'
         });
     }
