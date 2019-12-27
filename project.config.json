@@ -1,6 +1,6 @@
 {
 	"miniprogramRoot": "dist/",
-	"projectname": "taro_mini",
+	"projectname": "taro_shop",
 	"description": "微信小程序商城",
 	"appid": "wx33bea6a8be451c65",
 	"setting": {

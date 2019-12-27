@@ -8,7 +8,7 @@ import './index.less';
 @connect(({ userReducer }) => ({
   userReducer
 }))
-export default class Order extends Component {
+class UserEdit extends Component {
   constructor() {
     super(...arguments);
     this.state = {
@@ -125,3 +125,5 @@ export default class Order extends Component {
     );
   }
 }
+
+export default UserEdit;

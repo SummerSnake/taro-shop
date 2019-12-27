@@ -2,7 +2,7 @@ import Taro, { Component } from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import './index.less';
 
-export default class GoodsList extends Component {
+class Loading extends Component {
   constructor() {
     super(...arguments);
     this.state = {};
@@ -30,3 +30,5 @@ export default class GoodsList extends Component {
     );
   }
 }
+
+export default Loading;

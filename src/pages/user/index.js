@@ -8,7 +8,7 @@ import './index.less';
 @connect(({ userReducer }) => ({
   userReducer
 }))
-export default class User extends Component {
+class User extends Component {
 
   config = {
     navigationBarTitleText: '个人中心',
@@ -144,3 +144,5 @@ export default class User extends Component {
     );
   }
 }
+
+export default User;

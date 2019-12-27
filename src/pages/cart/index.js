@@ -10,7 +10,7 @@ import './index.less';
   cartReducer,
   userReducer
 }))
-export default class Cart extends Component {
+class Cart extends Component {
   constructor() {
     super(...arguments);
     this.state = {
@@ -181,3 +181,5 @@ export default class Cart extends Component {
     );
   }
 }
+
+export default Cart;

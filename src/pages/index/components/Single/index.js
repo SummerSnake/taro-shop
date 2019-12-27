@@ -2,7 +2,7 @@ import Taro, { Component } from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
 import './index.less';
 
-export default class Single extends Component {
+class Single extends Component {
   constructor() {
     super(...arguments);
   }
@@ -49,3 +49,5 @@ export default class Single extends Component {
     );
   }
 }
+
+export default Single;

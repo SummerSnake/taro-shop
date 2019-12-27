@@ -8,7 +8,7 @@ import './index.less';
 @connect(({ cartReducer }) => ({
   cartReducer
 }))
-export default class Index extends Component {
+class CartGoodList extends Component {
   constructor() {
     super(...arguments);
   }
@@ -85,3 +85,5 @@ export default class Index extends Component {
     );
   }
 }
+
+export default CartGoodList;

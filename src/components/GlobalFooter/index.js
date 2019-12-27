@@ -3,7 +3,7 @@ import { View, Button } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
 import './index.less';
 
-export default class GlobalFooter extends Component {
+class GlobalFooter extends Component {
   constructor() {
     super(...arguments);
     this.state = {};
@@ -85,3 +85,5 @@ export default class GlobalFooter extends Component {
     );
   }
 }
+
+export default GlobalFooter;

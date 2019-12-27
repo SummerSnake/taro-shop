@@ -9,7 +9,7 @@ import GlobalFooter from '../../components/GlobalFooter/index';
 import { postRequest } from '../../utils/api';
 import './index.less';
 
-export default class Index extends Component {
+class Index extends Component {
   constructor() {
     super(...arguments);
     this.state = {
@@ -103,3 +103,5 @@ export default class Index extends Component {
     );
   }
 }
+
+export default Index;

@@ -5,7 +5,7 @@ import Loading from '../../components/Loading/index';
 import { postRequest } from '../../utils/api';
 import './index.less';
 
-export default class Order extends Component {
+class Order extends Component {
   constructor() {
     super(...arguments);
     this.state = {
@@ -126,3 +126,5 @@ export default class Order extends Component {
     );
   }
 }
+
+export default Order;
