@@ -1,5 +1,8 @@
 dist/
-.temp/
-.rn_temp/
+build/
 node_modules/
-.DS_Store
+.idea/
+.vscode/
+.DS_Store/
+.history/
+.temp/
