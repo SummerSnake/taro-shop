@@ -20,7 +20,6 @@
   "author": "SummerSnake",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/async-await": "^2.0.0",
     "@tarojs/components": "2.0.0",
     "@tarojs/mini-runner": "^2.0.0",
     "@tarojs/redux": "^2.0.0",
@@ -35,7 +34,6 @@
     "nervjs": "^1.5.6",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0",
     "taro-ui": "^1.5.4"
   },
   "devDependencies": {

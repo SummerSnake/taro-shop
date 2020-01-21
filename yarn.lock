@@ -181,14 +181,6 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@tarojs/async-await@^2.0.0":
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/@tarojs/async-await/download/@tarojs/async-await-2.0.1.tgz#5c8509b2319c5331d34c73fbcd23e8502f0c3ce7"
-  integrity sha1-XIUJsjGcUzHTTHP7zSPoUC8MPOc=
-  dependencies:
-    promise-polyfill "^7.1.2"
-    regenerator-runtime "^0.11.1"
-
 "@tarojs/components@2.0.0":
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/@tarojs/components/download/@tarojs/components-2.0.0.tgz#4e82124123c81f6237b5362e0fb3d7283b3c1eab"
@@ -7278,11 +7270,6 @@ promise-inflight@^1.0.1:
   resolved "https://registry.npm.taobao.org/promise-inflight/download/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
   integrity sha1-mEcocL8igTL8vdhoEputEsPAKeM=
 
-promise-polyfill@^7.1.2:
-  version "7.1.2"
-  resolved "https://registry.npm.taobao.org/promise-polyfill/download/promise-polyfill-7.1.2.tgz#ab05301d8c28536301622d69227632269a70ca3b"
-  integrity sha1-qwUwHYwoU2MBYi1pInYyJppwyjs=
-
 promise@^7.1.1:
   version "7.3.1"
   resolved "https://registry.npm.taobao.org/promise/download/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
@@ -7553,11 +7540,6 @@ redux-logger@^3.0.6:
   dependencies:
     deep-diff "^0.3.5"
 
-redux-thunk@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.npm.taobao.org/redux-thunk/download/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
-  integrity sha1-UcLBmhhe1Rh6qpotCLZm0NZGdiI=
-
 redux@^4.0.5:
   version "4.0.5"
   resolved "https://registry.npm.taobao.org/redux/download/redux-4.0.5.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fredux%2Fdownload%2Fredux-4.0.5.tgz#4db5de5816e17891de8a80c424232d06f051d93f"
@@ -7571,7 +7553,7 @@ regenerate@^1.2.1:
   resolved "https://registry.npm.taobao.org/regenerate/download/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
   integrity sha1-SoVuxLVuQHfFV1icroXnpMiGmhE=
 
-regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
+regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha1-vgWtf5v30i4Fb5cmzuUBf78Z4uk=
