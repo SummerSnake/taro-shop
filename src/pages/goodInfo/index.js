@@ -1,12 +1,19 @@
-import Taro, { Component } from '@tarojs/taro';
-import { View, Text, Image, Swiper, SwiperItem, ScrollView } from '@tarojs/components';
-import { AtIcon } from 'taro-ui';
-import { connect } from '@tarojs/redux';
-import { addToCart } from '../../store/actions/cartActions';
-import CartGoodList from '../../components/CartGoodList/index';
-import Loading from '../../components/Loading/index';
-import { postRequest } from '../../utils/api';
-import './index.less';
+import Taro, { Component } from "@tarojs/taro";
+import {
+  View,
+  Text,
+  Image,
+  Swiper,
+  SwiperItem,
+  ScrollView
+} from "@tarojs/components";
+import { AtIcon } from "taro-ui";
+import { connect } from "@tarojs/redux";
+import { addToCart } from "../../store/actions/cartActions";
+import CartGoodList from "../../components/CartGoodList/index";
+import Loading from "../../components/Loading/index";
+import { postRequest } from "../../utils/api";
+import "./index.less";
 
 @connect(({ cartReducer }) => ({
   cartReducer
@@ -19,14 +26,14 @@ class GoodInfo extends Component {
       badgeNum: 0,
       fetchData: {
         dataList: []
-      },
+      }
     };
   }
 
   config = {
-    navigationBarTitleText: '商品详情',
-    navigationBarBackgroundColor: '#000',
-    navigationBarTextStyle: "white",
+    navigationBarTitleText: "商品详情",
+    navigationBarBackgroundColor: "#000",
+    navigationBarTextStyle: "white"
   };
 
   componentDidMount = async () => {
@@ -35,11 +42,11 @@ class GoodInfo extends Component {
     this.setState({
       id: preload.id,
       name: preload.name,
-      price: preload.price,
+      price: preload.price
     });
     const id = preload.id;
-    const data = await postRequest('/taroMini/goodInfo', {
-      id,
+    const data = await postRequest("/goodInfo", {
+      id
     });
     if (data.code === 0) {
       this.setState({
@@ -53,7 +60,7 @@ class GoodInfo extends Component {
     const { cartReducer } = this.props;
 
     this.setState({
-      badgeNum: cartReducer.badgeNum,
+      badgeNum: cartReducer.badgeNum
     });
   };
 
@@ -68,7 +75,7 @@ class GoodInfo extends Component {
     const { cartReducer } = this.props;
 
     this.setState({
-      badgeNum: cartReducer.badgeNum,
+      badgeNum: cartReducer.badgeNum
     });
   };
 
@@ -77,7 +84,7 @@ class GoodInfo extends Component {
    */
   buyingInfo = () => {
     this.setState({
-      isOpen: !this.state.isOpen,
+      isOpen: !this.state.isOpen
     });
   };
 
@@ -112,20 +119,20 @@ class GoodInfo extends Component {
    * CartGoodList 子组件回调
    * @param type
    */
-  callback = (type) => {
-    if (type === '1') {
+  callback = type => {
+    if (type === "1") {
       this.setState({ isOpen: false });
-    } else if (type === '2') {
+    } else if (type === "2") {
       let badgeNum = this.state.badgeNum;
       badgeNum += 1;
       this.setState({
-        badgeNum: badgeNum,
+        badgeNum: badgeNum
       });
-    } else if (type === '3') {
+    } else if (type === "3") {
       let badgeNum = this.state.badgeNum;
       badgeNum -= 1;
       this.setState({
-        badgeNum: badgeNum,
+        badgeNum: badgeNum
       });
     }
   };
@@ -134,80 +141,87 @@ class GoodInfo extends Component {
     const { fetchData, id, name, price, isOpen, badgeNum } = this.state;
     const { dataList } = fetchData;
     return (
-      <View className='goodInfoWrap'>
-        <ScrollView
-          scroll-y='true'
-          scrollWithAnimation
-          className='scrollDom'
-        >
+      <View className="goodInfoWrap">
+        <ScrollView scroll-y="true" scrollWithAnimation className="scrollDom">
           <Swiper
-            indicatorColor='#999'
-            indicatorActiveColor='#333'
+            indicatorColor="#999"
+            indicatorActiveColor="#333"
             circular
             indicatorDots
             autoplay
           >
-            {
-              Array.isArray(dataList) && dataList.length > 0 && dataList.map((data) => {
+            {Array.isArray(dataList) &&
+              dataList.length > 0 &&
+              dataList.map(data => {
                 return (
-                  <SwiperItem className='swipImgWrap' key={data.id}>
-                    <Image src={data.img} className='swipImg' />
+                  <SwiperItem className="swipImgWrap" key={data.id}>
+                    <Image src={data.img} className="swipImg" />
                   </SwiperItem>
                 );
-              })
-            }
+              })}
           </Swiper>
-          <View className='briefWrap'>
-            <View className='briefTop'>
+          <View className="briefWrap">
+            <View className="briefTop">
               <Text>{fetchData.name}</Text>
-              <Text className='briefSalesVolume'>销量：{fetchData.salesVolume}</Text>
+              <Text className="briefSalesVolume">
+                销量：{fetchData.salesVolume}
+              </Text>
             </View>
-            <View className='briefMid'>{fetchData.brief}</View>
-            <View className='briefBottom'>￥{fetchData.price}</View>
+            <View className="briefMid">{fetchData.brief}</View>
+            <View className="briefBottom">￥{fetchData.price}</View>
           </View>
-          {
-            Array.isArray(dataList) && dataList.length > 0 && dataList.map((data) => {
+          {Array.isArray(dataList) &&
+            dataList.length > 0 &&
+            dataList.map(data => {
               return (
-                <View className='detailWrap' key={data.id}>
-                  <View className='detailTitle'>{data.title}</View>
-                  <View className='detailTxt'>{data.txt}</View>
-                  <View className='detailImgWrap' key={data.id}>
-                    <Image src={data.img} className='detailImg' />
+                <View className="detailWrap" key={data.id}>
+                  <View className="detailTitle">{data.title}</View>
+                  <View className="detailTxt">{data.txt}</View>
+                  <View className="detailImgWrap" key={data.id}>
+                    <Image src={data.img} className="detailImg" />
                   </View>
                 </View>
               );
-            })
-          }
+            })}
         </ScrollView>
-        <View className='goodInfoBottom'>
-          <View className='bottomIconWrap'>
-            <View className='bottomIcon'>
-              <AtIcon value='home' size='30' color='#fff' onClick={this.goHomepage.bind(this)} />
-              <View className='iconTxt'>首页</View>
+        <View className="goodInfoBottom">
+          <View className="bottomIconWrap">
+            <View className="bottomIcon">
+              <AtIcon
+                value="home"
+                size="30"
+                color="#fff"
+                onClick={this.goHomepage.bind(this)}
+              />
+              <View className="iconTxt">首页</View>
             </View>
-            <View className='bottomIcon' onClick={this.goGoodList.bind(this)}>
-              <AtIcon value='bullet-list' size='30' color='#fff' />
-              <View className='iconTxt'>分类</View>
+            <View className="bottomIcon" onClick={this.goGoodList.bind(this)}>
+              <AtIcon value="bullet-list" size="30" color="#fff" />
+              <View className="iconTxt">分类</View>
             </View>
-            <View className='bottomIcon' onClick={this.buyingInfo.bind(this)}>
+            <View className="bottomIcon" onClick={this.buyingInfo.bind(this)}>
               <View
-                className='badgeDom'
-                style={{ display: badgeNum > 0 ? 'block' : 'none' }}
+                className="badgeDom"
+                style={{ display: badgeNum > 0 ? "block" : "none" }}
               >
                 {badgeNum}
               </View>
-              <AtIcon value='shopping-cart' size='30' color='#fff' />
-              <View className='iconTxt'>购物车</View>
+              <AtIcon value="shopping-cart" size="30" color="#fff" />
+              <View className="iconTxt">购物车</View>
             </View>
           </View>
-          <View className='addToCart' onClick={this.addGood.bind(this, id, name, price)}>加入购物车</View>
-          <View className='goPay' onClick={this.goPay}>去结算</View>
+          <View
+            className="addToCart"
+            onClick={this.addGood.bind(this, id, name, price)}
+          >
+            加入购物车
+          </View>
+          <View className="goPay" onClick={this.goPay}>
+            去结算
+          </View>
         </View>
 
-        <CartGoodList
-          isOpen={isOpen}
-          onIsOpen={this.callback}
-        />
+        <CartGoodList isOpen={isOpen} onIsOpen={this.callback} />
 
         <Loading isLoading={this.state.isLoading} />
       </View>

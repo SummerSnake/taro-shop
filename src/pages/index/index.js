@@ -25,7 +25,7 @@ class Index extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-    const data = await postRequest("/taroMini/homepage");
+    const data = await postRequest("/home");
     if (data.code === 0) {
       this.setState({ fetchData: data.data });
     }

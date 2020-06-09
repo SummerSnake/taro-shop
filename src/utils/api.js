@@ -1,6 +1,6 @@
-import Taro from '@tarojs/taro';
+import Taro from "@tarojs/taro";
 
-export const apiUrl = 'https://www.easy-mock.com/mock/5c47cf65f513860f4ceef6a3/shop';
+export const apiUrl = "http://rap2.taobao.org:38080/app/mock/257275/shop";
 
 export function postRequest(url, date) {
   return new Promise((resolve, reject) => {
@@ -9,15 +9,15 @@ export function postRequest(url, date) {
       data: {
         ...date
       },
-      method: 'POST',
+      method: "POST",
       header: {
-        'content-type': 'application/json',
+        "content-type": "application/json"
       }
     })
-      .then((res) => {
+      .then(res => {
         resolve(res.data);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
