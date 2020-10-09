@@ -1,15 +1,15 @@
 import Taro from "@tarojs/taro";
 
-export const apiUrl = "http://rap2.taobao.org:38080/app/mock/257275/shop";
+export const apiUrl = "http://rap2api.taobao.org/app/mock/257275/shop";
 
-export function postRequest(url, date) {
+export function getRequest(url, date) {
   return new Promise((resolve, reject) => {
     Taro.request({
       url: apiUrl + url,
       data: {
         ...date
       },
-      method: "POST",
+      method: "GET",
       header: {
         "content-type": "application/json"
       }

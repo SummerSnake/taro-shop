@@ -12,7 +12,7 @@ import { connect } from "@tarojs/redux";
 import { addToCart } from "../../store/actions/cartActions";
 import CartGoodList from "../../components/CartGoodList/index";
 import Loading from "../../components/Loading/index";
-import { postRequest } from "../../utils/api";
+import { getRequest } from "../../utils/api";
 import "./index.less";
 
 @connect(({ cartReducer }) => ({
@@ -45,7 +45,7 @@ class GoodInfo extends Component {
       price: preload.price
     });
     const id = preload.id;
-    const data = await postRequest("/goodInfo", {
+    const data = await getRequest("/goodInfo", {
       id
     });
     if (data.code === 0) {

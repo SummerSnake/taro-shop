@@ -5,7 +5,7 @@ import { connect } from "@tarojs/redux";
 import { addToCart } from "../../store/actions/cartActions";
 import CartGoodList from "../../components/CartGoodList/index";
 import Loading from "../../components/Loading/index";
-import { postRequest } from "../../utils/api";
+import { getRequest } from "../../utils/api";
 import "./index.less";
 
 @connect(({ cartReducer }) => ({
@@ -40,7 +40,7 @@ class GoodList extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-    const data = await postRequest("/goodsList");
+    const data = await getRequest("/goodsList");
     if (data.code === 0) {
       this.setState({ goodList: data.data.tabData });
     }

@@ -2,7 +2,7 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Input, ScrollView, Image } from "@tarojs/components";
 import { AtIcon } from "taro-ui";
 import Loading from "../../components/Loading/index";
-import { postRequest } from "../../utils/api";
+import { getRequest } from "../../utils/api";
 import "./index.less";
 
 class Order extends Component {
@@ -32,7 +32,7 @@ class Order extends Component {
   handleSearchValChange = async e => {
     this.setState({ isLoading: true });
     this.setState({ searchVal: e.detail.value });
-    const data = await postRequest("/orderList");
+    const data = await getRequest("/orderList");
     const orderList = [...data.data.dataList];
     let list = orderList.filter(cur => {
       return e.detail.value === cur.title;
@@ -63,7 +63,7 @@ class Order extends Component {
   fetchApi = async type => {
     this.setState({ isLoading: true });
     let list = [];
-    const data = await postRequest("/taroMini/orderList");
+    const data = await getRequest("/orderList");
     if (type === "01") {
       list = data.data.dataList;
     } else {

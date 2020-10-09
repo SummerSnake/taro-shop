@@ -6,7 +6,7 @@ import Special from "./components/Special/index";
 import More from "./components/More/index";
 import Loading from "../../components/Loading/index";
 import GlobalFooter from "../../components/GlobalFooter/index";
-import { postRequest } from "../../utils/api";
+import { getRequest } from "../../utils/api";
 import "./index.less";
 
 class Index extends Component {
@@ -25,7 +25,7 @@ class Index extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-    const data = await postRequest("/home");
+    const data = await getRequest("/home");
     if (data.code === 0) {
       this.setState({ fetchData: data.data });
     }
