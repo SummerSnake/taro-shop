@@ -6,6 +6,6 @@ const router = express.Router();
 const service = require('../services/homeService');
 
 // 任务清单接口
-router.get('/getHomeData', service.getHomeData);
+router.get('/home', service.getHomeData);
 
 module.exports = router;

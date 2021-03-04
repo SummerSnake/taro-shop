@@ -26,9 +26,11 @@ class Index extends Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
     const data = await getRequest("/home");
-    if (data.code === 0) {
+
+    if (data.code === 200) {
       this.setState({ fetchData: data.data });
     }
+
     this.setState({ isLoading: false });
   };
 

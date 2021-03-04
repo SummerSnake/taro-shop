@@ -18,3 +18,5 @@ router.use((err, req, res) => {
     });
   }
 });
+
+module.exports = router;
