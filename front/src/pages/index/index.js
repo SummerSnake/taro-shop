@@ -27,7 +27,7 @@ class Index extends Component {
     this.setState({ isLoading: true });
     const data = await getRequest("/home");
 
-    if (data.code === 200) {
+    if (data.status === 200) {
       this.setState({ fetchData: data.data });
     }
 

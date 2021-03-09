@@ -5,7 +5,7 @@ const router = express.Router(); // 注册路由
 router.use('/api', homeRouter); // 注入 home 路由模块
 
 // 自定义统一异常处理中间件，需要放在代码最后
-router.use((err, req, res) => {
+router.use((err, req, res, next) => {
   if (err) {
     const { output } = err || {};
     // 错误码和错误信息
@@ -13,7 +13,7 @@ router.use((err, req, res) => {
     const errMsg = (output && output.payload && output.payload.error) || err.message;
 
     res.status(errCode).json({
-      code: errCode,
+      status: errCode,
       msg: errMsg,
     });
   }

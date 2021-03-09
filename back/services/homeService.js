@@ -2,7 +2,7 @@
  * 首页相关接口
  */
 const { querySql } = require('../utils/mysql');
-const { CODE_ERROR, CODE_SUCCESS } = require('../config/codeConfig');
+const { STATUS_ERROR, STATUS_SUCCESS } = require('../config/codeConfig');
 
 /**
  * @desc 首页查询接口
@@ -52,13 +52,13 @@ function getHomeData(req, res, next) {
           console.log(data);
           if (Object.keys(data).length > 0) {
             res.json({
-              code: CODE_SUCCESS,
+              status: STATUS_SUCCESS,
               msg: '请求成功',
               data,
             });
           } else {
             res.json({
-              code: CODE_ERROR,
+              status: STATUS_ERROR,
               msg: '服务器错误',
               data: null,
             });
