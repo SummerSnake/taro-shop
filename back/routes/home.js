@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 const service = require('../services/homeService');
 
-// 任务清单接口
-router.get('/home', service.getHomeData);
+// 首页接口
+router.get('/home', service.getHomeApi);
 
 module.exports = router;

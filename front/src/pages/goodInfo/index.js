@@ -25,7 +25,7 @@ class GoodInfo extends Component {
       isOpen: false,
       badgeNum: 0,
       fetchData: {
-        dataList: []
+        swiper: []
       }
     };
   }
@@ -38,22 +38,21 @@ class GoodInfo extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-    const preload = this.$router.preload;
-    this.setState({
-      id: preload.id,
-      name: preload.name,
-      price: preload.price
-    });
-    const id = preload.id;
-    const data = await getRequest("/goodInfo", {
-      id
-    });
-    if (data.code === 0) {
+
+    const { preload = {} } = this.$router && this.$router;
+    const data = await getRequest("/goodInfo", { id: preload.id });
+    if (data.status === 200) {
       this.setState({
         fetchData: data.data
       });
     }
-    this.setState({ isLoading: false });
+
+    this.setState({
+      isLoading: false,
+      id: preload.id,
+      name: preload.name,
+      price: preload.price
+    });
   };
 
   componentDidShow = () => {
@@ -65,7 +64,7 @@ class GoodInfo extends Component {
   };
 
   /**
-   * 添加商品
+   * @desc 添加商品
    * @param id
    * @param name
    * @param price
@@ -80,7 +79,7 @@ class GoodInfo extends Component {
   };
 
   /**
-   * 打开关闭购物车详情
+   * @desc 打开关闭购物车详情
    */
   buyingInfo = () => {
     this.setState({
@@ -89,34 +88,17 @@ class GoodInfo extends Component {
   };
 
   /**
-   * 跳转首页
+   * @desc 跳转
+   * @param { string } page
    */
-  goHomepage = () => {
-    Taro.navigateTo({
-      url: `/pages/index/index`
+  handleLinkTo = page => {
+    Taro.redirectTo({
+      url: `/pages/${page}/index`
     });
   };
 
   /**
-   * 跳转商品列表
-   */
-  goGoodList = () => {
-    Taro.navigateTo({
-      url: `/pages/goodList/index`
-    });
-  };
-
-  /**
-   * 跳转购物车
-   */
-  goPay = () => {
-    Taro.navigateTo({
-      url: `/pages/cart/index`
-    });
-  };
-
-  /**
-   * CartGoodList 子组件回调
+   * @desc CartGoodList 子组件回调
    * @param type
    */
   callback = type => {
@@ -139,7 +121,8 @@ class GoodInfo extends Component {
 
   render() {
     const { fetchData, id, name, price, isOpen, badgeNum } = this.state;
-    const { dataList } = fetchData;
+    const { swiper } = fetchData;
+
     return (
       <View className="goodInfoWrap">
         <ScrollView scroll-y="true" scrollWithAnimation className="scrollDom">
@@ -150,12 +133,12 @@ class GoodInfo extends Component {
             indicatorDots
             autoplay
           >
-            {Array.isArray(dataList) &&
-              dataList.length > 0 &&
-              dataList.map(data => {
+            {Array.isArray(swiper) &&
+              swiper.length > 0 &&
+              swiper.map(item => {
                 return (
-                  <SwiperItem className="swipImgWrap" key={data.id}>
-                    <Image src={data.img} className="swipImg" />
+                  <SwiperItem className="swipImgWrap" key={item}>
+                    <Image src={item} className="swipImg" />
                   </SwiperItem>
                 );
               })}
@@ -167,18 +150,18 @@ class GoodInfo extends Component {
                 销量：{fetchData.salesVolume}
               </Text>
             </View>
-            <View className="briefMid">{fetchData.brief}</View>
+            <View className="briefMid">{fetchData.desc}</View>
             <View className="briefBottom">￥{fetchData.price}</View>
           </View>
-          {Array.isArray(dataList) &&
-            dataList.length > 0 &&
-            dataList.map(data => {
+          {Array.isArray(swiper) &&
+            swiper.length > 0 &&
+            swiper.map(item => {
               return (
-                <View className="detailWrap" key={data.id}>
-                  <View className="detailTitle">{data.title}</View>
-                  <View className="detailTxt">{data.txt}</View>
-                  <View className="detailImgWrap" key={data.id}>
-                    <Image src={data.img} className="detailImg" />
+                <View className="detailWrap" key={item}>
+                  <View className="detailTitle">{fetchData.name}</View>
+                  <View className="detailTxt">{fetchData.desc}</View>
+                  <View className="detailImgWrap">
+                    <Image src={item} className="detailImg" />
                   </View>
                 </View>
               );
@@ -191,11 +174,14 @@ class GoodInfo extends Component {
                 value="home"
                 size="30"
                 color="#fff"
-                onClick={this.goHomepage.bind(this)}
+                onClick={this.handleLinkTo.bind(this, "index")}
               />
               <View className="iconTxt">首页</View>
             </View>
-            <View className="bottomIcon" onClick={this.goGoodList.bind(this)}>
+            <View
+              className="bottomIcon"
+              onClick={this.handleLinkTo.bind(this, "goodList")}
+            >
               <AtIcon value="bullet-list" size="30" color="#fff" />
               <View className="iconTxt">分类</View>
             </View>
@@ -216,7 +202,10 @@ class GoodInfo extends Component {
           >
             加入购物车
           </View>
-          <View className="goPay" onClick={this.goPay}>
+          <View
+            className="goPay"
+            onClick={this.handleLinkTo.bind(this, "cart")}
+          >
             去结算
           </View>
         </View>

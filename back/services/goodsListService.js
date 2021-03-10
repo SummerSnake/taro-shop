@@ -5,7 +5,7 @@ const { querySql } = require('../utils/mysql');
 const { STATUS_ERROR, STATUS_SUCCESS } = require('../config/codeConfig');
 
 /**
- * @desc 首页查询接口
+ * @desc 商品列表查询接口
  */
 function getGoodsListApi(req, res, next) {
   let data = {};
@@ -44,7 +44,6 @@ function getGoodsListApi(req, res, next) {
         tabData,
       };
 
-      console.log(data);
       if (Object.keys(data).length > 0) {
         res.json({
           status: STATUS_SUCCESS,

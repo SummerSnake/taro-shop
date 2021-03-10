@@ -7,7 +7,7 @@ const { STATUS_ERROR, STATUS_SUCCESS } = require('../config/codeConfig');
 /**
  * @desc 首页查询接口
  */
-function getHomeData(req, res, next) {
+function getHomeApi(req, res, next) {
   let data = {};
 
   const homeSql = 'SELECT * FROM home';
@@ -70,5 +70,5 @@ function getHomeData(req, res, next) {
 }
 
 module.exports = {
-  getHomeData,
+  getHomeApi,
 };
