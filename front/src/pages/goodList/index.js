@@ -243,7 +243,7 @@ class GoodList extends Component {
                       </View>
                       <View className="itemTxtWrap">
                         <Text className="itemTxt">{item.name}</Text>
-                        <View className="itemCon">{item.content}</View>
+                        <View className="itemCon">{item.desc}</View>
                         <View className="itemPrice">
                           ￥{item.price}
                           <View

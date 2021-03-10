@@ -1,6 +1,6 @@
-import Taro, { Component } from '@tarojs/taro';
-import { View, Image } from '@tarojs/components';
-import './index.less';
+import Taro, { Component } from "@tarojs/taro";
+import { View, Image } from "@tarojs/components";
+import "./index.less";
 
 class Single extends Component {
   constructor() {
@@ -17,7 +17,7 @@ class Single extends Component {
     this.$preload({
       id,
       name,
-      price,
+      price
     });
     Taro.navigateTo({
       url: `/pages/goodInfo/index`
@@ -27,24 +27,29 @@ class Single extends Component {
   render() {
     const { singleList } = this.props;
     return (
-      <View className='singleWrap'>
-        {
-          Array.isArray(singleList) && singleList.length > 0 && singleList.map((single) => {
+      <View className="singleWrap">
+        {Array.isArray(singleList) &&
+          singleList.length > 0 &&
+          singleList.map(single => {
             return (
               <View
-                className='singleItemWrap'
+                className="singleItemWrap"
                 key={single.id}
-                onClick={this.goGoodInfo.bind(this, single.id, single.name, single.price)}
+                onClick={this.goGoodInfo.bind(
+                  this,
+                  single.id,
+                  single.name,
+                  single.price
+                )}
               >
-                <View className='singleTitle'>{single.name}</View>
-                <View className='singleCon'>{single.content}</View>
-                <View className='singleImgWrap'>
-                  <Image className='singleImg' src={single.imgUrl} />
+                <View className="singleTitle">{single.name}</View>
+                <View className="singleCon">{single.desc}</View>
+                <View className="singleImgWrap">
+                  <Image className="singleImg" src={single.imgUrl} />
                 </View>
               </View>
             );
-          })
-        }
+          })}
       </View>
     );
   }

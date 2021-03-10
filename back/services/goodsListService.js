@@ -22,7 +22,7 @@ function getGoodsListApi(req, res, next) {
           id: child.id,
           name: child.name,
           price: child.price,
-          content: child.content,
+          desc: child.desc,
           imageUrl: child.imgUrl,
         };
 
@@ -32,7 +32,7 @@ function getGoodsListApi(req, res, next) {
       list.forEach((item) => {
         const json = {
           id: item.id,
-          title: item.categoryTitle,
+          title: item.category,
         };
 
         json.proList = proList;

@@ -35,7 +35,7 @@ function getHomeData(req, res, next) {
           const list = JSON.parse(JSON.stringify(_res));
 
           list.forEach((item) => {
-            if (item.type === 1) {
+            if (item.isActivity === 1) {
               singleList.push(item);
             } else {
               moreList.push(item);
