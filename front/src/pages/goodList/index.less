@@ -38,6 +38,10 @@
         float: left;
         width: 220px;
         height: 220px;
+        box-sizing: border-box;
+        margin-right: 10px;
+        padding: 10px;
+        overflow: hidden;
         .itemImg {
           width: 100%;
           height: 100%;
@@ -46,16 +50,17 @@
       .itemTxtWrap {
         box-sizing: border-box;
         padding-right: 40px;
+        overflow: hidden;
         .itemTxt {
           display: inline-block;
           font-size: 32px;
           color: #777;
-          padding: 10px 0;
+          padding-top: 20px;
         }
         .itemCon {
           font-size: 28px;
           color: #131313;
-          padding-bottom: 10px;
+          padding: 20px 0;
         }
         .itemPrice {
           position: relative;
@@ -90,7 +95,7 @@
       margin: 20px 0 0 20px;
       .badgeDom {
         position: absolute;
-        right: -6PX;
+        right: -6px;
         top: -14px;
         z-index: 1;
         transform: translate(50%, 0);
@@ -102,7 +107,7 @@
         padding: 0 10px;
         border-radius: 14px 14px 14px 0;
         overflow: hidden;
-        background: #FF4949;
+        background: #ff4949;
         box-shadow: 0 4px 8px 0 rgba(233, 59, 61, 0.2);
       }
     }
@@ -134,7 +139,7 @@
 
 .cartWrap:after {
   clear: both;
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 0;

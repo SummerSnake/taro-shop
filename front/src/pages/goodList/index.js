@@ -41,7 +41,7 @@ class GoodList extends Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
     const data = await getRequest("/goodsList");
-    if (data.code === 0) {
+    if (data.status === 200) {
       this.setState({ goodList: data.data.tabData });
     }
     if (typeof this.$router.preload !== "undefined") {

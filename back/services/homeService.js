@@ -35,7 +35,7 @@ function getHomeData(req, res, next) {
           const list = JSON.parse(JSON.stringify(_res));
 
           list.forEach((item) => {
-            if (item.content) {
+            if (item.type === 1) {
               singleList.push(item);
             } else {
               moreList.push(item);
@@ -49,7 +49,7 @@ function getHomeData(req, res, next) {
             singleList,
             moreList,
           };
-          console.log(data);
+
           if (Object.keys(data).length > 0) {
             res.json({
               status: STATUS_SUCCESS,
