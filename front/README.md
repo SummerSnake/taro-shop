@@ -1,6 +1,7 @@
 # 前言
 
-商城小程序
+taro 商城小程序
+taro 入门项目
 
 # 技术栈
 
@@ -16,10 +17,10 @@ Taro 的语法规则基于 React 规范，它采用与 React 一致的组件化�
 
 接口使用 Easy Mock，Easy Mock 是一个可视化，并且能快速生成 模拟数据 的持久化服务。
 
-
 # 部分截图展示
 
 ## 首页 && 商品列表
+
 <img src="https://github.com/SummerSnake/taro-shop/blob/master/screenshots/1.jpg" width="375" height="667" /> <img src="https://github.com/SummerSnake/taro-shop/blob/master/screenshots/2.jpg" width="375" height="667" />
 
 ## 商品详情 && 购物车

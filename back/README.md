@@ -1,6 +1,7 @@
 # 前言
 
-商城小程序 node.js 后端
+taro 商城小程序 node.js 后端
+node.js + mysql 入门项目
 
 # 技术栈
 
