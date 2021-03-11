@@ -9,6 +9,7 @@ class Order extends Component {
   constructor() {
     super(...arguments);
     this.state = {
+      orderType: 0,
       searchVal: "",
       orderList: []
     };
@@ -21,66 +22,65 @@ class Order extends Component {
   };
 
   componentDidMount = () => {
-    const type = this.$router.preload.type;
-    this.fetchApi(type);
+    const { orderType = 0 } = this.$router.preload && this.$router.preload;
+    this.fetchApi(orderType);
+    this.setState({ orderType });
   };
 
   /**
-   * 搜索框值改变
-   * @param e
+   * @desc 搜索事件
+   * @param { object }  e
    */
-  handleSearchValChange = async e => {
+  handleSearch = e => {
     this.setState({ isLoading: true });
-    this.setState({ searchVal: e.detail.value });
-    const data = await getRequest("/orderList");
-    const orderList = [...data.data.dataList];
-    let list = orderList.filter(cur => {
-      return e.detail.value === cur.title;
-    });
-    this.setState({
-      orderList: list
-    });
-    if (e.detail.value === "") {
-      this.fetchApi("01");
-    }
-    this.setState({ isLoading: false });
-  };
 
-  /**
-   * 清空搜索框内容
-   */
-  removeSearchVal = () => {
-    this.setState({
-      searchVal: ""
-    });
-    this.fetchApi("01");
-  };
+    const { value } = e && e.detail && e.detail;
 
-  /**
-   * 获取数据
-   * @param type
-   */
-  fetchApi = async type => {
-    this.setState({ isLoading: true });
-    let list = [];
-    const data = await getRequest("/orderList");
-    if (type === "01") {
-      list = data.data.dataList;
+    if (value) {
+      let { orderList = [] } = this.state;
+      orderList = orderList.filter(item => value === item.goodName);
+      this.setState({ orderList });
     } else {
-      list = data.data.dataList.filter(cur => {
-        return type === cur.type;
-      });
+      const { orderType = 0 } = this.state;
+      this.fetchApi(orderType);
     }
-    if (data.code === 0) {
-      this.setState({
-        orderList: list
-      });
+
+    this.setState({
+      searchVal: value,
+      isLoading: false
+    });
+  };
+
+  /**
+   * @desc 清空搜索框内容
+   */
+  handleClearSearchVal = () => {
+    this.setState({ searchVal: "" });
+
+    const { orderType = 0 } = this.state;
+    this.fetchApi(orderType);
+  };
+
+  /**
+   * @desc 获取数据
+   * @param { number } orderType
+   */
+  fetchApi = async orderType => {
+    this.setState({ isLoading: true });
+
+    const res = await getRequest("/order", { orderType });
+    if (res && res.status === 200) {
+      const { data = [] } = res;
+
+      this.setState({ orderList: data });
     }
+
     this.setState({ isLoading: false });
   };
 
   render() {
-    const { orderList, searchVal, isLoading } = this.state;
+    const { orderList = [], searchVal = "", isLoading = false } = this.state;
+
     return (
       <View className="orderContainer">
         <View className="searchWrap">
@@ -89,9 +89,9 @@ class Order extends Component {
             type="text"
             placeholder="请输入商品名称"
             value={searchVal}
-            onInput={this.handleSearchValChange.bind(this)}
+            onInput={this.handleSearch.bind(this)}
           />
-          <View className="removeIcon" onClick={this.removeSearchVal}>
+          <View className="removeIcon" onClick={this.handleClearSearchVal}>
             <AtIcon value="close-circle" size="20" color="#ccc" />
           </View>
         </View>
@@ -104,14 +104,14 @@ class Order extends Component {
                 <View className="cardWrap" key={order.id}>
                   <View className="cardDom">
                     <View className="cardImgWrap">
-                      <Image className="cardImg" src={order.img} />
+                      <Image className="cardImg" src={order.imgUrl} />
                     </View>
                     <View className="cardCon">
-                      <View className="cardTitle">{order.title}</View>
+                      <View className="cardTitle">{order.goodName}</View>
                       <View className="cardType">
-                        {order.type === "02" ? "待收货" : "待支付"}
+                        {order.orderType === 1 ? "待收货" : "已收货"}
                       </View>
-                      <View className="cardTxt">{order.txt}</View>
+                      <View className="cardTxt">{order.goodDesc}</View>
                     </View>
                   </View>
                 </View>
