@@ -13,7 +13,7 @@ function getGoodInfoApi(req, res, next) {
       query: { id = 0 },
     } = req;
 
-    const goodInfoSql = `SELECT * FROM good where id=${id}`;
+    const goodInfoSql = `SELECT * FROM good WHERE id=${id}`;
     querySql(goodInfoSql).then((_res) => {
       if (_res) {
         const list = JSON.parse(JSON.stringify(_res));
