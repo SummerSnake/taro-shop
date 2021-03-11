@@ -17,7 +17,6 @@ function getOrderListApi(req, res, next) {
       orderType > 0 ? `SELECT * FROM orders WHERE orderType=${orderType}` : `SELECT * FROM orders`;
 
     querySql(orderSql).then((_res) => {
-      console.log(_res);
       if (_res) {
         res.json({
           status: STATUS_SUCCESS,
