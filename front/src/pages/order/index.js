@@ -1,25 +1,20 @@
-import Taro, { Component } from "@tarojs/taro";
-import { View, Input, ScrollView, Image } from "@tarojs/components";
-import { AtIcon } from "taro-ui";
-import Loading from "../../components/Loading/index";
-import { getRequest } from "../../utils/api";
-import "./index.less";
+import Taro from '@tarojs/taro';
+import React, { Component } from 'react';
+import { View, Input, ScrollView, Image } from '@tarojs/components';
+import { AtIcon } from 'taro-ui';
+import Loading from '../../components/Loading/index';
+import { getRequest } from '../../utils/api';
+import './index.less';
 
 class Order extends Component {
   constructor() {
     super(...arguments);
     this.state = {
       orderType: 0,
-      searchVal: "",
-      orderList: []
+      searchVal: '',
+      orderList: [],
     };
   }
-
-  config = {
-    navigationBarTitleText: "我的订单",
-    navigationBarBackgroundColor: "#000",
-    navigationBarTextStyle: "white"
-  };
 
   componentDidMount = () => {
     const { orderType = 0 } = this.$router.preload && this.$router.preload;
@@ -31,14 +26,14 @@ class Order extends Component {
    * @desc 搜索事件
    * @param { object }  e
    */
-  handleSearch = e => {
+  handleSearch = (e) => {
     this.setState({ isLoading: true });
 
     const { value } = e && e.detail && e.detail;
 
     if (value) {
       let { orderList = [] } = this.state;
-      orderList = orderList.filter(item => value === item.goodName);
+      orderList = orderList.filter((item) => value === item.goodName);
       this.setState({ orderList });
     } else {
       const { orderType = 0 } = this.state;
@@ -47,7 +42,7 @@ class Order extends Component {
 
     this.setState({
       searchVal: value,
-      isLoading: false
+      isLoading: false,
     });
   };
 
@@ -55,7 +50,7 @@ class Order extends Component {
    * @desc 清空搜索框内容
    */
   handleClearSearchVal = () => {
-    this.setState({ searchVal: "" });
+    this.setState({ searchVal: '' });
 
     const { orderType = 0 } = this.state;
     this.fetchApi(orderType);
@@ -65,10 +60,10 @@ class Order extends Component {
    * @desc 获取数据
    * @param { number } orderType
    */
-  fetchApi = async orderType => {
+  fetchApi = async (orderType) => {
     this.setState({ isLoading: true });
 
-    const res = await getRequest("/order", { orderType });
+    const res = await getRequest('/order', { orderType });
     if (res && res.status === 200) {
       const { data = [] } = res;
 
@@ -79,7 +74,7 @@ class Order extends Component {
   };
 
   render() {
-    const { orderList = [], searchVal = "", isLoading = false } = this.state;
+    const { orderList = [], searchVal = '', isLoading = false } = this.state;
 
     return (
       <View className="orderContainer">
@@ -99,7 +94,7 @@ class Order extends Component {
         <ScrollView className="scrollView" scrollY scrollWithAnimation>
           {Array.isArray(orderList) &&
             orderList.length > 0 &&
-            orderList.map(order => {
+            orderList.map((order) => {
               return (
                 <View className="cardWrap" key={order.id}>
                   <View className="cardDom">
@@ -109,7 +104,7 @@ class Order extends Component {
                     <View className="cardCon">
                       <View className="cardTitle">{order.goodName}</View>
                       <View className="cardType">
-                        {order.orderType === 1 ? "待收货" : "已收货"}
+                        {order.orderType === 1 ? '待收货' : '已收货'}
                       </View>
                       <View className="cardTxt">{order.goodDesc}</View>
                     </View>

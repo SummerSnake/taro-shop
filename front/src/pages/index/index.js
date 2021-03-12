@@ -1,13 +1,14 @@
-import Taro, { Component } from "@tarojs/taro";
-import { View, Image, Swiper, SwiperItem } from "@tarojs/components";
-import { AtIcon } from "taro-ui";
-import Single from "./components/Single/index";
-import Special from "./components/Special/index";
-import More from "./components/More/index";
-import Loading from "../../components/Loading/index";
-import GlobalFooter from "../../components/GlobalFooter/index";
-import { getRequest } from "../../utils/api";
-import "./index.less";
+import Taro from '@tarojs/taro';
+import React, { Component } from 'react';
+import { View, Image, Swiper, SwiperItem } from '@tarojs/components';
+import { AtIcon } from 'taro-ui';
+import Single from './components/Single/index';
+import Special from './components/Special/index';
+import More from './components/More/index';
+import Loading from '../../components/Loading/index';
+import GlobalFooter from '../../components/GlobalFooter/index';
+import { getRequest } from '../../utils/api';
+import './index.less';
 
 class Index extends Component {
   constructor() {
@@ -18,14 +19,14 @@ class Index extends Component {
         iconList: [],
         singleList: [],
         moreList: [],
-        isLoading: false
-      }
+        isLoading: false,
+      },
     };
   }
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-    const data = await getRequest("/home");
+    const data = await getRequest('/home');
 
     if (data.status === 200) {
       this.setState({ fetchData: data.data });
@@ -35,39 +36,33 @@ class Index extends Component {
   };
 
   config = {
-    navigationBarTitleText: "首页",
-    navigationBarBackgroundColor: "#000",
-    navigationBarTextStyle: "white"
+    navigationBarTitleText: '首页',
+    navigationBarBackgroundColor: '#000',
+    navigationBarTextStyle: 'white',
   };
 
   /**
    * @desc 跳转商品列表
    * @param iconId
    */
-  goGoodList = iconId => {
+  goGoodList = (iconId) => {
     this.$preload({ iconId });
     Taro.navigateTo({
-      url: `/pages/goodList/index`
+      url: `/pages/goodList/index`,
     });
   };
 
   render() {
     const {
-      fetchData: { imgList, iconList, singleList, moreList, logoImgUrl }
+      fetchData: { imgList, iconList, singleList, moreList, logoImgUrl },
     } = this.state;
 
     return (
       <View className="homeWrap">
-        <Swiper
-          indicatorColor="#999"
-          indicatorActiveColor="#fff"
-          circular
-          indicatorDots
-          autoplay
-        >
+        <Swiper indicatorColor="#999" indicatorActiveColor="#fff" circular indicatorDots autoplay>
           {Array.isArray(imgList) &&
             imgList.length > 0 &&
-            imgList.map(img => {
+            imgList.map((img) => {
               return (
                 <SwiperItem key={img.id}>
                   <Image className="slideImg" src={img.imgUrl} />
@@ -79,7 +74,7 @@ class Index extends Component {
         <View className="iconList">
           {Array.isArray(iconList) &&
             iconList.length > 0 &&
-            iconList.map(icon => {
+            iconList.map((icon) => {
               return (
                 <View
                   className="iconItem"

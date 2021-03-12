@@ -1,13 +1,14 @@
 {
-  "extends": ["taro"],
+  "extends": ["taro", "prettier"],
+  "plugins": ["prettier"], // 此项是用来配置插件的
   "rules": {
     "no-unused-vars": ["error", { "varsIgnorePattern": "Taro" }],
-    "react/jsx-filename-extension": [
-      1,
-      { "extensions": [".js", ".jsx", ".tsx"] }
-    ],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
+    "semi": ["error","always"],
+    "import/no-commonjs": 0,
+    "no-shadow": 0,
     "jsx-quotes": 0,
-    "semi": ["error", "always"]
+    "prettier/prettier": "error" // 表示被prettier标记的地方抛出错误信息
   },
   "parser": "babel-eslint"
 }

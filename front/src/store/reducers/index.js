@@ -4,7 +4,7 @@ import userReducer from './reducersType/userReducer';
 
 const allReducers = {
   cartReducer,
-  userReducer
+  userReducer,
 };
 
 const rootReducer = combineReducers(allReducers);

@@ -1,55 +1,50 @@
-import Taro, { Component } from "@tarojs/taro";
-import { View, Image, Text, ScrollView } from "@tarojs/components";
-import { AtIcon } from "taro-ui";
-import { connect } from "@tarojs/redux";
-import { addToCart } from "../../store/actions/cartActions";
-import CartGoodList from "../../components/CartGoodList/index";
-import Loading from "../../components/Loading/index";
-import { getRequest } from "../../utils/api";
-import "./index.less";
+import Taro from '@tarojs/taro';
+import React, { Component } from 'react';
+import { View, Image, Text, ScrollView } from '@tarojs/components';
+import { AtIcon } from 'taro-ui';
+import { connect } from 'react-redux';
+import { addToCart } from '../../store/actions/cartActions';
+import CartGoodList from '../../components/CartGoodList/index';
+import Loading from '../../components/Loading/index';
+import { getRequest } from '../../utils/api';
+import './index.less';
 
 @connect(({ cartReducer }) => ({
-  cartReducer
+  cartReducer,
 }))
 class GoodList extends Component {
   constructor() {
     super(...arguments);
     this.state = {
-      anchorIndex: "anchor0",
-      anchorIndex2: "anchor0",
+      anchorIndex: 'anchor0',
+      anchorIndex2: 'anchor0',
       isOpen: false, // 订单详情开关
       totalMoney: 0, // 合计总价
       badgeNum: 0, // 购物车 Icon 数字
-      goodList: []
+      goodList: [],
     };
   }
-
-  config = {
-    navigationBarTitleText: "商品列表",
-    navigationBarBackgroundColor: "#000",
-    navigationBarTextStyle: "white"
-  };
 
   componentDidShow = () => {
     const { cartReducer } = this.props;
     this.setState({
       totalMoney: cartReducer.totalMoney,
-      badgeNum: cartReducer.badgeNum
+      badgeNum: cartReducer.badgeNum,
     });
   };
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-    const data = await getRequest("/goodsList");
+    const data = await getRequest('/goodsList');
     if (data.status === 200) {
       this.setState({ goodList: data.data.tabData });
     }
-    if (typeof this.$router.preload !== "undefined") {
+    if (typeof this.$router.preload !== 'undefined') {
       data.data.tabData.map((item, index) => {
         if (item.id === this.$router.preload.iconId) {
           this.setState({
             anchorIndex: `anchor${index}`,
-            anchorIndex2: `anchor${index}`
+            anchorIndex2: `anchor${index}`,
           });
         }
       });
@@ -61,10 +56,10 @@ class GoodList extends Component {
    * 侧边栏按钮点击
    * @param index
    */
-  handleClick = index => {
+  handleClick = (index) => {
     this.setState({
       anchorIndex: `anchor${index}`,
-      anchorIndex2: `anchor${index}`
+      anchorIndex2: `anchor${index}`,
     });
   };
 
@@ -72,11 +67,8 @@ class GoodList extends Component {
    * 监听滚动条滚动
    * @param e
    */
-  onScrollView = e => {
-    if (
-      e.currentTarget.id === "panelRight" &&
-      Array.isArray(this.state.goodList)
-    ) {
+  onScrollView = (e) => {
+    if (e.currentTarget.id === 'panelRight' && Array.isArray(this.state.goodList)) {
       let tabDataArr = JSON.parse(JSON.stringify(this.state.goodList));
       let curTopArr = [];
 
@@ -84,14 +76,11 @@ class GoodList extends Component {
         // 获取右边栏每个title的当前所在高度
         Taro.createSelectorQuery()
           .select(`#anchor${index}`)
-          .boundingClientRect(rect => {
+          .boundingClientRect((rect) => {
             curTopArr.push({ [`anchor${index}`]: rect.top });
             // 根据右边栏每个title的当前所在高度距离页面顶部的距离设置左边栏按钮样式
-            curTopArr.map(offsetTop => {
-              if (
-                offsetTop[`anchor${index}`] >= 0 &&
-                offsetTop[`anchor${index}`] < 200
-              ) {
+            curTopArr.map((offsetTop) => {
+              if (offsetTop[`anchor${index}`] >= 0 && offsetTop[`anchor${index}`] < 200) {
                 this.setState({ anchorIndex2: `anchor${index}` });
               }
             });
@@ -115,7 +104,7 @@ class GoodList extends Component {
 
     this.setState({
       totalMoney: cartReducer.totalMoney,
-      badgeNum: cartReducer.badgeNum
+      badgeNum: cartReducer.badgeNum,
     });
   };
 
@@ -124,7 +113,7 @@ class GoodList extends Component {
    */
   buyingInfo = () => {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
   };
 
@@ -133,7 +122,7 @@ class GoodList extends Component {
    */
   goCart = () => {
     Taro.navigateTo({
-      url: `/pages/cart/index`
+      url: `/pages/cart/index`,
     });
   };
 
@@ -146,7 +135,7 @@ class GoodList extends Component {
   goGoodInfo = (id, name, price) => {
     this.$preload({ id, name, price });
     Taro.navigateTo({
-      url: `/pages/goodInfo/index`
+      url: `/pages/goodInfo/index`,
     });
   };
 
@@ -154,53 +143,40 @@ class GoodList extends Component {
    * CartGoodList 子组件回调
    * @param type
    */
-  callback = type => {
-    if (type === "1") {
+  callback = (type) => {
+    if (type === '1') {
       this.setState({
-        isOpen: false
+        isOpen: false,
       });
-    } else if (type === "2") {
+    } else if (type === '2') {
       let badgeNum = this.state.badgeNum;
       badgeNum += 1;
       this.setState({
         badgeNum: badgeNum,
-        totalMoney: this.props.cartReducer.totalMoney
+        totalMoney: this.props.cartReducer.totalMoney,
       });
-    } else if (type === "3") {
+    } else if (type === '3') {
       let badgeNum = this.state.badgeNum;
       badgeNum -= 1;
       this.setState({
         badgeNum: badgeNum,
-        totalMoney: this.props.cartReducer.totalMoney
+        totalMoney: this.props.cartReducer.totalMoney,
       });
     }
   };
 
   render() {
-    const {
-      anchorIndex,
-      anchorIndex2,
-      isOpen,
-      totalMoney,
-      badgeNum,
-      goodList
-    } = this.state;
+    const { anchorIndex, anchorIndex2, isOpen, totalMoney, badgeNum, goodList } = this.state;
 
     return (
       <View className="cartWrap">
-        <ScrollView
-          scroll-y="true"
-          bindscrolltolower="onReachBottom"
-          className="panelLeft"
-        >
+        <ScrollView scroll-y="true" bindscrolltolower="onReachBottom" className="panelLeft">
           {goodList.map((item, index) => {
             return (
               <View
                 key={item.id}
                 onClick={this.handleClick.bind(this, index)}
-                className={
-                  anchorIndex2 === `anchor${index}` ? "titleActive" : "titleDom"
-                }
+                className={anchorIndex2 === `anchor${index}` ? 'titleActive' : 'titleDom'}
               >
                 {item.title}
               </View>
@@ -222,24 +198,15 @@ class GoodList extends Component {
                 <View className="tabHead" id={`anchor${index}`}>
                   {list.title}
                 </View>
-                {list.proList.map(item => {
+                {list.proList.map((item) => {
                   return (
                     <View
                       className="tabCon"
                       key={item.id}
-                      onClick={this.goGoodInfo.bind(
-                        this,
-                        item.id,
-                        item.name,
-                        item.price
-                      )}
+                      onClick={this.goGoodInfo.bind(this, item.id, item.name, item.price)}
                     >
                       <View className="itemImgWrap">
-                        <Image
-                          className="itemImg"
-                          src={item.imageUrl}
-                          mode="widthFix"
-                        />
+                        <Image className="itemImg" src={item.imageUrl} mode="widthFix" />
                       </View>
                       <View className="itemTxtWrap">
                         <Text className="itemTxt">{item.name}</Text>
@@ -248,18 +215,9 @@ class GoodList extends Component {
                           ￥{item.price}
                           <View
                             className="iconWrap"
-                            onClick={this.addGood.bind(
-                              this,
-                              item.id,
-                              item.name,
-                              item.price
-                            )}
+                            onClick={this.addGood.bind(this, item.id, item.name, item.price)}
                           >
-                            <AtIcon
-                              value="add-circle"
-                              size="20"
-                              color="#2083e4"
-                            />
+                            <AtIcon value="add-circle" size="20" color="#2083e4" />
                           </View>
                         </View>
                       </View>
@@ -273,10 +231,7 @@ class GoodList extends Component {
 
         <View className="buyingWrap">
           <View className="buyingIcon" onClick={this.buyingInfo.bind(this)}>
-            <View
-              className="badgeDom"
-              style={{ display: badgeNum > 0 ? "block" : "none" }}
-            >
+            <View className="badgeDom" style={{ display: badgeNum > 0 ? 'block' : 'none' }}>
               {badgeNum}
             </View>
             <AtIcon value="shopping-cart" size="30" color="#fff" />

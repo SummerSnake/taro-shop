@@ -1,14 +1,15 @@
-import Taro, { Component } from '@tarojs/taro';
+import Taro from '@tarojs/taro';
+import React, { Component } from 'react';
 import { View, Picker, Text } from '@tarojs/components';
 import { AtInput, AtIcon, AtToast } from 'taro-ui';
-import { connect } from '@tarojs/redux';
+import { connect } from 'react-redux';
 import { addToCart, deleteFromCart } from '../../store/actions/cartActions';
 import { getRequest } from '../../utils/api';
 import './index.less';
 
 @connect(({ cartReducer, userReducer }) => ({
   cartReducer,
-  userReducer
+  userReducer,
 }))
 class Cart extends Component {
   constructor() {
@@ -28,14 +29,8 @@ class Cart extends Component {
     };
   }
 
-  config = {
-    navigationBarTitleText: '购物车',
-    navigationBarBackgroundColor: '#000',
-    navigationBarTextStyle: "white",
-  };
-
   /**
-   * 添加商品
+   * @desc 添加商品
    * @param id
    * @param name
    * @param price
@@ -63,28 +58,28 @@ class Cart extends Component {
   };
 
   /**
-   * 选择优惠券
+   * @desc 选择优惠券
    * @param e
    */
-  onSelectChange = e => {
+  onSelectChange = (e) => {
     const totalMoney = this.props.cartReducer.totalMoney;
     const selected = this.state.selector[e.detail.value];
     let discountMoney = selected.value;
     let actualMoney = 0;
 
-    if (discountMoney <=  totalMoney) {
+    if (discountMoney <= totalMoney) {
       actualMoney = (totalMoney - discountMoney).toFixed(2);
     } else {
       discountMoney = this.state.discountMoney;
       actualMoney = (totalMoney - this.state.discountMoney).toFixed(2);
       this.setState({ isOpen: true });
-      setTimeout(()=>{
+      setTimeout(() => {
         this.setState({ isOpen: false });
       }, 2000);
     }
 
     this.setState({
-      selectorChecked: selected.value <=  totalMoney ? selected.name : this.state.selectorChecked,
+      selectorChecked: selected.value <= totalMoney ? selected.name : this.state.selectorChecked,
       discountMoney,
       actualMoney,
     });
@@ -96,22 +91,22 @@ class Cart extends Component {
    */
   inputValChange = (inputVal) => {
     this.setState({
-      inputVal
+      inputVal,
     });
   };
 
   /**
    * 支付
    */
-  confirmPay = async() => {
+  confirmPay = async () => {
     const data = await getRequest('/mock/payApi');
     if (data.code === 0) {
       Taro.requestPayment({
-        'timeStamp': 1,
-        'nonceStr': 1,
-        'package': 1,
-        'signType': 1,
-        'paySign': 1,
+        timeStamp: 1,
+        nonceStr: 1,
+        package: 1,
+        signType: 1,
+        paySign: 1,
       });
     }
   };
@@ -122,61 +117,62 @@ class Cart extends Component {
     const { consignee, address, phone } = this.props.userReducer;
 
     return (
-      <View className='orderWrap'>
-        <View className='userInfo'>
-          <Text className='userInfoTxt'>收货人：{consignee}</Text>
-          <Text className='userInfoTxt'>联系方式：{phone}</Text>
-          <View className='userInfoAddr'>收货地址：{address}</View>
+      <View className="orderWrap">
+        <View className="userInfo">
+          <Text className="userInfoTxt">收货人：{consignee}</Text>
+          <Text className="userInfoTxt">联系方式：{phone}</Text>
+          <View className="userInfoAddr">收货地址：{address}</View>
         </View>
 
-        <View className='goodsWrap'>
-          <View className='goodsTitle'>已购商品</View>
-          {
-            cart.map((item) => {
-              return (
-                <View className='goodsList' key={item.id}>
-                  <Text className='goodName'>{item.name}</Text>
-                  <View className='goodOperate'>
-                    <View className='goodIcon' onClick={this.subtractNum.bind(this, item.id)}>
-                      <AtIcon value='subtract-circle' size='18' color='#2083e4' />
-                    </View>
-                    <Text className='goodNum'>x{item.num}</Text>
-                    <View className='goodIcon' onClick={this.addGood.bind(this, item.id, null, null)}>
-                      <AtIcon value='add-circle' size='18' color='#2083e4' />
-                    </View>
+        <View className="goodsWrap">
+          <View className="goodsTitle">已购商品</View>
+          {cart.map((item) => {
+            return (
+              <View className="goodsList" key={item.id}>
+                <Text className="goodName">{item.name}</Text>
+                <View className="goodOperate">
+                  <View className="goodIcon" onClick={this.subtractNum.bind(this, item.id)}>
+                    <AtIcon value="subtract-circle" size="18" color="#2083e4" />
                   </View>
-                  <Text className='goodPrice'>￥{item.price * item.num}</Text>
+                  <Text className="goodNum">x{item.num}</Text>
+                  <View className="goodIcon" onClick={this.addGood.bind(this, item.id, null, null)}>
+                    <AtIcon value="add-circle" size="18" color="#2083e4" />
+                  </View>
                 </View>
-              );
-            })
-          }
-          <Picker mode='selector' range={selector} rangeKey='name' onChange={this.onSelectChange}>
-            <View className='couponPicker'>
-              红包<Text className='couponTxt'>{this.state.selectorChecked}</Text>
+                <Text className="goodPrice">￥{item.price * item.num}</Text>
+              </View>
+            );
+          })}
+          <Picker mode="selector" range={selector} rangeKey="name" onChange={this.onSelectChange}>
+            <View className="couponPicker">
+              红包<Text className="couponTxt">{this.state.selectorChecked}</Text>
             </View>
           </Picker>
-          <View className='totalMoney'>合计：
-            <Text className='totalMoneyNum'>￥{actualMoney}</Text>
+          <View className="totalMoney">
+            合计：
+            <Text className="totalMoneyNum">￥{actualMoney}</Text>
           </View>
           <View>
             <AtInput
-              name='value'
-              title='备注：'
-              type='text'
-              placeholder='请输入备注'
+              name="value"
+              title="备注："
+              type="text"
+              placeholder="请输入备注"
               value={this.state.inputVal}
               onChange={this.inputValChange.bind(this)}
             />
           </View>
         </View>
 
-        <View className='orderBottom'>
-          <View className='bottomTotal'>待支付：￥{actualMoney}</View>
-          <View className='bottomCoupon'>已优惠：￥{discountMoney}</View>
-          <View className='confirmPay' onClick={this.confirmPay}>确认支付</View>
+        <View className="orderBottom">
+          <View className="bottomTotal">待支付：￥{actualMoney}</View>
+          <View className="bottomCoupon">已优惠：￥{discountMoney}</View>
+          <View className="confirmPay" onClick={this.confirmPay}>
+            确认支付
+          </View>
         </View>
 
-        <AtToast isOpened={isOpen} text='优惠券金额不可以大于总金额' icon='sketch' />
+        <AtToast isOpened={isOpen} text="优惠券金额不可以大于总金额" icon="sketch" />
       </View>
     );
   }

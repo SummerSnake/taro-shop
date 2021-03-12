@@ -1,9 +1,9 @@
-import { ADD_TO_CART, DELETE_FROM_CART } from "../../actions/cartActions";
+import { ADD_TO_CART, DELETE_FROM_CART } from '../../actions/cartActions';
 
 const initState = {
   totalMoney: 0, // 订单总价
   badgeNum: 0, // 购物车右上角图标数字
-  cart: [] // 购物车商品列表
+  cart: [], // 购物车商品列表
 };
 
 /**
@@ -41,7 +41,7 @@ function addToCart(state, action) {
     ...state,
     totalMoney,
     badgeNum,
-    cart: cloneCart
+    cart: cloneCart,
   };
 }
 
@@ -63,7 +63,7 @@ function deleteFromCart(state, action) {
       }
     }
   });
-  cloneCartDel.map(item => {
+  cloneCartDel.map((item) => {
     badgeNum += item.num;
     totalMoney += item.price * item.num;
   });
@@ -71,7 +71,7 @@ function deleteFromCart(state, action) {
     ...state,
     totalMoney,
     badgeNum,
-    cart: cloneCartDel
+    cart: cloneCartDel,
   };
 }
 

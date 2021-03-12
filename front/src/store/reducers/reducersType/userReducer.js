@@ -1,4 +1,4 @@
-import { EDIT_USERINFO } from "../../actions/userActions";
+import { EDIT_USERINFO } from '../../actions/userActions';
 
 const initState = {
   consignee: 'Vidomina', // 收货人姓名

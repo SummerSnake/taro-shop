@@ -1,4 +1,5 @@
-import Taro, { Component } from '@tarojs/taro';
+import Taro from '@tarojs/taro';
+import React, { Component } from 'react';
 import { View, Image } from '@tarojs/components';
 import './index.less';
 
@@ -19,32 +20,32 @@ class Special extends Component {
       price,
     });
     Taro.navigateTo({
-      url: `/pages/goodInfo/index`
+      url: `/pages/goodInfo/index`,
     });
   };
 
   render() {
     const { moreList } = this.props;
     return (
-      <View className='specialWrap'>
-        <View className='specialH1'>专题推荐</View>
-        {
-          Array.isArray(moreList) && moreList.length > 0 && moreList.map((special) => {
+      <View className="specialWrap">
+        <View className="specialH1">专题推荐</View>
+        {Array.isArray(moreList) &&
+          moreList.length > 0 &&
+          moreList.map((special) => {
             return (
               <View
-                className='specialItemWrap'
+                className="specialItemWrap"
                 key={special.id}
                 onClick={this.goGoodInfo.bind(this, special.id, special.name, special.price)}
               >
-                <View className='specialImgWrap'>
-                  <Image className='specialImg' src={special.imgUrl} />
+                <View className="specialImgWrap">
+                  <Image className="specialImg" src={special.imgUrl} />
                 </View>
-                <View className='specialTitle'>{special.name}</View>
-                <View className='specialPrice'>￥{special.price}</View>
+                <View className="specialTitle">{special.name}</View>
+                <View className="specialPrice">￥{special.price}</View>
               </View>
             );
-          })
-        }
+          })}
       </View>
     );
   }

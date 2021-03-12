@@ -1,39 +1,34 @@
-import Taro, { Component } from "@tarojs/taro";
-import { View, Image, ScrollView } from "@tarojs/components";
-import { AtIcon } from "taro-ui";
-import { connect } from "@tarojs/redux";
-import GlobalFooter from "../../components/GlobalFooter/index";
-import "./index.less";
+import Taro from '@tarojs/taro';
+import React, { Component } from 'react';
+import { View, Image, ScrollView } from '@tarojs/components';
+import { AtIcon } from 'taro-ui';
+import { connect } from 'react-redux';
+import GlobalFooter from '../../components/GlobalFooter/index';
+import './index.less';
 
 @connect(({ userReducer }) => ({
-  userReducer
+  userReducer,
 }))
 class User extends Component {
-  config = {
-    navigationBarTitleText: "个人中心",
-    navigationBarBackgroundColor: "#000",
-    navigationBarTextStyle: "white"
-  };
-
   componentDidShow = () => {
     const { userReducer = {} } = this.props;
 
     this.setState({
       consignee: userReducer.consignee,
       address: userReducer.address,
-      phone: userReducer.phone
+      phone: userReducer.phone,
     });
   };
 
   componentDidMount = () => {
     let userInfo = {};
-    if (Taro.getStorageSync("userInfo")) {
-      userInfo = Taro.getStorageSync("userInfo");
+    if (Taro.getStorageSync('userInfo')) {
+      userInfo = Taro.getStorageSync('userInfo');
     }
 
     this.setState({
       avatar: userInfo.avatarUrl,
-      nickName: userInfo.nickName
+      nickName: userInfo.nickName,
     });
   };
 
@@ -41,11 +36,11 @@ class User extends Component {
    * @desc 跳转订单列表
    * @param { number } type
    */
-  handleGoOrder = type => {
+  handleGoOrder = (type) => {
     this.$preload({ orderType: type });
 
     Taro.navigateTo({
-      url: "/pages/order/index"
+      url: '/pages/order/index',
     });
   };
 
@@ -54,7 +49,7 @@ class User extends Component {
    */
   handleGoUserEdit = () => {
     Taro.navigateTo({
-      url: "/pages/userEdit/index"
+      url: '/pages/userEdit/index',
     });
   };
 
@@ -76,24 +71,15 @@ class User extends Component {
 
           <View className="iconListWrap">
             <View className="iconList">
-              <View
-                className="iconItem"
-                onClick={this.handleGoOrder.bind(this, 0)}
-              >
+              <View className="iconItem" onClick={this.handleGoOrder.bind(this, 0)}>
                 <AtIcon value="lightning-bolt" size="30" color="#999" />
                 <View className="iconItemTxt">全部订单</View>
               </View>
-              <View
-                className="iconItem"
-                onClick={this.handleGoOrder.bind(this, 1)}
-              >
+              <View className="iconItem" onClick={this.handleGoOrder.bind(this, 1)}>
                 <AtIcon value="heart" size="30" color="#999" />
                 <View className="iconItemTxt">待收货</View>
               </View>
-              <View
-                className="iconItem"
-                onClick={this.handleGoOrder.bind(this, 2)}
-              >
+              <View className="iconItem" onClick={this.handleGoOrder.bind(this, 2)}>
                 <AtIcon value="heart-2" size="30" color="#999" />
                 <View className="iconItemTxt">已收货</View>
               </View>
@@ -102,10 +88,7 @@ class User extends Component {
 
           <View className="gridListWrap">
             <View className="gridList">
-              <View
-                className="gridItem"
-                onClick={this.handleGoUserEdit.bind(this)}
-              >
+              <View className="gridItem" onClick={this.handleGoUserEdit.bind(this)}>
                 <View className="gridItemIcon">
                   <AtIcon value="lightning-bolt" size="30" color="#999" />
                 </View>
@@ -114,10 +97,7 @@ class User extends Component {
                   <View className="gridItemCon">{consignee}</View>
                 </View>
               </View>
-              <View
-                className="gridItem"
-                onClick={this.handleGoUserEdit.bind(this)}
-              >
+              <View className="gridItem" onClick={this.handleGoUserEdit.bind(this)}>
                 <View className="gridItemIcon">
                   <AtIcon value="lightning-bolt" size="30" color="#999" />
                 </View>
@@ -129,10 +109,7 @@ class User extends Component {
             </View>
 
             <View className="gridList">
-              <View
-                className="gridItem"
-                onClick={this.handleGoUserEdit.bind(this)}
-              >
+              <View className="gridItem" onClick={this.handleGoUserEdit.bind(this)}>
                 <View className="gridItemIcon">
                   <AtIcon value="lightning-bolt" size="30" color="#999" />
                 </View>

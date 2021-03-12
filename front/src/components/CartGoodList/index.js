@@ -1,12 +1,13 @@
-import Taro, { Component } from '@tarojs/taro';
+import Taro from '@tarojs/taro';
+import React, { Component } from 'react';
 import { View, Text } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
-import { connect } from '@tarojs/redux';
+import { connect } from 'react-redux';
 import { addToCart, deleteFromCart } from '../../store/actions/cartActions';
 import './index.less';
 
 @connect(({ cartReducer }) => ({
-  cartReducer
+  cartReducer,
 }))
 class CartGoodList extends Component {
   constructor() {
@@ -50,34 +51,34 @@ class CartGoodList extends Component {
     const { cart } = this.props.cartReducer;
     return (
       <View
-        className='shadePanel'
+        className="shadePanel"
         style={{ display: isOpen ? 'block' : 'none' }}
         onClick={this.shadeNone}
       >
-        <View className='buyingInfo' style={{ display: isOpen ? 'block' : 'none' }}>
-          {
-            Array.isArray(cart) && cart.length > 0 && cart.map((good) => {
+        <View className="buyingInfo" style={{ display: isOpen ? 'block' : 'none' }}>
+          {Array.isArray(cart) &&
+            cart.length > 0 &&
+            cart.map((good) => {
               return (
-                <View className='orderDom' key={good.id}>
-                  <Text className='buyingItemTxt'>{good.name}</Text>
-                  <Text className='buyingItemTxt'>￥{good.price * good.num}</Text>
-                  <View className='buyingItemOperate'>
-                    <View className='buyingItemIcon' onClick={this.subtractNum.bind(this, good.id)}>
-                      <AtIcon value='subtract-circle' size='18' color='#2083e4' />
+                <View className="orderDom" key={good.id}>
+                  <Text className="buyingItemTxt">{good.name}</Text>
+                  <Text className="buyingItemTxt">￥{good.price * good.num}</Text>
+                  <View className="buyingItemOperate">
+                    <View className="buyingItemIcon" onClick={this.subtractNum.bind(this, good.id)}>
+                      <AtIcon value="subtract-circle" size="18" color="#2083e4" />
                     </View>
-                    <Text className='buyingItemNum'>{good.num}</Text>
-                    <View className='buyingItemIcon' onClick={this.addGood.bind(this, good.id)}>
-                      <AtIcon value='add-circle' size='18' color='#2083e4' />
+                    <Text className="buyingItemNum">{good.num}</Text>
+                    <View className="buyingItemIcon" onClick={this.addGood.bind(this, good.id)}>
+                      <AtIcon value="add-circle" size="18" color="#2083e4" />
                     </View>
                   </View>
                 </View>
               );
-            })
-          }
+            })}
         </View>
         <View
-          className='nullCartTxt'
-          style={{ display: (isOpen && cart.length < 1) ? 'block' : 'none' }}
+          className="nullCartTxt"
+          style={{ display: isOpen && cart.length < 1 ? 'block' : 'none' }}
         >
           购物车是空的
         </View>

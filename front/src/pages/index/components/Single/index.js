@@ -1,6 +1,7 @@
-import Taro, { Component } from "@tarojs/taro";
-import { View, Image } from "@tarojs/components";
-import "./index.less";
+import Taro from '@tarojs/taro';
+import React, { Component } from 'react';
+import { View, Image } from '@tarojs/components';
+import './index.less';
 
 class Single extends Component {
   constructor() {
@@ -17,10 +18,10 @@ class Single extends Component {
     this.$preload({
       id,
       name,
-      price
+      price,
     });
     Taro.navigateTo({
-      url: `/pages/goodInfo/index`
+      url: `/pages/goodInfo/index`,
     });
   };
 
@@ -30,17 +31,12 @@ class Single extends Component {
       <View className="singleWrap">
         {Array.isArray(singleList) &&
           singleList.length > 0 &&
-          singleList.map(single => {
+          singleList.map((single) => {
             return (
               <View
                 className="singleItemWrap"
                 key={single.id}
-                onClick={this.goGoodInfo.bind(
-                  this,
-                  single.id,
-                  single.name,
-                  single.price
-                )}
+                onClick={this.goGoodInfo.bind(this, single.id, single.name, single.price)}
               >
                 <View className="singleTitle">{single.name}</View>
                 <View className="singleCon">{single.desc}</View>
