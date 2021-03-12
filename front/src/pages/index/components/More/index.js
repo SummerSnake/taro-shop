@@ -9,19 +9,14 @@ class More extends Component {
   }
 
   /**
-   * 跳转商品详情
-   * @param id
-   * @param name
-   * @param price
+   * @desc 跳转商品详情
+   * @param { number } id
+   * @param { string } name
+   * @param { number } price
    */
   goGoodInfo = (id, name, price) => {
-    this.$preload({
-      id,
-      name,
-      price,
-    });
     Taro.navigateTo({
-      url: `/pages/goodInfo/index`,
+      url: `/pages/goodInfo/index?id=${id}&name=${name}&price=${price}`,
     });
   };
 

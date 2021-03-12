@@ -10,6 +10,17 @@ import './index.less';
   userReducer,
 }))
 class User extends Component {
+  constructor() {
+    super(...arguments);
+    this.state = {
+      avatar: '',
+      nickName: '',
+      consignee: '',
+      address: '',
+      phone: '',
+    };
+  }
+
   componentDidShow = () => {
     const { userReducer = {} } = this.props;
 
@@ -37,10 +48,8 @@ class User extends Component {
    * @param { number } type
    */
   handleGoOrder = (type) => {
-    this.$preload({ orderType: type });
-
     Taro.navigateTo({
-      url: '/pages/order/index',
+      url: `/pages/order/index?orderType=${type}`,
     });
   };
 
@@ -54,7 +63,7 @@ class User extends Component {
   };
 
   render() {
-    const { avatar, nickName, consignee, address, phone } = this.state;
+    const { avatar = '', nickName = '', consignee = '', address = '', phone = '' } = this.state;
 
     return (
       <View className="homeWrap">

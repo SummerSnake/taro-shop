@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro';
+import Taro, { getCurrentInstance } from '@tarojs/taro';
 import React, { Component } from 'react';
 import { View, Input, ScrollView, Image } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
@@ -17,7 +17,11 @@ class Order extends Component {
   }
 
   componentDidMount = () => {
-    const { orderType = 0 } = this.$router.preload && this.$router.preload;
+    const {
+      router: { params = {} },
+    } = getCurrentInstance() && getCurrentInstance();
+    const { orderType = 0 } = params;
+
     this.fetchApi(orderType);
     this.setState({ orderType });
   };

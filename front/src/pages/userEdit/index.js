@@ -21,7 +21,8 @@ class UserEdit extends Component {
   }
 
   componentDidMount = () => {
-    const { userReducer } = this.props;
+    const { userReducer = {} } = this.props;
+
     this.setState({
       consignee: userReducer.consignee,
       address: userReducer.address,
@@ -39,7 +40,7 @@ class UserEdit extends Component {
 
   /**
    * @desc 收货地址搜索框
-   * @param e
+   * @param { object } e
    */
   onAddressChange = async (e) => {
     this.setState({ address: e.detail.value });
@@ -47,23 +48,22 @@ class UserEdit extends Component {
 
   /**
    * @desc 联系电话搜索框
-   * @param e
+   * @param { object } e
    */
   onPhoneChange = async (e) => {
     this.setState({ phone: e.detail.value });
   };
 
   /**
-   * 提交
+   * @desc 提交
    */
   submitEdit = async () => {
     this.setState({ isOpen: true });
     this.props.dispatch(editUserInfo(this.state.consignee, this.state.address, this.state.phone));
+
     setTimeout(() => {
       this.setState({ isOpen: false });
-      Taro.navigateTo({
-        url: '/pages/user/index',
-      });
+      Taro.navigateBack();
     }, 2000);
   };
 

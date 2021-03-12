@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro';
+import Taro, { getCurrentInstance } from '@tarojs/taro';
 import React, { Component } from 'react';
 import { View, Image, Text, ScrollView } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
@@ -26,7 +26,8 @@ class GoodList extends Component {
   }
 
   componentDidShow = () => {
-    const { cartReducer } = this.props;
+    const { cartReducer = {} } = this.props;
+
     this.setState({
       totalMoney: cartReducer.totalMoney,
       badgeNum: cartReducer.badgeNum,
@@ -35,13 +36,21 @@ class GoodList extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-    const data = await getRequest('/goodsList');
-    if (data.status === 200) {
-      this.setState({ goodList: data.data.tabData });
-    }
-    if (typeof this.$router.preload !== 'undefined') {
-      data.data.tabData.map((item, index) => {
-        if (item.id === this.$router.preload.iconId) {
+
+    const res = await getRequest('/goodsList');
+    if (res.status === 200) {
+      const {
+        data: { tabData = [] },
+      } = res;
+
+      this.setState({ goodList: tabData });
+
+      const {
+        router: { params = {} },
+      } = getCurrentInstance() && getCurrentInstance();
+
+      tabData.map((item, index) => {
+        if (item.id === params.iconId) {
           this.setState({
             anchorIndex: `anchor${index}`,
             anchorIndex2: `anchor${index}`,
@@ -49,12 +58,13 @@ class GoodList extends Component {
         }
       });
     }
+
     this.setState({ isLoading: false });
   };
 
   /**
-   * 侧边栏按钮点击
-   * @param index
+   * @desc 侧边栏按钮点击
+   * @param { number } index
    */
   handleClick = (index) => {
     this.setState({
@@ -64,8 +74,8 @@ class GoodList extends Component {
   };
 
   /**
-   * 监听滚动条滚动
-   * @param e
+   * @desc 监听滚动条滚动
+   * @param { object } e
    */
   onScrollView = (e) => {
     if (e.currentTarget.id === 'panelRight' && Array.isArray(this.state.goodList)) {
@@ -91,16 +101,16 @@ class GoodList extends Component {
   };
 
   /**
-   * 添加商品
-   * @param id
-   * @param name
-   * @param price
-   * @param e
+   * @desc 添加商品
+   * @param { number } id
+   * @param { string } name
+   * @param { number } price
+   * @param { object } e
    */
   addGood = (id, name, price, e) => {
     e.stopPropagation();
     this.props.dispatch(addToCart(id, name, price));
-    const { cartReducer } = this.props;
+    const { cartReducer = {} } = this.props;
 
     this.setState({
       totalMoney: cartReducer.totalMoney,
@@ -109,7 +119,7 @@ class GoodList extends Component {
   };
 
   /**
-   * 打开关闭购物车详情
+   * @desc 打开关闭购物车详情
    */
   buyingInfo = () => {
     this.setState({
@@ -118,7 +128,7 @@ class GoodList extends Component {
   };
 
   /**
-   * 跳转购物车页面
+   * @desc 跳转购物车页面
    */
   goCart = () => {
     Taro.navigateTo({
@@ -127,21 +137,20 @@ class GoodList extends Component {
   };
 
   /**
-   * 跳转商品详情
-   * @param id
-   * @param name
-   * @param price
+   * @desc 跳转商品详情
+   * @param { number } id
+   * @param { string } name
+   * @param { number } price
    */
   goGoodInfo = (id, name, price) => {
-    this.$preload({ id, name, price });
     Taro.navigateTo({
-      url: `/pages/goodInfo/index`,
+      url: `/pages/goodInfo/index?id=${id}&name=${name}&price=${price}`,
     });
   };
 
   /**
-   * CartGoodList 子组件回调
-   * @param type
+   * @desc CartGoodList 子组件回调
+   * @param { string }  type
    */
   callback = (type) => {
     if (type === '1') {

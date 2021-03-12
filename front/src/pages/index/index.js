@@ -35,20 +35,13 @@ class Index extends Component {
     this.setState({ isLoading: false });
   };
 
-  config = {
-    navigationBarTitleText: '首页',
-    navigationBarBackgroundColor: '#000',
-    navigationBarTextStyle: 'white',
-  };
-
   /**
    * @desc 跳转商品列表
-   * @param iconId
+   * @param { number } iconId
    */
   goGoodList = (iconId) => {
-    this.$preload({ iconId });
     Taro.navigateTo({
-      url: `/pages/goodList/index`,
+      url: `/pages/goodList/index?iconId=${iconId}`,
     });
   };
 

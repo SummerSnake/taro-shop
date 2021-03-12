@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro';
+import Taro, { getCurrentInstance } from '@tarojs/taro';
 import React, { Component } from 'react';
 import { View, Text, Image, Swiper, SwiperItem, ScrollView } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
@@ -26,25 +26,27 @@ class GoodInfo extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
+    const {
+      router: { params = {} },
+    } = getCurrentInstance() && getCurrentInstance();
 
-    const { preload = {} } = this.$router && this.$router;
-    const data = await getRequest('/goodInfo', { id: preload.id });
-    if (data.status === 200) {
+    const res = await getRequest('/goodInfo', { id: params.id });
+    if (res && res.status === 200) {
       this.setState({
-        fetchData: data.data,
+        fetchData: res.data,
       });
     }
 
     this.setState({
       isLoading: false,
-      id: preload.id,
-      name: preload.name,
-      price: preload.price,
+      id: params.id,
+      name: params.name,
+      price: params.price,
     });
   };
 
   componentDidShow = () => {
-    const { cartReducer } = this.props;
+    const { cartReducer = {} } = this.props;
 
     this.setState({
       badgeNum: cartReducer.badgeNum,
@@ -53,13 +55,13 @@ class GoodInfo extends Component {
 
   /**
    * @desc 添加商品
-   * @param id
-   * @param name
-   * @param price
+   * @param { number } id
+   * @param { string } name
+   * @param { number } price
    */
   addGood = (id, name, price) => {
     this.props.dispatch(addToCart(id, name, price));
-    const { cartReducer } = this.props;
+    const { cartReducer = {} } = this.props;
 
     this.setState({
       badgeNum: cartReducer.badgeNum,
@@ -87,7 +89,7 @@ class GoodInfo extends Component {
 
   /**
    * @desc CartGoodList 子组件回调
-   * @param type
+   * @param { string } type
    */
   callback = (type) => {
     if (type === '1') {
