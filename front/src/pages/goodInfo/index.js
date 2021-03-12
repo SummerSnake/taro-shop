@@ -60,12 +60,10 @@ class GoodInfo extends Component {
    * @param { number } price
    */
   addGood = (id, name, price) => {
-    this.props.dispatch(addToCart(id, name, price));
-    const { cartReducer = {} } = this.props;
+    const { badgeNum = 0 } = this.state;
+    this.setState({ badgeNum: badgeNum + 1 });
 
-    this.setState({
-      badgeNum: cartReducer.badgeNum,
-    });
+    this.props.dispatch(addToCart(id, name, price));
   };
 
   /**
@@ -95,22 +93,25 @@ class GoodInfo extends Component {
     if (type === '1') {
       this.setState({ isOpen: false });
     } else if (type === '2') {
-      let badgeNum = this.state.badgeNum;
-      badgeNum += 1;
-      this.setState({
-        badgeNum: badgeNum,
-      });
+      const { badgeNum = 0 } = this.state;
+
+      this.setState({ badgeNum: badgeNum + 1 });
     } else if (type === '3') {
-      let badgeNum = this.state.badgeNum;
-      badgeNum -= 1;
-      this.setState({
-        badgeNum: badgeNum,
-      });
+      const { badgeNum = 0 } = this.state;
+
+      this.setState({ badgeNum: badgeNum - 1 });
     }
   };
 
   render() {
-    const { fetchData, id, name, price, isOpen, badgeNum } = this.state;
+    const {
+      fetchData = {},
+      id = 0,
+      name = '',
+      price = '',
+      isOpen = false,
+      badgeNum = '',
+    } = this.state;
     const { swiper } = fetchData;
 
     return (

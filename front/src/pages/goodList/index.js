@@ -107,9 +107,9 @@ class GoodList extends Component {
    * @param { number } price
    * @param { object } e
    */
-  addGood = (id, name, price, e) => {
+  addGood = async (id, name, price, e) => {
     e.stopPropagation();
-    this.props.dispatch(addToCart(id, name, price));
+    await this.props.dispatch(addToCart(id, name, price));
     const { cartReducer = {} } = this.props;
 
     this.setState({
@@ -158,17 +158,17 @@ class GoodList extends Component {
         isOpen: false,
       });
     } else if (type === '2') {
-      let badgeNum = this.state.badgeNum;
-      badgeNum += 1;
+      const { badgeNum = 0 } = this.state;
+
       this.setState({
-        badgeNum: badgeNum,
+        badgeNum: badgeNum + 1,
         totalMoney: this.props.cartReducer.totalMoney,
       });
     } else if (type === '3') {
-      let badgeNum = this.state.badgeNum;
-      badgeNum -= 1;
+      const { badgeNum = 0 } = this.state;
+
       this.setState({
-        badgeNum: badgeNum,
+        badgeNum: badgeNum - 1,
         totalMoney: this.props.cartReducer.totalMoney,
       });
     }
@@ -209,17 +209,19 @@ class GoodList extends Component {
                 </View>
                 {list.proList.map((item) => {
                   return (
-                    <View
-                      className="tabCon"
-                      key={item.id}
-                      onClick={this.goGoodInfo.bind(this, item.id, item.name, item.price)}
-                    >
-                      <View className="itemImgWrap">
+                    <View className="tabCon" key={item.id}>
+                      <View
+                        className="itemImgWrap"
+                        onClick={this.goGoodInfo.bind(this, item.id, item.name, item.price)}
+                      >
                         <Image className="itemImg" src={item.imageUrl} mode="widthFix" />
                       </View>
                       <View className="itemTxtWrap">
-                        <Text className="itemTxt">{item.name}</Text>
-                        <View className="itemCon">{item.desc}</View>
+                        <View onClick={this.goGoodInfo.bind(this, item.id, item.name, item.price)}>
+                          <Text className="itemTxt">{item.name}</Text>
+                          <View className="itemCon">{item.desc}</View>
+                        </View>
+
                         <View className="itemPrice">
                           ￥{item.price}
                           <View
