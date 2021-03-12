@@ -21,15 +21,15 @@ Taro 的语法规则基于 React 规范，它采用与 React 一致的组件化�
 
 ## 首页 && 商品列表
 
-<img src="https://github.com/SummerSnake/taro-shop/blob/master/screenshots/1.jpg" width="375" height="667" /> <img src="https://github.com/SummerSnake/taro-shop/blob/master/screenshots/2.jpg" width="375" height="667" />
+<img src="https://github.com/SummerSnake/taro-shop/blob/master/front/screenshots/1.jpg" width="375" height="667" /> <img src="https://github.com/SummerSnake/taro-shop/blob/master/front/screenshots/2.jpg" width="375" height="667" />
 
 ## 商品详情 && 购物车
 
-<img src="https://github.com/SummerSnake/taro-shop/blob/master/screenshots/3.jpg" width="375" height="667" /> <img src="https://github.com/SummerSnake/taro-shop/blob/master/screenshots/4.jpg" width="375" height="667" />
+<img src="https://github.com/SummerSnake/taro-shop/blob/master/front/screenshots/3.jpg" width="375" height="667" /> <img src="https://github.com/SummerSnake/taro-shop/blob/master/front/screenshots/4.jpg" width="375" height="667" />
 
 ## 我的 && 订单列表
 
-<img src="https://github.com/SummerSnake/taro-shop/blob/master/screenshots/5.jpg" width="375" height="667" /> <img src="https://github.com/SummerSnake/taro-shop/blob/master/screenshots/6.jpg" width="375" height="667" />
+<img src="https://github.com/SummerSnake/taro-shop/blob/master/front/screenshots/5.jpg" width="375" height="667" /> <img src="https://github.com/SummerSnake/taro-shop/blob/master/front/screenshots/6.jpg" width="375" height="667" />
 
 # 项目运行
 
