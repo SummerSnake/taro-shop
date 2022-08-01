@@ -1,8 +1,13 @@
 [package]
-name = "web-serve-test"
+name = "taro-shop-rust"
 version = "0.1.0"
+authors = ["summersnake"]
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+sqlx = { version = "0.6.0", features = ["runtime-actix-native-tls", "mysql"] }
+actix-web = "4.1.0"
+actix-rt = "2.7.0"
+serde = "1.0.140"
+serde_json = "1.0.82"
+uuid = { version = "1.1.2", features = ["serde", "v4"] }
