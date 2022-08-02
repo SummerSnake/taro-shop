@@ -1,5 +1,5 @@
 [package]
-name = "taro-shop-rust"
+name = "taro_shop_rust"
 version = "0.1.0"
 authors = ["summersnake"]
 edition = "2021"
@@ -8,6 +8,6 @@ edition = "2021"
 sqlx = { version = "0.6.0", features = ["runtime-actix-native-tls", "mysql"] }
 actix-web = "4.1.0"
 actix-rt = "2.7.0"
-serde = "1.0.140"
+serde = { version = "1.0.140", features = ["derive"] }
 serde_json = "1.0.82"
 uuid = { version = "1.1.2", features = ["serde", "v4"] }

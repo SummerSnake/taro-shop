@@ -5,7 +5,7 @@
   },
   "dao":
   {
-    "user": "summersnake",
+    "user": "taro_shop_rust",
     "password": "summersnake",
     "address": "localhost",
     "database": "taro_shop"
