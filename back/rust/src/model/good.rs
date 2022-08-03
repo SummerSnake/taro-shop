@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
-use sqlx::{mysql::MySqlRow, FromRow, Row};
+use sqlx::mysql::MySqlRow;
+use sqlx::{FromRow, Row};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone)]
 pub struct Good {
@@ -15,7 +16,7 @@ pub struct Good {
     image_list: String,
 }
 
-impl<'c> FromRow<'c, MySqlRow<'c>> for Good {
+impl<'r> FromRow<'r, MySqlRow> for Good {
     fn from_row(row: &MySqlRow) -> Result<Self, sqlx::Error> {
         Ok(Good {
             id: row.get(0),
