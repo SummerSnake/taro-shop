@@ -1,3 +1,3 @@
 use super::models::good::Good;
 
-pub mod good_dao;
+mod good_controller;
