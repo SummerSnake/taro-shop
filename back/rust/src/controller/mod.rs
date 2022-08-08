@@ -1,3 +1,3 @@
 use super::models::good::Good;
 
-mod good_controller;
+pub mod good_controller;

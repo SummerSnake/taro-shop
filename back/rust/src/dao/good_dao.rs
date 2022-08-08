@@ -1,11 +1,15 @@
+use super::dao_config::DatabaseConnection;
 use super::Good;
-use sqlx::mysql::MySqlQueryResult;
+use axum::{extract::Path, http::StatusCode, Json};
+use sqlx::mysql::{MySqlPool, MySqlPoolOptions, MySqlRow};
 use sqlx::{Error, MySql, Pool};
 
-impl Good {
-    pub async fn add_good(pool: &Pool<MySql>, good: &Good) -> Result<MySqlQueryResult, Error> {
-        sqlx::query(
-            r#"
+pub async fn add_good(
+    DatabaseConnection(mut conn): DatabaseConnection,
+    Json(payload): Json<Good>,
+) -> Result<String, (StatusCode, String)> {
+    sqlx::query(
+        r#"
       INSERT INTO goods (
         `title`, 
         `price`, 
@@ -17,23 +21,29 @@ impl Good {
         `sales_valume`, 
         `image_list`
       )"#,
-        )
-        .bind(&good.title)
-        .bind(&good.price)
-        .bind(&good.img_url)
-        .bind(&good.description)
-        .bind(&good.category)
-        .bind(&good.category_id)
-        .bind(&good.is_activity)
-        .bind(&good.sales_valume)
-        .bind(&good.image_list)
-        .execute(pool)
-        .await
-    }
+    )
+    .bind(&payload.title)
+    .bind(&payload.price)
+    .bind(&payload.img_url)
+    .bind(&payload.description)
+    .bind(&payload.category)
+    .bind(&payload.category_id)
+    .bind(&payload.is_activity)
+    .bind(&payload.sales_valume)
+    .bind(&payload.image_list)
+    .fetch_one(&mut conn)
+    .await
+    .unwrap();
 
-    pub async fn update_good(pool: &Pool<MySql>, good: &Good) -> Result<MySqlQueryResult, Error> {
-        sqlx::query(
-            r#"
+    Ok("Success".to_string())
+}
+
+pub async fn update_good(
+    DatabaseConnection(mut conn): DatabaseConnection,
+    Json(payload): Json<Good>,
+) -> Result<String, (StatusCode, String)> {
+    sqlx::query(
+        r#"
       UPDATE goods SET
       `title` = ?, 
       `price` = ?, 
@@ -46,37 +56,45 @@ impl Good {
       `image_list = ?`
       WHERE `id` = ?
       "#,
-        )
-        .bind(&good.title)
-        .bind(&good.price)
-        .bind(&good.img_url)
-        .bind(&good.description)
-        .bind(&good.category)
-        .bind(&good.category_id)
-        .bind(&good.is_activity)
-        .bind(&good.sales_valume)
-        .bind(&good.image_list)
-        .bind(&good.id)
-        .execute(pool)
-        .await
-    }
+    )
+    .bind(&payload.title)
+    .bind(&payload.price)
+    .bind(&payload.img_url)
+    .bind(&payload.description)
+    .bind(&payload.category)
+    .bind(&payload.category_id)
+    .bind(&payload.is_activity)
+    .bind(&payload.sales_valume)
+    .bind(&payload.image_list)
+    .bind(&payload.id)
+    .fetch_one(&mut conn)
+    .await
+    .unwrap();
 
-    pub async fn delete_good(pool: &Pool<MySql>, id: u64) -> Result<MySqlQueryResult, Error> {
-        sqlx::query(
-            r#"
+    Ok("Success".to_string())
+}
+
+pub async fn delete_good(
+    Path(id): Path<u64>,
+    DatabaseConnection(conn): DatabaseConnection,
+) -> Result<String, (StatusCode, String)> {
+    sqlx::query(
+        r#"
         DELETE FROM goods 
         WHRER `id` = ?
         "#,
-        )
-        .bind(id)
-        .execute(pool)
-        .await
-    }
+    )
+    .bind(id)
+    .execute(&mut conn)
+    .await
+    .unwrap();
 
-    pub async fn get_good_by_id(pool: &Pool<MySql>, id: u64) -> Result<Good, Error> {
-        sqlx::query_as(r#"SELECT * FROM `goods` WHERE `id` = ?"#)
-            .bind(id)
-            .fetch_one(pool)
-            .await
-    }
+    Ok("Success".to_string())
+}
+
+pub async fn get_good_by_id(pool: &Pool<MySql>, id: u64) -> Result<Good, Error> {
+    sqlx::query_as(r#"SELECT * FROM `goods` WHERE `id` = ?"#)
+        .bind(id)
+        .fetch_one(pool)
+        .await
 }
