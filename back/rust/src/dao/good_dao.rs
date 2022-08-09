@@ -1,8 +1,6 @@
 use super::dao_config::DatabaseConnection;
 use super::Good;
 use axum::{extract::Path, http::StatusCode, Json};
-use sqlx::mysql::{MySqlPool, MySqlPoolOptions, MySqlRow};
-use sqlx::{Error, MySql, Pool};
 
 pub async fn add_good(
     DatabaseConnection(mut conn): DatabaseConnection,
@@ -11,6 +9,7 @@ pub async fn add_good(
     sqlx::query(
         r#"
       INSERT INTO goods (
+        `id`, 
         `title`, 
         `price`, 
         `img_url`, 
@@ -22,6 +21,7 @@ pub async fn add_good(
         `image_list`
       )"#,
     )
+    .bind(0)
     .bind(&payload.title)
     .bind(&payload.price)
     .bind(&payload.img_url)
@@ -76,7 +76,7 @@ pub async fn update_good(
 
 pub async fn delete_good(
     Path(id): Path<u64>,
-    DatabaseConnection(conn): DatabaseConnection,
+    DatabaseConnection(mut conn): DatabaseConnection,
 ) -> Result<String, (StatusCode, String)> {
     sqlx::query(
         r#"
@@ -92,9 +92,15 @@ pub async fn delete_good(
     Ok("Success".to_string())
 }
 
-pub async fn get_good_by_id(pool: &Pool<MySql>, id: u64) -> Result<Good, Error> {
-    sqlx::query_as(r#"SELECT * FROM `goods` WHERE `id` = ?"#)
+pub async fn get_good_by_id(
+    Path(id): Path<u64>,
+    DatabaseConnection(mut conn): DatabaseConnection,
+) -> Result<Json<Good>, (StatusCode, String)> {
+    let good = sqlx::query_as(r#"SELECT * FROM `goods` WHERE `id` = ?"#)
         .bind(id)
-        .fetch_one(pool)
+        .fetch_one(&mut conn)
         .await
+        .unwrap();
+
+    Ok(Json(good))
 }
