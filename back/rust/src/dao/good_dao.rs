@@ -1,4 +1,4 @@
-use super::dao_config::DatabaseConnection;
+use super::dao_config::{DatabaseConnection, ResData};
 use super::Good;
 use axum::{extract::Path, http::StatusCode, Json};
 
@@ -95,12 +95,18 @@ pub async fn delete_good(
 pub async fn get_good_by_id(
     Path(id): Path<u64>,
     DatabaseConnection(mut conn): DatabaseConnection,
-) -> Result<Json<Good>, (StatusCode, String)> {
-    let good = sqlx::query_as(r#"SELECT * FROM `goods` WHERE `id` = ?"#)
+) -> Result<Json<ResData<Good>>, (StatusCode, String)> {
+    let good: Good = sqlx::query_as(r#"SELECT * FROM `goods` WHERE `id` = ?"#)
         .bind(id)
         .fetch_one(&mut conn)
         .await
         .unwrap();
 
-    Ok(Json(good))
+    let res = ResData {
+        code: 200,
+        message: String::from("请求成功"),
+        data: good,
+    };
+
+    Ok(Json(res))
 }

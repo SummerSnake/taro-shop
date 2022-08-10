@@ -1,3 +1,4 @@
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
 
@@ -5,7 +6,7 @@ use sqlx::FromRow;
 pub struct Good {
     pub id: u64,
     pub title: String,
-    pub price: f64,
+    pub price: Decimal,
     pub img_url: String,
     pub description: String,
     pub category: String,

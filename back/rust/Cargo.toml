@@ -6,10 +6,15 @@ edition = "2021"
 
 [dependencies]
 anyhow = { version = "1.0.60", default-features = false }
-sqlx = { version = "0.6.1", features = ["runtime-tokio-rustls", "mysql"] }
+sqlx = { version = "0.6.1", features = [
+  "runtime-tokio-rustls",
+  "mysql",
+  "decimal",
+] }
 tokio = { version = "1.20.1", features = ["full"] }
 axum = { version = "0.5.13" }
 serde = { version = "1.0.142", features = ["derive"] }
 dotenv = "0.15.0"
 tracing = "0.1.36"
 tracing-subscriber = "0.3.15"
+rust_decimal = "1.26.1"

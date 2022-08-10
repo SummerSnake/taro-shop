@@ -2,8 +2,12 @@ use axum::{
     extract::{Extension, FromRequest, RequestParts},
     http::StatusCode,
 };
+use serde::{Deserialize, Serialize};
 use sqlx::mysql::MySqlPool;
 
+/**
+ * @desc 数据库连接
+ */
 pub struct DatabaseConnection(pub sqlx::pool::PoolConnection<sqlx::MySql>);
 
 #[axum::async_trait]
@@ -26,4 +30,14 @@ where
     E: std::error::Error,
 {
     (StatusCode::INTERNAL_SERVER_ERROR, err.to_string())
+}
+
+/**
+ * @desc 返回格式
+ */
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct ResData<T> {
+    pub code: i32,
+    pub message: String,
+    pub data: T,
 }
