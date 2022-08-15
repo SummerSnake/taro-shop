@@ -8,20 +8,9 @@ pub async fn add_good(
 ) -> Result<String, (StatusCode, String)> {
     sqlx::query(
         r#"
-      INSERT INTO goods (
-        `id`, 
-        `title`, 
-        `price`, 
-        `img_url`, 
-        `description`, 
-        `category`, 
-        `category_id`, 
-        `is_activity`, 
-        `sales_valume`, 
-        `image_list`
-      )"#,
+            INSERT INTO goods (`title`, `price`, `img_url`, `description`, `category`, `category_id`, `is_activity`, `sales_valume`, `image_list`)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"#,
     )
-    .bind(0)
     .bind(&payload.title)
     .bind(&payload.price)
     .bind(&payload.img_url)
@@ -31,7 +20,7 @@ pub async fn add_good(
     .bind(&payload.is_activity)
     .bind(&payload.sales_valume)
     .bind(&payload.image_list)
-    .fetch_one(&mut conn)
+    .execute(&mut conn)
     .await
     .unwrap();
 
@@ -44,18 +33,10 @@ pub async fn update_good(
 ) -> Result<String, (StatusCode, String)> {
     sqlx::query(
         r#"
-      UPDATE goods SET
-      `title` = ?, 
-      `price` = ?, 
-      `img_url` = ?, 
-      `description` = ?, 
-      `category` = ?, 
-      `category_id` = ?, 
-      `is_activity` = ?, 
-      `sales_valume` = ?, 
-      `image_list = ?`
-      WHERE `id` = ?
-      "#,
+            UPDATE goods
+            SET `title` = ?, `price` = ?, `img_url` = ?, `description` = ?, `category` = ?, `category_id` = ?, `is_activity` = ?, `sales_valume` = ?, `image_list` = ?
+            WHERE `id` = ?
+            "#,
     )
     .bind(&payload.title)
     .bind(&payload.price)
@@ -67,7 +48,7 @@ pub async fn update_good(
     .bind(&payload.sales_valume)
     .bind(&payload.image_list)
     .bind(&payload.id)
-    .fetch_one(&mut conn)
+    .execute(&mut conn)
     .await
     .unwrap();
 
@@ -80,9 +61,9 @@ pub async fn delete_good(
 ) -> Result<String, (StatusCode, String)> {
     sqlx::query(
         r#"
-        DELETE FROM goods 
-        WHRER `id` = ?
-        "#,
+            DELETE FROM goods
+            WHERE `id` = ?
+            "#,
     )
     .bind(id)
     .execute(&mut conn)
