@@ -7,6 +7,8 @@ use sqlx::mysql::MySqlPoolOptions;
 use std::net::SocketAddr;
 use taro_shop_rust::dao;
 
+mod error;
+
 async fn connect_success() -> &'static str {
     "Connect success!"
 }
