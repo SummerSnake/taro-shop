@@ -1,3 +1,4 @@
+use super::Result;
 use axum::{
     extract::{Extension, FromRequest, RequestParts},
     http::StatusCode,
