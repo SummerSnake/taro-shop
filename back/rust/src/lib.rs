@@ -1,5 +1,6 @@
-pub mod dao;
 pub mod db;
-pub mod error;
+pub mod dtos;
+pub mod handlers;
 pub mod models;
+pub mod response;
 pub mod router;

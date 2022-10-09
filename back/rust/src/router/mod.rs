@@ -1,4 +1,4 @@
-use super::dao;
+use crate::handlers::good_handler;
 use axum::{
     routing::{get, post},
     Router,
@@ -10,8 +10,8 @@ pub fn routers() -> Router {
 
 fn good_routers() -> Router {
     Router::new()
-        .route("/add", post(dao::good_dao::add_good))
-        .route("/update", post(dao::good_dao::update_good))
-        .route("/delete/:id", post(dao::good_dao::delete_good))
-        .route("/getGood/:id", get(dao::good_dao::get_good_by_id))
+        .route("/add", post(good_handler::create_good))
+        .route("/update", post(good_handler::update_good))
+        .route("/delete/:id", post(good_handler::delete_good))
+        .route("/getGood/:id", get(good_handler::get_good_by_id))
 }
