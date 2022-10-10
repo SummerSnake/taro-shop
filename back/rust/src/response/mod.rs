@@ -3,7 +3,7 @@ use serde::{de::DeserializeOwned, Deserialize, Serialize};
 
 // 状态码
 pub const CODE_SUCCESS: StatusCode = StatusCode::OK;
-pub const CODE_FAIL: StatusCode = StatusCode::BAD_REQUEST;
+pub const CODE_ERROR: StatusCode = StatusCode::INTERNAL_SERVER_ERROR;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct ResVO<T> {
@@ -21,9 +21,9 @@ impl<T: DeserializeOwned + Serialize> ResVO<T> {
         }
     }
 
-    pub fn from_error(msg: String, data: Option<T>) -> Self {
+    pub fn from_error(code: Option<u16>, msg: String, data: Option<T>) -> Self {
         Self {
-            code: CODE_FAIL.as_u16(),
+            code: code.unwrap_or(CODE_ERROR.as_u16()),
             msg,
             data,
         }

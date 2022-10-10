@@ -15,3 +15,8 @@ pub struct Good {
     pub sales_valume: u64,
     pub image_list: String,
 }
+
+#[derive(Deserialize)]
+pub struct GoodUrlParams {
+    pub id: Option<u64>,
+}

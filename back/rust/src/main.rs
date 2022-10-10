@@ -12,7 +12,7 @@ async fn main() -> Result<(), Error> {
 
     let app = router::routers();
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], 8081));
+    let addr = SocketAddr::from(([127, 0, 0, 1], 8088));
     tracing::debug!("Serve running at http://{addr}");
 
     axum::Server::bind(&addr)
