@@ -14,4 +14,5 @@ fn good_routers() -> Router {
         .route("/update", post(good_handler::update_good))
         .route("/delete", post(good_handler::delete_good))
         .route("/getGood", get(good_handler::get_good_by_id))
+        .route("/getGoodList", get(good_handler::get_goods_list))
 }
