@@ -1,4 +1,4 @@
-use crate::config::Pager;
+use crate::config::{Pager, TotalRes};
 use crate::db::mysql;
 use crate::models::good::Good;
 use axum::extract::Query;
@@ -76,9 +76,9 @@ pub async fn get_good_by_id(id: u64) -> Result<Good, Error> {
 }
 
 pub async fn get_goods_list(Query(payload): Query<Pager>) -> Result<Vec<Good>, Error> {
-    let page_num = payload.page_num.unwrap_or(1);
-    let page_size = payload.page_size.unwrap_or(10);
-    let limit = (page_num - 1) * page_size;
+    let page_no = payload.pageNo.unwrap_or(1);
+    let page_size = payload.pageSize.unwrap_or(10);
+    let limit = (page_no - 1) * page_size;
     let pool = mysql::get_pool().unwrap();
     let sql = "SELECT * FROM `good` ORDER BY id DESC limit ?,?";
 
@@ -95,7 +95,7 @@ pub async fn get_goods_total() -> Result<i64, Error> {
     let pool = mysql::get_pool().unwrap();
     let sql = "SELECT COUNT(*) AS total FROM `good`";
 
-    let pager = sqlx::query_as::<_, Pager>(sql).fetch_one(pool).await?;
+    let total_res = sqlx::query_as::<_, TotalRes>(sql).fetch_one(pool).await?;
 
-    Ok(pager.total)
+    Ok(total_res.total)
 }
