@@ -5,7 +5,7 @@ use axum::extract::Query;
 use sqlx::Error;
 
 pub async fn create(payload: Good) -> Result<u64, Error> {
-    let sql = "INSERT INTO good (`title`, `price`, `img_url`, `description`, `category`, `category_id`, `is_activity`, `sales_valume`, `image_list`)
+    let sql = "INSERT INTO `good` (`title`, `price`, `img_url`, `description`, `category`, `category_id`, `is_activity`, `sales_valume`, `image_list`)
     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
     let pool = mysql::get_pool().unwrap();
 
@@ -27,7 +27,7 @@ pub async fn create(payload: Good) -> Result<u64, Error> {
 }
 
 pub async fn update(payload: Good) -> Result<u64, Error> {
-    let sql = "UPDATE good
+    let sql = "UPDATE `good`
     SET `title` = ?, `price` = ?, `img_url` = ?, `description` = ?, `category` = ?, `category_id` = ?, `is_activity` = ?, `sales_valume` = ?, `image_list` = ?
     WHERE `id` = ?";
     let pool = mysql::get_pool().unwrap();
@@ -51,7 +51,7 @@ pub async fn update(payload: Good) -> Result<u64, Error> {
 }
 
 pub async fn delete(id: u64) -> Result<u64, Error> {
-    let sql = "DELETE FROM good WHERE `id` = ?";
+    let sql = "DELETE FROM `good` WHERE `id` = ?";
     let pool = mysql::get_pool().unwrap();
 
     let affected_row = sqlx::query(sql)

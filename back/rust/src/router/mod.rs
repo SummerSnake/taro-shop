@@ -6,8 +6,8 @@ use axum::{
 
 pub fn routers() -> Router {
     Router::new()
-        .nest("/good", good_routers())
-        .nest("/order", order_routers())
+        .nest("/api/good", good_routers())
+        .nest("/api/order", order_routers())
 }
 
 fn good_routers() -> Router {

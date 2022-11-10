@@ -11,6 +11,7 @@ sqlx = { version = "0.6.1", features = [
   "runtime-tokio-rustls",
   "mysql",
   "decimal",
+  "chrono",
 ] }
 tokio = { version = "1.20.1", features = ["full"] }
 axum = { version = "0.5.13" }
