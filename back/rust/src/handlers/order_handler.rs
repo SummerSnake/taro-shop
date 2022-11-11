@@ -9,12 +9,12 @@ use axum::{extract::Query, response::IntoResponse, Json};
  * @desc 创建订单
  */
 pub async fn create_order(Json(payload): Json<OrderVO>) -> impl IntoResponse {
-    let id = order_dto::create(payload).await;
+    let affected_row = order_dto::create(payload).await;
 
-    match id {
-        Ok(id) => {
-            if id == 0 {
-                Json(ResVO::from_error(None, String::from("新增商品失败"), None))
+    match affected_row {
+        Ok(_affected_row) => {
+            if _affected_row == 0 {
+                Json(ResVO::from_error(None, String::from("创建订单失败"), None))
             } else {
                 Json(ResVO::<Option<()>>::from_result(None))
             }
@@ -40,10 +40,16 @@ pub async fn update_order(Json(payload): Json<OrderVO>) -> impl IntoResponse {
         ));
     }
 
-    let res = order_dto::update(payload).await;
+    let affected_row = order_dto::update(payload).await;
 
-    match res {
-        Ok(_res) => Json(ResVO::<Option<()>>::from_result(None)),
+    match affected_row {
+        Ok(_affected_row) => {
+            if _affected_row == 0 {
+                Json(ResVO::from_error(None, String::from("订单不存在"), None))
+            } else {
+                Json(ResVO::<Option<()>>::from_result(None))
+            }
+        }
         Err(err) => {
             tracing::error!("Update_order: {:?}.", err);
 
@@ -65,10 +71,16 @@ pub async fn delete_order(Json(payload): Json<OrderUrlParams>) -> impl IntoRespo
         ));
     }
 
-    let res = order_dto::delete(id).await;
+    let affected_row = order_dto::delete(id).await;
 
-    match res {
-        Ok(_res) => Json(ResVO::<Option<()>>::from_result(None)),
+    match affected_row {
+        Ok(_affected_row) => {
+            if _affected_row == 0 {
+                Json(ResVO::from_error(None, String::from("订单不存在"), None))
+            } else {
+                Json(ResVO::<Option<()>>::from_result(None))
+            }
+        }
         Err(err) => {
             tracing::error!("Delete_order: {:?}.", err);
 
@@ -90,10 +102,10 @@ pub async fn get_order_by_id(Query(payload): Query<OrderUrlParams>) -> impl Into
         ));
     }
 
-    let res = order_dto::get_order_by_id(id).await;
+    let order = order_dto::get_order_by_id(id).await;
 
-    match res {
-        Ok(_res) => Json(ResVO::<OrderVO>::from_result(Some(_res))),
+    match order {
+        Ok(_order) => Json(ResVO::<OrderVO>::from_result(Some(_order))),
         Err(err) => {
             tracing::error!("Get_order_by_id: {:?}.", err);
 
