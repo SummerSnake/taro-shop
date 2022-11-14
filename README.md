@@ -42,11 +42,11 @@ cd taro-shop/front
 # 全局安装taro脚手架
 npm install -g @tarojs/cli
 
-# 安装项目依赖
-npm install
+# 安装依赖
+npm ci
 
-# 微信小程序
-npm run dev:weapp
+# 启动
+npm run dev
 
 ```
 
