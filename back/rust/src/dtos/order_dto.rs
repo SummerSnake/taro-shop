@@ -17,7 +17,7 @@ pub async fn create(payload: OrderVO) -> Result<u64, Error> {
             `good_ids`
         )
     VALUES
-    (?, ?, ?, ?, ?, ?)";
+        (?, ?, ?, ?, ?, ?)";
     let pool = mysql::get_pool().unwrap();
 
     let affected_row = sqlx::query(sql)
