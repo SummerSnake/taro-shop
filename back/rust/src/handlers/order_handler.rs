@@ -90,7 +90,7 @@ pub async fn delete_order(Json(payload): Json<OrderUrlParams>) -> impl IntoRespo
 }
 
 /**
- * @desc 通过 orderNumber 查询订单
+ * @desc 通过 id 查询订单
  */
 pub async fn get_order_by_id(Query(payload): Query<OrderUrlParams>) -> impl IntoResponse {
     let id = payload.id.unwrap_or(0);
@@ -102,7 +102,7 @@ pub async fn get_order_by_id(Query(payload): Query<OrderUrlParams>) -> impl Into
         ));
     }
 
-    let order = order_dto::get_order_by_id(id).await;
+    let order = order_dto::get_by_id(id).await;
 
     match order {
         Ok(_order) => Json(ResVO::<OrderVO>::from_result(Some(_order))),
@@ -118,8 +118,8 @@ pub async fn get_order_by_id(Query(payload): Query<OrderUrlParams>) -> impl Into
  * @desc 查询商品列表
  */
 pub async fn get_orders_list(Query(payload): Query<Pager>) -> impl IntoResponse {
-    let order_list = order_dto::get_orders_list(Query(payload.clone())).await;
-    let total = order_dto::get_orders_total().await;
+    let order_list = order_dto::get_list(Query(payload.clone())).await;
+    let total = order_dto::get_total().await;
 
     match order_list {
         Ok(_res) => {

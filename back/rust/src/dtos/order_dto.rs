@@ -6,19 +6,19 @@ use chrono::Utc;
 use sqlx::Error;
 
 pub async fn create(payload: OrderVO) -> Result<u64, Error> {
-    let sql = "
-    INSERT INTO 
-        `orders` (
-            `order_number`, 
-            `order_status`, 
-            `order_amount`, 
-            `create_time`, 
-            `update_time`, 
-            `good_ids`
-        )
-    VALUES
-        (?, ?, ?, ?, ?, ?)";
     let pool = mysql::get_pool().unwrap();
+    let sql = "
+        INSERT INTO 
+            `order` (
+                `order_number`, 
+                `order_status`, 
+                `order_amount`, 
+                `create_time`, 
+                `update_time`, 
+                `good_ids`
+            )
+        VALUES
+            (?, ?, ?, ?, ?, ?)";
 
     let affected_row = sqlx::query(sql)
         .bind(&payload.orderNumber)
@@ -35,18 +35,18 @@ pub async fn create(payload: OrderVO) -> Result<u64, Error> {
 }
 
 pub async fn update(payload: OrderVO) -> Result<u64, Error> {
-    let sql = "
-    UPDATE 
-        `orders`
-    SET 
-        `order_number` = ?, 
-        `order_status` = ?, 
-        `order_amount` = ?, 
-        `update_time` = ?, 
-        `good_ids` = ?
-    WHERE 
-        `id` = ?";
     let pool = mysql::get_pool().unwrap();
+    let sql = "
+        UPDATE 
+            `order`
+        SET 
+            `order_number` = ?, 
+            `order_status` = ?, 
+            `order_amount` = ?, 
+            `update_time` = ?, 
+            `good_ids` = ?
+        WHERE 
+            `id` = ?";
 
     let affected_row = sqlx::query(sql)
         .bind(&payload.orderNumber)
@@ -63,12 +63,12 @@ pub async fn update(payload: OrderVO) -> Result<u64, Error> {
 }
 
 pub async fn delete(id: u64) -> Result<u64, Error> {
-    let sql = "
-    DELETE FROM 
-        `orders` 
-    WHERE 
-        `id` = ?";
     let pool = mysql::get_pool().unwrap();
+    let sql = "
+        DELETE FROM 
+            `order` 
+        WHERE 
+            `id` = ?";
 
     let affected_row = sqlx::query(sql)
         .bind(id)
@@ -79,15 +79,15 @@ pub async fn delete(id: u64) -> Result<u64, Error> {
     Ok(affected_row)
 }
 
-pub async fn get_order_by_id(id: u64) -> Result<OrderVO, Error> {
-    let sql = "
-    SELECT 
-        * 
-    FROM 
-        `orders` 
-    WHERE 
-        `id` = ?";
+pub async fn get_by_id(id: u64) -> Result<OrderVO, Error> {
     let pool = mysql::get_pool().unwrap();
+    let sql = "
+        SELECT 
+            * 
+        FROM 
+            `order` 
+        WHERE 
+            `id` = ?";
 
     let order = sqlx::query_as::<_, Order>(sql)
         .bind(id)
@@ -106,20 +106,20 @@ pub async fn get_order_by_id(id: u64) -> Result<OrderVO, Error> {
     Ok(order_vo)
 }
 
-pub async fn get_orders_list(Query(payload): Query<Pager>) -> Result<Vec<OrderVO>, Error> {
+pub async fn get_list(Query(payload): Query<Pager>) -> Result<Vec<OrderVO>, Error> {
+    let pool = mysql::get_pool().unwrap();
     let page_no = payload.pageNo.unwrap_or(1);
     let page_size = payload.pageSize.unwrap_or(10);
     let limit = (page_no - 1) * page_size;
-    let pool = mysql::get_pool().unwrap();
     let sql = "
-    SELECT 
-        * 
-    FROM 
-        `orders` 
-    ORDER BY 
-        id DESC 
-    limit 
-        ?,?";
+        SELECT 
+            * 
+        FROM 
+            `order` 
+        ORDER BY 
+            id DESC 
+        limit 
+            ?, ?";
 
     let list = sqlx::query_as::<_, Order>(sql)
         .bind(limit)
@@ -144,13 +144,13 @@ pub async fn get_orders_list(Query(payload): Query<Pager>) -> Result<Vec<OrderVO
     Ok(list_vo)
 }
 
-pub async fn get_orders_total() -> Result<i64, Error> {
+pub async fn get_total() -> Result<i64, Error> {
     let pool = mysql::get_pool().unwrap();
     let sql = "
-    SELECT 
-        COUNT(*) AS total 
-    FROM
-        `orders`";
+        SELECT 
+            COUNT(*) AS total 
+        FROM
+            `order`";
 
     let total_res = sqlx::query_as::<_, TotalRes>(sql).fetch_one(pool).await?;
 

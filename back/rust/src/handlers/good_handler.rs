@@ -102,7 +102,7 @@ pub async fn get_good_by_id(Query(payload): Query<GoodUrlParams>) -> impl IntoRe
         ));
     }
 
-    let res = good_dto::get_good_by_id(id).await;
+    let res = good_dto::get_by_id(id).await;
 
     match res {
         Ok(_res) => Json(ResVO::<GoodVO>::from_result(Some(_res))),
@@ -118,8 +118,8 @@ pub async fn get_good_by_id(Query(payload): Query<GoodUrlParams>) -> impl IntoRe
  * @desc 查询商品列表
  */
 pub async fn get_goods_list(Query(payload): Query<Pager>) -> impl IntoResponse {
-    let good_list = good_dto::get_goods_list(Query(payload.clone())).await;
-    let total = good_dto::get_goods_total().await;
+    let good_list = good_dto::get_list(Query(payload.clone())).await;
+    let total = good_dto::get_total().await;
 
     match good_list {
         Ok(_res) => {
