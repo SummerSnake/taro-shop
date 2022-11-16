@@ -7,6 +7,7 @@ use sqlx::FromRow;
 #[derive(Serialize, Deserialize, Debug, Clone, FromRow)]
 pub struct Ad {
     pub id: Option<u64>,
+    pub title: Option<String>,
     pub img_url: String,
     pub r#type: u8,
     pub create_time: DateTime<Utc>,
@@ -16,6 +17,7 @@ pub struct Ad {
 #[derive(Serialize, Deserialize, Debug, Clone, FromRow)]
 pub struct AdVO {
     pub id: Option<u64>,
+    pub title: Option<String>,
     pub imgUrl: String,
     pub r#type: u8,
     pub createTime: Option<DateTime<Utc>>,

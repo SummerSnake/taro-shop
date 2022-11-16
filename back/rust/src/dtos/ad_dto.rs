@@ -11,15 +11,17 @@ pub async fn create(payload: AdVO) -> Result<u64, Error> {
         INSERT INTO 
             `ad` (
                 `img_url`, 
+                `title`, 
                 `type`, 
                 `create_time`, 
                 `update_time`
             )
         VALUES
-            (?, ?, ?, ?)";
+            (?, ?, ?, ?, ?)";
 
     let affected_row = sqlx::query(sql)
         .bind(&payload.imgUrl)
+        .bind(&payload.title)
         .bind(&payload.r#type)
         .bind(Utc::now())
         .bind(Utc::now())
@@ -37,6 +39,7 @@ pub async fn update(payload: AdVO) -> Result<u64, Error> {
             `ad`
         SET
             `img_url` = ?,
+            `title` = ?,
             `type` = ?,
             `update_time` = ?
         WHERE
@@ -44,6 +47,7 @@ pub async fn update(payload: AdVO) -> Result<u64, Error> {
 
     let affected_row = sqlx::query(sql)
         .bind(&payload.imgUrl)
+        .bind(&payload.title)
         .bind(&payload.r#type)
         .bind(Utc::now())
         .bind(&payload.id)
@@ -88,6 +92,7 @@ pub async fn get_by_id(id: u64) -> Result<AdVO, Error> {
 
     let ad_vo = AdVO {
         id: ad.id,
+        title: ad.title,
         imgUrl: ad.img_url,
         r#type: ad.r#type,
         createTime: Some(ad.create_time),
@@ -117,6 +122,7 @@ pub async fn get_list(Query(payload): Query<AdUrlParams>) -> Result<Vec<AdVO>, E
     for ad in list {
         let ad_vo = AdVO {
             id: ad.id,
+            title: ad.title,
             imgUrl: ad.img_url,
             r#type: ad.r#type,
             createTime: Some(ad.create_time),

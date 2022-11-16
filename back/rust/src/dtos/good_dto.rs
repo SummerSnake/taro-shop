@@ -2,6 +2,7 @@ use crate::config::{Pager, TotalRes};
 use crate::db::mysql;
 use crate::models::good::{Good, GoodVO};
 use axum::extract::Query;
+use chrono::Utc;
 use sqlx::Error;
 
 pub async fn create(payload: GoodVO) -> Result<u64, Error> {
@@ -13,11 +14,12 @@ pub async fn create(payload: GoodVO) -> Result<u64, Error> {
                 `price`, 
                 `img_url`, 
                 `description`, 
-                `category`, 
-                `category_id`, 
+                `type`, 
                 `is_activity`, 
                 `sales_valume`, 
-                `image_list`
+                `image_list`,
+                `create_time`, 
+                `update_time` 
             )
         VALUES
             (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -27,11 +29,12 @@ pub async fn create(payload: GoodVO) -> Result<u64, Error> {
         .bind(&payload.price)
         .bind(&payload.imgUrl)
         .bind(&payload.description)
-        .bind(&payload.category)
-        .bind(&payload.categoryId)
+        .bind(&payload.r#type)
         .bind(&payload.isActivity)
         .bind(&payload.salesValume)
         .bind(&payload.imageList)
+        .bind(Utc::now())
+        .bind(Utc::now())
         .execute(pool)
         .await?
         .rows_affected();
@@ -49,11 +52,12 @@ pub async fn update(payload: GoodVO) -> Result<u64, Error> {
             `price` = ?, 
             `img_url` = ?, 
             `description` = ?, 
-            `category` = ?, 
-            `category_id` = ?, 
-            `is_activity` = ?, 
-            `sales_valume` = ?, 
-            `image_list` = ?
+            `type`, 
+            `is_activity`, 
+            `sales_valume`, 
+            `image_list`,
+            `create_time`, 
+            `update_time` 
         WHERE 
             `id` = ?";
 
@@ -62,11 +66,12 @@ pub async fn update(payload: GoodVO) -> Result<u64, Error> {
         .bind(&payload.price)
         .bind(&payload.imgUrl)
         .bind(&payload.description)
-        .bind(&payload.category)
-        .bind(&payload.categoryId)
+        .bind(&payload.r#type)
         .bind(&payload.isActivity)
         .bind(&payload.salesValume)
         .bind(&payload.imageList)
+        .bind(Utc::now())
+        .bind(Utc::now())
         .bind(&payload.id)
         .execute(pool)
         .await?
@@ -113,11 +118,11 @@ pub async fn get_by_id(id: u64) -> Result<GoodVO, Error> {
         price: good.price,
         imgUrl: good.img_url,
         description: good.description,
-        category: good.category,
-        categoryId: good.category_id,
+        r#type: good.r#type,
         isActivity: good.is_activity,
         salesValume: good.sales_valume,
         imageList: good.image_list,
+        createTime: Some(good.create_time),
     };
 
     Ok(good_vo)
@@ -134,7 +139,7 @@ pub async fn get_list(Query(payload): Query<Pager>) -> Result<Vec<GoodVO>, Error
         FROM 
             `good` 
         ORDER BY 
-            id DESC 
+            id ASC 
         limit 
             ?, ?";
 
@@ -152,11 +157,11 @@ pub async fn get_list(Query(payload): Query<Pager>) -> Result<Vec<GoodVO>, Error
             price: good.price,
             imgUrl: good.img_url,
             description: good.description,
-            category: good.category,
-            categoryId: good.category_id,
+            r#type: good.r#type,
             isActivity: good.is_activity,
             salesValume: good.sales_valume,
             imageList: good.image_list,
+            createTime: Some(good.create_time),
         };
 
         list_vo.push(good_vo);
