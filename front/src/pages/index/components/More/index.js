@@ -1,50 +1,39 @@
 import Taro from '@tarojs/taro';
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Image } from '@tarojs/components';
 import './index.less';
 
-class More extends Component {
-  constructor() {
-    super(...arguments);
-  }
+function More(props) {
+  const { list = [] } = props;
 
   /**
    * @desc 跳转商品详情
-   * @param { number } id
-   * @param { string } name
-   * @param { number } price
+   * @param { object } item
+   * @return { void }
    */
-  goGoodInfo = (id, name, price) => {
+  const goGoodInfo = (item) => {
     Taro.navigateTo({
-      url: `/pages/goodInfo/index?id=${id}&name=${name}&price=${price}`,
+      url: `/pages/goodInfo/index?id=${item?.id}&name=${item?.title}&price=${item?.price}`,
     });
   };
 
-  render() {
-    const { moreList } = this.props;
-    return (
-      <View className="moreWrap">
-        <View className="moreH1">更多推荐</View>
-        {Array.isArray(moreList) &&
-          moreList.length > 0 &&
-          moreList.map((more) => {
-            return (
-              <View
-                className="moreItemWrap"
-                key={more.id}
-                onClick={this.goGoodInfo.bind(this, more.id, more.name, more.price)}
-              >
-                <View className="moreImgWrap">
-                  <Image className="moreImg" src={more.imgUrl} />
-                </View>
-                <View className="moreTitle">{more.name}</View>
-                <View className="morePrice">￥{more.price}</View>
+  return (
+    <View className="moreWrap">
+      <View className="moreH1">更多推荐</View>
+      {Array.isArray(list) &&
+        list.map((item) => {
+          return (
+            <View className="moreItemWrap" key={item.id} onClick={() => goGoodInfo(item)}>
+              <View className="moreImgWrap">
+                <Image className="moreImg" src={item.imgUrl} />
               </View>
-            );
-          })}
-      </View>
-    );
-  }
+              <View className="moreTitle">{item.title}</View>
+              <View className="morePrice">￥{item.price}</View>
+            </View>
+          );
+        })}
+    </View>
+  );
 }
 
 export default More;

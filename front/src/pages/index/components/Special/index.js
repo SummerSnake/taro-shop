@@ -1,50 +1,39 @@
 import Taro from '@tarojs/taro';
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Image } from '@tarojs/components';
 import './index.less';
 
-class Special extends Component {
-  constructor() {
-    super(...arguments);
-  }
+function Special(props) {
+  const { list = [] } = props;
 
   /**
    * @desc 跳转商品详情
-   * @param { number } id
-   * @param { string } name
-   * @param { number } price
+   * @param { object } item
+   * @return { void }
    */
-  goGoodInfo = (id, name, price) => {
+  const goGoodInfo = (item) => {
     Taro.navigateTo({
-      url: `/pages/goodInfo/index?id=${id}&name=${name}&price=${price}`,
+      url: `/pages/goodInfo/index?id=${item?.id}&name=${item?.title}&price=${item?.price}`,
     });
   };
 
-  render() {
-    const { moreList } = this.props;
-    return (
-      <View className="specialWrap">
-        <View className="specialH1">专题推荐</View>
-        {Array.isArray(moreList) &&
-          moreList.length > 0 &&
-          moreList.map((special) => {
-            return (
-              <View
-                className="specialItemWrap"
-                key={special.id}
-                onClick={this.goGoodInfo.bind(this, special.id, special.name, special.price)}
-              >
-                <View className="specialImgWrap">
-                  <Image className="specialImg" src={special.imgUrl} />
-                </View>
-                <View className="specialTitle">{special.name}</View>
-                <View className="specialPrice">￥{special.price}</View>
+  return (
+    <View className="specialWrap">
+      <View className="specialH1">专题推荐</View>
+      {Array.isArray(list) &&
+        list.map((item) => {
+          return (
+            <View className="specialItemWrap" key={item.id} onClick={() => goGoodInfo(item)}>
+              <View className="specialImgWrap">
+                <Image className="specialImg" src={item.imgUrl} />
               </View>
-            );
-          })}
-      </View>
-    );
-  }
+              <View className="specialTitle">{item.title}</View>
+              <View className="specialPrice">￥{item.price}</View>
+            </View>
+          );
+        })}
+    </View>
+  );
 }
 
 export default Special;

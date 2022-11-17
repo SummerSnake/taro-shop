@@ -1,49 +1,38 @@
 import Taro from '@tarojs/taro';
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Image } from '@tarojs/components';
 import './index.less';
 
-class Single extends Component {
-  constructor() {
-    super(...arguments);
-  }
+function Single(props) {
+  const { list = [] } = props;
 
   /**
    * @desc 跳转商品详情
-   * @param { number } id
-   * @param { string } name
-   * @param { number } price
+   * @param { object } item
+   * @return { void }
    */
-  goGoodInfo = (id, name, price) => {
+  const goGoodInfo = (item) => {
     Taro.navigateTo({
-      url: `/pages/goodInfo/index?id=${id}&name=${name}&price=${price}`,
+      url: `/pages/goodInfo/index?id=${item?.id}&name=${item?.title}&price=${item?.price}`,
     });
   };
 
-  render() {
-    const { singleList } = this.props;
-    return (
-      <View className="singleWrap">
-        {Array.isArray(singleList) &&
-          singleList.length > 0 &&
-          singleList.map((single) => {
-            return (
-              <View
-                className="singleItemWrap"
-                key={single.id}
-                onClick={this.goGoodInfo.bind(this, single.id, single.name, single.price)}
-              >
-                <View className="singleTitle">{single.name}</View>
-                <View className="singleCon">{single.desc}</View>
-                <View className="singleImgWrap">
-                  <Image className="singleImg" src={single.imgUrl} />
-                </View>
+  return (
+    <View className="singleWrap">
+      {Array.isArray(list) &&
+        list.map((item) => {
+          return (
+            <View className="singleItemWrap" key={item.id} onClick={() => goGoodInfo(item)}>
+              <View className="singleTitle">{item.title}</View>
+              <View className="singleCon">{item.title}</View>
+              <View className="singleImgWrap">
+                <Image className="singleImg" src={item.imgUrl} />
               </View>
-            );
-          })}
-      </View>
-    );
-  }
+            </View>
+          );
+        })}
+    </View>
+  );
 }
 
 export default Single;

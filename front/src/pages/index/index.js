@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Image, Swiper, SwiperItem } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
 import Single from './components/Single/index';
@@ -10,96 +10,90 @@ import GlobalFooter from '../../components/GlobalFooter/index';
 import { getRequest } from '../../utils/api';
 import './index.less';
 
-class Index extends Component {
-  constructor() {
-    super(...arguments);
-    this.state = {
-      fetchData: {
-        imgList: [],
-        iconList: [],
-        singleList: [],
-        moreList: [],
-        isLoading: false,
-      },
-    };
-  }
+function Index() {
+  const [fetchData, setFetchData] = useState({
+    swipperList: [],
+    iconList: [],
+    singleList: [],
+    goodsList: [],
+    bannerUrl: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
-  componentDidMount = async () => {
-    this.setState({ isLoading: true });
-    const data = await getRequest('/home');
+  /**
+   * @desc 获取数据
+   * @param { number } iconId
+   * @return { void }
+   */
+  const handleFetchData = async () => {
+    setIsLoading(true);
+    const res = await getRequest('/home/data');
 
-    if (data.status === 200) {
-      this.setState({ fetchData: data.data });
+    if (res?.code === 200) {
+      setFetchData(res?.data);
     }
 
-    this.setState({ isLoading: false });
+    setIsLoading(false);
   };
 
   /**
    * @desc 跳转商品列表
    * @param { number } iconId
+   * @return { void }
    */
-  goGoodList = (iconId) => {
+  const goGoodList = (iconId) => {
     Taro.navigateTo({
       url: `/pages/goodList/index?iconId=${iconId}`,
     });
   };
 
-  render() {
-    const {
-      fetchData: { imgList, iconList, singleList, moreList, logoImgUrl },
-    } = this.state;
+  useEffect(() => {
+    handleFetchData();
+  }, []);
 
-    return (
-      <View className="homeWrap">
-        <Swiper indicatorColor="#999" indicatorActiveColor="#fff" circular indicatorDots autoplay>
-          {Array.isArray(imgList) &&
-            imgList.length > 0 &&
-            imgList.map((img) => {
-              return (
-                <SwiperItem key={img.id}>
-                  <Image className="slideImg" src={img.imgUrl} />
-                </SwiperItem>
-              );
-            })}
-        </Swiper>
+  return (
+    <View className="homeWrap">
+      <Swiper indicatorColor="#999" indicatorActiveColor="#fff" circular indicatorDots autoplay>
+        {Array.isArray(fetchData?.swipperList) &&
+          fetchData?.swipperList.map((img) => {
+            return (
+              <SwiperItem key={img.id}>
+                <Image className="slideImg" src={img.imgUrl} />
+              </SwiperItem>
+            );
+          })}
+      </Swiper>
 
-        <View className="iconList">
-          {Array.isArray(iconList) &&
-            iconList.length > 0 &&
-            iconList.map((icon) => {
-              return (
-                <View
-                  className="iconItem"
-                  key={icon.id}
-                  onClick={this.goGoodList.bind(this, icon.id)}
-                >
-                  <View className="iconWrap">
-                    <AtIcon value={icon.iconType} size="28" color="#fff" />
-                  </View>
-                  <View className="iconTitle">{icon.title}</View>
+      <View className="iconList">
+        {Array.isArray(fetchData?.iconList) &&
+          fetchData?.iconList.map((icon) => {
+            return (
+              <View className="iconItem" key={icon.id} onClick={() => goGoodList(icon.id)}>
+                <View className="iconWrap">
+                  <AtIcon value={icon.imgUrl} size="28" color="#fff" />
                 </View>
-              );
-            })}
-        </View>
-
-        <View className="logoWrap">
-          <Image className="logoImg" src={logoImgUrl} />
-        </View>
-
-        <View className="titleDom">精选单品</View>
-        <Single singleList={singleList} />
-
-        <Special moreList={moreList} />
-
-        <More moreList={moreList} />
-
-        <Loading isLoading={this.state.isLoading} />
-
-        <GlobalFooter isActive="01" />
+                <View className="iconTitle">{icon.title}</View>
+              </View>
+            );
+          })}
       </View>
-    );
-  }
+
+      <View className="logoWrap">
+        <Image className="logoImg" src={fetchData?.bannerUrl} />
+      </View>
+
+      <View className="titleDom">精选单品</View>
+      <Single list={fetchData?.singleList} />
+
+      <Special list={fetchData?.goodsList} />
+
+      <More list={fetchData?.goodsList} />
+
+      <Loading isLoading={isLoading} />
+
+      <GlobalFooter isActive="01" />
+    </View>
+  );
 }
 
 export default Index;
