@@ -38,12 +38,12 @@ function Index() {
 
   /**
    * @desc 跳转商品列表
-   * @param { number } iconId
+   * @param { number } index
    * @return { void }
    */
-  const goGoodList = (iconId) => {
+  const goGoodList = (index) => {
     Taro.navigateTo({
-      url: `/pages/goodList/index?iconId=${iconId}`,
+      url: `/pages/goodList/index?iconId=${index}`,
     });
   };
 
@@ -66,9 +66,9 @@ function Index() {
 
       <View className="iconList">
         {Array.isArray(fetchData?.iconList) &&
-          fetchData?.iconList.map((icon) => {
+          fetchData?.iconList.map((icon, index) => {
             return (
-              <View className="iconItem" key={icon.id} onClick={() => goGoodList(icon.id)}>
+              <View className="iconItem" key={icon.id} onClick={() => goGoodList(index)}>
                 <View className="iconWrap">
                   <AtIcon value={icon.imgUrl} size="28" color="#fff" />
                 </View>

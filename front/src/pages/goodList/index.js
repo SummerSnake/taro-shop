@@ -37,26 +37,47 @@ class GoodList extends Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
 
-    const res = await getRequest('/goodsList');
-    if (res.status === 200) {
+    const res = await getRequest('/good/list');
+    if (res?.code === 200) {
+      const arr = [
+        { id: 1, title: '鱼类', list: [] },
+        { id: 2, title: '节肢类', list: [] },
+        { id: 3, title: '甲壳类', list: [] },
+      ];
       const {
-        data: { tabData = [] },
+        data: { list = [] },
       } = res;
 
-      this.setState({ goodList: tabData });
+      if (Array.isArray(list)) {
+        list.forEach((item) => {
+          if (item.type === 1) {
+            arr[0]?.list.push(item);
+          }
+          if (item.type === 2) {
+            arr[1]?.list.push(item);
+          }
+          if (item.type === 3) {
+            arr[2]?.list.push(item);
+          }
+        });
+      }
+
+      this.setState({ goodList: arr });
 
       const {
         router: { params = {} },
       } = getCurrentInstance() && getCurrentInstance();
 
-      tabData.map((item, index) => {
-        if (item.id === params.iconId) {
-          this.setState({
-            anchorIndex: `anchor${index}`,
-            anchorIndex2: `anchor${index}`,
-          });
-        }
-      });
+      if (Array.isArray(list)) {
+        list.forEach((item, index) => {
+          if (item.id === parseInt(params.iconId)) {
+            this.setState({
+              anchorIndex: `anchor${index}`,
+              anchorIndex2: `anchor${index}`,
+            });
+          }
+        });
+      }
     }
 
     this.setState({ isLoading: false });
@@ -65,6 +86,7 @@ class GoodList extends Component {
   /**
    * @desc 侧边栏按钮点击
    * @param { number } index
+   * @return { void }
    */
   handleClick = (index) => {
     this.setState({
@@ -76,6 +98,7 @@ class GoodList extends Component {
   /**
    * @desc 监听滚动条滚动
    * @param { object } e
+   * @return { void }
    */
   onScrollView = (e) => {
     if (e.currentTarget.id === 'panelRight' && Array.isArray(this.state.goodList)) {
@@ -103,13 +126,14 @@ class GoodList extends Component {
   /**
    * @desc 添加商品
    * @param { number } id
-   * @param { string } name
+   * @param { string } title
    * @param { number } price
    * @param { object } e
+   * @return { void }
    */
-  addGood = async (id, name, price, e) => {
+  addGood = async (id, title, price, e) => {
     e.stopPropagation();
-    await this.props.dispatch(addToCart(id, name, price));
+    await this.props.dispatch(addToCart(id, title, price));
     const { cartReducer = {} } = this.props;
 
     this.setState({
@@ -120,6 +144,7 @@ class GoodList extends Component {
 
   /**
    * @desc 打开关闭购物车详情
+   * @return { void }
    */
   buyingInfo = () => {
     this.setState({
@@ -129,6 +154,7 @@ class GoodList extends Component {
 
   /**
    * @desc 跳转购物车页面
+   * @return { void }
    */
   goCart = () => {
     Taro.navigateTo({
@@ -139,18 +165,20 @@ class GoodList extends Component {
   /**
    * @desc 跳转商品详情
    * @param { number } id
-   * @param { string } name
+   * @param { string } title
    * @param { number } price
+   * @return { void }
    */
-  goGoodInfo = (id, name, price) => {
+  goGoodInfo = (id, title, price) => {
     Taro.navigateTo({
-      url: `/pages/goodInfo/index?id=${id}&name=${name}&price=${price}`,
+      url: `/pages/goodInfo/index?id=${id}&name=${title}&price=${price}`,
     });
   };
 
   /**
    * @desc CartGoodList 子组件回调
    * @param { string }  type
+   * @return { void }
    */
   callback = (type) => {
     if (type === '1') {
@@ -201,24 +229,24 @@ class GoodList extends Component {
           className="panelRight"
           id="panelRight"
         >
-          {goodList.map((list, index) => {
+          {goodList.map((child, index) => {
             return (
-              <View key={list.id}>
+              <View key={child.id}>
                 <View className="tabHead" id={`anchor${index}`}>
-                  {list.title}
+                  {child.title}
                 </View>
-                {list.proList.map((item) => {
+                {child?.list.map((item) => {
                   return (
                     <View className="tabCon" key={item.id}>
                       <View
                         className="itemImgWrap"
-                        onClick={this.goGoodInfo.bind(this, item.id, item.name, item.price)}
+                        onClick={this.goGoodInfo.bind(this, item.id, item.title, item.price)}
                       >
-                        <Image className="itemImg" src={item.imageUrl} mode="widthFix" />
+                        <Image className="itemImg" src={item.imgUrl} mode="widthFix" />
                       </View>
                       <View className="itemTxtWrap">
-                        <View onClick={this.goGoodInfo.bind(this, item.id, item.name, item.price)}>
-                          <Text className="itemTxt">{item.name}</Text>
+                        <View onClick={this.goGoodInfo.bind(this, item.id, item.title, item.price)}>
+                          <Text className="itemTxt">{item.title}</Text>
                           <View className="itemCon">{item.desc}</View>
                         </View>
 
@@ -226,7 +254,7 @@ class GoodList extends Component {
                           ￥{item.price}
                           <View
                             className="iconWrap"
-                            onClick={this.addGood.bind(this, item.id, item.name, item.price)}
+                            onClick={this.addGood.bind(this, item.id, item.title, item.price)}
                           >
                             <AtIcon value="add-circle" size="20" color="#2083e4" />
                           </View>
