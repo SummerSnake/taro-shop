@@ -34,7 +34,7 @@ class UserEdit extends Component {
    * @desc 收货人搜索框
    * @param { object } e
    */
-  onConsigneeChange = async (e) => {
+  onConsigneeChange = (e) => {
     this.setState({ consignee: e.detail.value });
   };
 
@@ -42,7 +42,7 @@ class UserEdit extends Component {
    * @desc 收货地址搜索框
    * @param { object } e
    */
-  onAddressChange = async (e) => {
+  onAddressChange = (e) => {
     this.setState({ address: e.detail.value });
   };
 
@@ -50,14 +50,14 @@ class UserEdit extends Component {
    * @desc 联系电话搜索框
    * @param { object } e
    */
-  onPhoneChange = async (e) => {
+  onPhoneChange = (e) => {
     this.setState({ phone: e.detail.value });
   };
 
   /**
    * @desc 提交
    */
-  submitEdit = async () => {
+  submitEdit = () => {
     this.setState({ isOpen: true });
     this.props.dispatch(editUserInfo(this.state.consignee, this.state.address, this.state.phone));
 

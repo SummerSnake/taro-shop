@@ -30,18 +30,18 @@ class GoodInfo extends Component {
       router: { params = {} },
     } = getCurrentInstance() && getCurrentInstance();
 
-    const res = await getRequest('/goodInfo', { id: params.id });
-    if (res && res.status === 200) {
+    const res = await getRequest('/good/info', { id: params.id });
+    if (res?.code === 200) {
       this.setState({
-        fetchData: res.data,
+        fetchData: {
+          ...res.data,
+          swiper: res?.data?.imgList.split('#'),
+        },
       });
     }
 
     this.setState({
       isLoading: false,
-      id: params.id,
-      name: params.name,
-      price: params.price,
     });
   };
 
@@ -55,15 +55,12 @@ class GoodInfo extends Component {
 
   /**
    * @desc 添加商品
-   * @param { number } id
-   * @param { string } name
-   * @param { number } price
    */
-  addGood = (id, name, price) => {
+  addGood = () => {
     const { badgeNum = 0 } = this.state;
     this.setState({ badgeNum: badgeNum + 1 });
 
-    this.props.dispatch(addToCart(id, name, price));
+    this.props.dispatch(addToCart(fetchData.id, fetchData.title, fetchData.price));
   };
 
   /**
@@ -104,22 +101,14 @@ class GoodInfo extends Component {
   };
 
   render() {
-    const {
-      fetchData = {},
-      id = 0,
-      name = '',
-      price = '',
-      isOpen = false,
-      badgeNum = '',
-    } = this.state;
-    const { swiper } = fetchData;
+    const { fetchData = {}, isOpen = false, badgeNum = '' } = this.state;
+    const { swiper = [] } = fetchData;
 
     return (
       <View className="goodInfoWrap">
         <ScrollView scroll-y="true" scrollWithAnimation className="scrollDom">
           <Swiper indicatorColor="#999" indicatorActiveColor="#333" circular indicatorDots autoplay>
             {Array.isArray(swiper) &&
-              swiper.length > 0 &&
               swiper.map((item) => {
                 return (
                   <SwiperItem className="swipImgWrap" key={item}>
@@ -130,19 +119,18 @@ class GoodInfo extends Component {
           </Swiper>
           <View className="briefWrap">
             <View className="briefTop">
-              <Text>{fetchData.name}</Text>
+              <Text>{fetchData.title}</Text>
               <Text className="briefSalesVolume">销量：{fetchData.salesVolume}</Text>
             </View>
-            <View className="briefMid">{fetchData.desc}</View>
+            <View className="briefMid">{fetchData.description}</View>
             <View className="briefBottom">￥{fetchData.price}</View>
           </View>
           {Array.isArray(swiper) &&
-            swiper.length > 0 &&
             swiper.map((item) => {
               return (
                 <View className="detailWrap" key={item}>
-                  <View className="detailTitle">{fetchData.name}</View>
-                  <View className="detailTxt">{fetchData.desc}</View>
+                  <View className="detailTitle">{fetchData.title}</View>
+                  <View className="detailTxt">{fetchData.description}</View>
                   <View className="detailImgWrap">
                     <Image src={item} className="detailImg" />
                   </View>
@@ -173,7 +161,7 @@ class GoodInfo extends Component {
               <View className="iconTxt">购物车</View>
             </View>
           </View>
-          <View className="addToCart" onClick={this.addGood.bind(this, id, name, price)}>
+          <View className="addToCart" onClick={this.addGood.bind(this)}>
             加入购物车
           </View>
           <View className="goPay" onClick={this.handleLinkTo.bind(this, 'cart')}>
