@@ -1,4 +1,3 @@
-import Taro from '@tarojs/taro';
 import React, { Component } from 'react';
 import { View, Text } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
@@ -16,34 +15,28 @@ class CartGoodList extends Component {
 
   /**
    * @desc 添加商品
-   * @param id
-   * @param e
+   * @param { number } id
+   * @param { object } e
+   * @return { void }
    */
   addGood = (id, e) => {
     e.stopPropagation();
     this.props.dispatch(addToCart(id));
-    this.props.onIsOpen('2');
   };
 
   /**
    * @desc 减少商品
-   * @param id
-   * @param e
+   * @param { number } id
+   * @param { object } e
+   * @return { void }
    */
   subtractNum = (id, e) => {
     e.stopPropagation();
     this.props.dispatch(deleteFromCart(id));
-    this.props.onIsOpen('3');
-    if (this.props.cartReducer.cart.length < 1) {
-      this.props.onIsOpen('1');
-    }
-  };
 
-  /**
-   * @desc 关闭蒙层
-   */
-  shadeNone = () => {
-    this.props.onIsOpen('1');
+    if (this.props.cartReducer.cart.length < 1) {
+      this.props.onCloseShadow();
+    }
   };
 
   render() {
@@ -53,7 +46,7 @@ class CartGoodList extends Component {
       <View
         className="shadePanel"
         style={{ display: isOpen ? 'block' : 'none' }}
-        onClick={this.shadeNone}
+        onClick={() => this.props.onCloseShadow()}
       >
         <View className="buyingInfo" style={{ display: isOpen ? 'block' : 'none' }}>
           {Array.isArray(cart) &&
@@ -75,6 +68,7 @@ class CartGoodList extends Component {
               );
             })}
         </View>
+
         <View
           className="nullCartTxt"
           style={{ display: isOpen && cart.length < 1 ? 'block' : 'none' }}

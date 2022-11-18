@@ -23,7 +23,6 @@ class Cart extends Component {
       ],
       selectorChecked: '请选择优惠券',
       discountMoney: 0, // 优惠券金额
-      actualMoney: this.props.cartReducer.totalMoney, // 实际应付金额
       inputVal: '',
       isOpen: false,
     };
@@ -34,13 +33,8 @@ class Cart extends Component {
    * @param { number } id
    * @return { void }
    */
-  addGood = async (id) => {
+  addGood = (id) => {
     this.props.dispatch(addToCart(id));
-    this.setState({
-      selectorChecked: '请选择优惠券',
-      discountMoney: 0,
-      actualMoney: this.props.cartReducer.totalMoney,
-    });
   };
 
   /**
@@ -50,11 +44,6 @@ class Cart extends Component {
    */
   subtractNum = (id) => {
     this.props.dispatch(deleteFromCart(id));
-    this.setState({
-      selectorChecked: '请选择优惠券',
-      discountMoney: 0,
-      actualMoney: this.props.cartReducer.totalMoney,
-    });
   };
 
   /**
@@ -66,23 +55,10 @@ class Cart extends Component {
     const totalMoney = this.props.cartReducer.totalMoney;
     const selected = this.state.selector[e.detail.value];
     let discountMoney = selected.value;
-    let actualMoney = 0;
-
-    if (discountMoney <= totalMoney) {
-      actualMoney = (totalMoney - discountMoney).toFixed(2);
-    } else {
-      discountMoney = this.state.discountMoney;
-      actualMoney = (totalMoney - this.state.discountMoney).toFixed(2);
-      this.setState({ isOpen: true });
-      setTimeout(() => {
-        this.setState({ isOpen: false });
-      }, 2000);
-    }
 
     this.setState({
       selectorChecked: selected.value <= totalMoney ? selected.name : this.state.selectorChecked,
       discountMoney,
-      actualMoney,
     });
   };
 
@@ -115,9 +91,10 @@ class Cart extends Component {
   };
 
   render() {
-    const { selector, discountMoney, actualMoney, isOpen } = this.state;
-    const { cart } = this.props.cartReducer;
-    const { consignee, address, phone } = this.props.userReducer;
+    const { userReducer = {}, cartReducer = {} } = this.props;
+    const { consignee, address, phone } = userReducer;
+    const { cart, totalMoney } = cartReducer;
+    const { selector, discountMoney, isOpen } = this.state;
 
     return (
       <View className="orderWrap">
@@ -129,32 +106,39 @@ class Cart extends Component {
 
         <View className="goodsWrap">
           <View className="goodsTitle">已购商品</View>
-          {cart.map((item) => {
-            return (
-              <View className="goodsList" key={item.id}>
-                <Text className="goodName">{item.title}</Text>
-                <View className="goodOperate">
-                  <View className="goodIcon" onClick={this.subtractNum.bind(this, item.id)}>
-                    <AtIcon value="subtract-circle" size="18" color="#2083e4" />
+          {Array.isArray(cart) &&
+            cart.map((item) => {
+              return (
+                <View className="goodsList" key={item.id}>
+                  <Text className="goodName">{item.title}</Text>
+                  <View className="goodOperate">
+                    <View className="goodIcon" onClick={this.subtractNum.bind(this, item.id)}>
+                      <AtIcon value="subtract-circle" size="18" color="#2083e4" />
+                    </View>
+                    <Text className="goodNum">x{item.num}</Text>
+                    <View
+                      className="goodIcon"
+                      onClick={this.addGood.bind(this, item.id, null, null)}
+                    >
+                      <AtIcon value="add-circle" size="18" color="#2083e4" />
+                    </View>
                   </View>
-                  <Text className="goodNum">x{item.num}</Text>
-                  <View className="goodIcon" onClick={this.addGood.bind(this, item.id, null, null)}>
-                    <AtIcon value="add-circle" size="18" color="#2083e4" />
-                  </View>
+                  <Text className="goodPrice">￥{item.price * item.num}</Text>
                 </View>
-                <Text className="goodPrice">￥{item.price * item.num}</Text>
-              </View>
-            );
-          })}
+              );
+            })}
+
           <Picker mode="selector" range={selector} rangeKey="name" onChange={this.onSelectChange}>
             <View className="couponPicker">
               红包<Text className="couponTxt">{this.state.selectorChecked}</Text>
             </View>
           </Picker>
+
           <View className="totalMoney">
             合计：
-            <Text className="totalMoneyNum">￥{actualMoney}</Text>
+            <Text className="totalMoneyNum">￥{totalMoney - discountMoney}</Text>
           </View>
+
           <View>
             <AtInput
               name="value"
@@ -168,7 +152,7 @@ class Cart extends Component {
         </View>
 
         <View className="orderBottom">
-          <View className="bottomTotal">待支付：￥{actualMoney}</View>
+          <View className="bottomTotal">待支付：￥{totalMoney - discountMoney}</View>
           <View className="bottomCoupon">已优惠：￥{discountMoney}</View>
           <View className="confirmPay" onClick={this.confirmPay}>
             确认支付

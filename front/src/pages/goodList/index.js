@@ -19,20 +19,9 @@ class GoodList extends Component {
       anchorIndex: 'anchor0',
       anchorIndex2: 'anchor0',
       isOpen: false, // 订单详情开关
-      totalMoney: 0, // 合计总价
-      badgeNum: 0, // 购物车 Icon 数字
       goodList: [],
     };
   }
-
-  componentDidShow = () => {
-    const { cartReducer = {} } = this.props;
-
-    this.setState({
-      totalMoney: cartReducer.totalMoney,
-      badgeNum: cartReducer.badgeNum,
-    });
-  };
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
@@ -134,12 +123,6 @@ class GoodList extends Component {
   addGood = async (id, title, price, e) => {
     e.stopPropagation();
     await this.props.dispatch(addToCart(id, title, price));
-    const { cartReducer = {} } = this.props;
-
-    this.setState({
-      totalMoney: cartReducer.totalMoney,
-      badgeNum: cartReducer.badgeNum,
-    });
   };
 
   /**
@@ -173,35 +156,9 @@ class GoodList extends Component {
     });
   };
 
-  /**
-   * @desc CartGoodList 子组件回调
-   * @param { string }  type
-   * @return { void }
-   */
-  callback = (type) => {
-    if (type === '1') {
-      this.setState({
-        isOpen: false,
-      });
-    } else if (type === '2') {
-      const { badgeNum = 0 } = this.state;
-
-      this.setState({
-        badgeNum: badgeNum + 1,
-        totalMoney: this.props.cartReducer.totalMoney,
-      });
-    } else if (type === '3') {
-      const { badgeNum = 0 } = this.state;
-
-      this.setState({
-        badgeNum: badgeNum - 1,
-        totalMoney: this.props.cartReducer.totalMoney,
-      });
-    }
-  };
-
   render() {
-    const { anchorIndex, anchorIndex2, isOpen, totalMoney, badgeNum, goodList } = this.state;
+    const { cartReducer = {} } = this.props;
+    const { anchorIndex, anchorIndex2, isOpen, goodList } = this.state;
 
     return (
       <View className="cartWrap">
@@ -265,20 +222,23 @@ class GoodList extends Component {
 
         <View className="buyingWrap">
           <View className="buyingIcon" onClick={this.buyingInfo.bind(this)}>
-            <View className="badgeDom" style={{ display: badgeNum > 0 ? 'block' : 'none' }}>
-              {badgeNum}
+            <View
+              className="badgeDom"
+              style={{ display: cartReducer?.badgeNum > 0 ? 'block' : 'none' }}
+            >
+              {cartReducer?.badgeNum}
             </View>
             <AtIcon value="shopping-cart" size="30" color="#fff" />
           </View>
           <View className="moneyDom">
-            合计：<Text className="moneyTxt">￥{totalMoney}</Text>
+            合计：<Text className="moneyTxt">￥{cartReducer?.totalMoney}</Text>
           </View>
           <View className="goPay" onClick={this.goCart.bind(this)}>
             去结算
           </View>
         </View>
 
-        <CartGoodList isOpen={isOpen} onIsOpen={this.callback} />
+        <CartGoodList isOpen={isOpen} onCloseShadow={() => this.setState({ isOpen: false })} />
 
         <Loading isLoading={this.state.isLoading} />
       </View>

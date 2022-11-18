@@ -17,7 +17,6 @@ class GoodInfo extends Component {
     super(...arguments);
     this.state = {
       isOpen: false,
-      badgeNum: 0,
       fetchData: {
         swiper: [],
       },
@@ -45,26 +44,18 @@ class GoodInfo extends Component {
     });
   };
 
-  componentDidShow = () => {
-    const { cartReducer = {} } = this.props;
-
-    this.setState({
-      badgeNum: cartReducer.badgeNum,
-    });
-  };
-
   /**
    * @desc 添加商品
+   * @return { void }
    */
   addGood = () => {
-    const { badgeNum = 0 } = this.state;
-    this.setState({ badgeNum: badgeNum + 1 });
-
-    this.props.dispatch(addToCart(fetchData.id, fetchData.title, fetchData.price));
+    const { id, title, price } = this.state.fetchData;
+    this.props.dispatch(addToCart(id, title, price));
   };
 
   /**
    * @desc 打开关闭购物车详情
+   * @return { void }
    */
   buyingInfo = () => {
     this.setState({
@@ -75,6 +66,7 @@ class GoodInfo extends Component {
   /**
    * @desc 跳转
    * @param { string } page
+   * @return { void }
    */
   handleLinkTo = (page) => {
     Taro.redirectTo({
@@ -82,26 +74,9 @@ class GoodInfo extends Component {
     });
   };
 
-  /**
-   * @desc CartGoodList 子组件回调
-   * @param { string } type
-   */
-  callback = (type) => {
-    if (type === '1') {
-      this.setState({ isOpen: false });
-    } else if (type === '2') {
-      const { badgeNum = 0 } = this.state;
-
-      this.setState({ badgeNum: badgeNum + 1 });
-    } else if (type === '3') {
-      const { badgeNum = 0 } = this.state;
-
-      this.setState({ badgeNum: badgeNum - 1 });
-    }
-  };
-
   render() {
-    const { fetchData = {}, isOpen = false, badgeNum = '' } = this.state;
+    const { cartReducer = {} } = this.props;
+    const { fetchData = {}, isOpen = false } = this.state;
     const { swiper = [] } = fetchData;
 
     return (
@@ -154,8 +129,11 @@ class GoodInfo extends Component {
               <View className="iconTxt">分类</View>
             </View>
             <View className="bottomIcon" onClick={this.buyingInfo.bind(this)}>
-              <View className="badgeDom" style={{ display: badgeNum > 0 ? 'block' : 'none' }}>
-                {badgeNum}
+              <View
+                className="badgeDom"
+                style={{ display: cartReducer?.badgeNum > 0 ? 'block' : 'none' }}
+              >
+                {cartReducer?.badgeNum}
               </View>
               <AtIcon value="shopping-cart" size="30" color="#fff" />
               <View className="iconTxt">购物车</View>
@@ -169,7 +147,7 @@ class GoodInfo extends Component {
           </View>
         </View>
 
-        <CartGoodList isOpen={isOpen} onIsOpen={this.callback} />
+        <CartGoodList isOpen={isOpen} onCloseShadow={() => this.setState({ isOpen: false })} />
 
         <Loading isLoading={this.state.isLoading} />
       </View>
