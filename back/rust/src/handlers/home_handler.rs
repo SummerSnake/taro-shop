@@ -23,7 +23,6 @@ pub async fn get_home_data() -> impl IntoResponse {
     .await;
     // 商品列表
     let goods_list = good_dto::get_list(Query(Pager {
-        total: None,
         pageNo: None,
         pageSize: None,
     }))

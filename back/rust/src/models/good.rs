@@ -5,7 +5,7 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
 
-#[derive(Serialize, Deserialize, Debug, Clone, FromRow)]
+#[derive(Debug, Clone, FromRow)]
 pub struct Good {
     pub id: Option<u64>,
     pub title: String,
@@ -14,13 +14,13 @@ pub struct Good {
     pub description: String,
     pub r#type: u8,
     pub is_activity: Option<u8>,
-    pub sales_valume: u64,
-    pub image_list: String,
+    pub sales_volume: u64,
+    pub img_list: String,
     pub create_time: DateTime<Utc>,
     pub update_time: DateTime<Utc>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, FromRow)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GoodVO {
     pub id: Option<u64>,
     pub title: String,
@@ -29,8 +29,8 @@ pub struct GoodVO {
     pub description: String,
     pub r#type: u8,
     pub isActivity: Option<u8>,
-    pub salesValume: u64,
-    pub imageList: String,
+    pub salesVolume: u64,
+    pub imgList: String,
     pub createTime: Option<DateTime<Utc>>,
 }
 

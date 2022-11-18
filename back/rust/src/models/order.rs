@@ -1,5 +1,6 @@
 #![allow(non_snake_case)]
 
+use super::good::GoodVO;
 use chrono::{DateTime, Utc};
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
@@ -16,7 +17,7 @@ pub struct Order {
     pub good_ids: String,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, FromRow)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct OrderVO {
     pub id: Option<u64>,
     pub orderNumber: String,
@@ -26,7 +27,21 @@ pub struct OrderVO {
     pub goodIds: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct OrderListVO {
+    pub id: Option<u64>,
+    pub orderNumber: String,
+    pub orderStatus: u8,
+    pub orderAmount: Decimal,
+    pub createTime: Option<DateTime<Utc>>,
+    pub goodIds: String,
+    pub goodsList: Vec<GoodVO>,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
 pub struct OrderUrlParams {
     pub id: Option<u64>,
+    pub orderStatus: Option<u8>,
+    pub pageNo: Option<u32>,
+    pub pageSize: Option<u32>,
 }

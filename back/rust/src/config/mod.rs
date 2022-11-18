@@ -8,7 +8,6 @@ use sqlx::FromRow;
  */
 #[derive(Serialize, Deserialize, Clone, FromRow)]
 pub struct Pager {
-    pub total: Option<i64>,
     pub pageNo: Option<u32>,
     pub pageSize: Option<u32>,
 }

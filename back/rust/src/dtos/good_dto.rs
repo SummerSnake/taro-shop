@@ -1,6 +1,9 @@
 use crate::config::{Pager, TotalRes};
 use crate::db::mysql;
-use crate::models::good::{Good, GoodVO};
+use crate::models::{
+    good::{Good, GoodVO},
+    order::OrderVO,
+};
 use axum::extract::Query;
 use chrono::Utc;
 use sqlx::Error;
@@ -16,8 +19,8 @@ pub async fn create(payload: GoodVO) -> Result<u64, Error> {
                 `description`, 
                 `type`, 
                 `is_activity`, 
-                `sales_valume`, 
-                `image_list`,
+                `sales_volume`, 
+                `img_list`,
                 `create_time`, 
                 `update_time` 
             )
@@ -31,8 +34,8 @@ pub async fn create(payload: GoodVO) -> Result<u64, Error> {
         .bind(&payload.description)
         .bind(&payload.r#type)
         .bind(&payload.isActivity)
-        .bind(&payload.salesValume)
-        .bind(&payload.imageList)
+        .bind(&payload.salesVolume)
+        .bind(&payload.imgList)
         .bind(Utc::now())
         .bind(Utc::now())
         .execute(pool)
@@ -54,8 +57,8 @@ pub async fn update(payload: GoodVO) -> Result<u64, Error> {
             `description` = ?, 
             `type`, 
             `is_activity`, 
-            `sales_valume`, 
-            `image_list`,
+            `sales_volume`, 
+            `img_list`,
             `create_time`, 
             `update_time` 
         WHERE 
@@ -68,8 +71,8 @@ pub async fn update(payload: GoodVO) -> Result<u64, Error> {
         .bind(&payload.description)
         .bind(&payload.r#type)
         .bind(&payload.isActivity)
-        .bind(&payload.salesValume)
-        .bind(&payload.imageList)
+        .bind(&payload.salesVolume)
+        .bind(&payload.imgList)
         .bind(Utc::now())
         .bind(Utc::now())
         .bind(&payload.id)
@@ -120,8 +123,8 @@ pub async fn get_by_id(id: u64) -> Result<GoodVO, Error> {
         description: good.description,
         r#type: good.r#type,
         isActivity: good.is_activity,
-        salesValume: good.sales_valume,
-        imageList: good.image_list,
+        salesVolume: good.sales_volume,
+        imgList: good.img_list,
         createTime: Some(good.create_time),
     };
 
@@ -159,8 +162,8 @@ pub async fn get_list(Query(payload): Query<Pager>) -> Result<Vec<GoodVO>, Error
             description: good.description,
             r#type: good.r#type,
             isActivity: good.is_activity,
-            salesValume: good.sales_valume,
-            imageList: good.image_list,
+            salesVolume: good.sales_volume,
+            imgList: good.img_list,
             createTime: Some(good.create_time),
         };
 
@@ -181,4 +184,42 @@ pub async fn get_total() -> Result<i64, Error> {
     let total_res = sqlx::query_as::<_, TotalRes>(sql).fetch_one(pool).await?;
 
     Ok(total_res.total)
+}
+
+pub async fn get_order_related_list(Query(payload): Query<OrderVO>) -> Result<Vec<GoodVO>, Error> {
+    let pool = mysql::get_pool().unwrap();
+    let sql = "
+        SELECT 
+            * 
+        FROM 
+            `good` 
+        WHERE
+            FIND_IN_SET(id, ?)
+        ORDER BY 
+            id ASC";
+
+    let list = sqlx::query_as::<_, Good>(sql)
+        .bind(&payload.goodIds)
+        .fetch_all(pool)
+        .await?;
+
+    let mut list_vo = vec![];
+    for good in list {
+        let good_vo = GoodVO {
+            id: good.id,
+            title: good.title,
+            price: good.price,
+            imgUrl: good.img_url,
+            description: good.description,
+            r#type: good.r#type,
+            isActivity: good.is_activity,
+            salesVolume: good.sales_volume,
+            imgList: good.img_list,
+            createTime: Some(good.create_time),
+        };
+
+        list_vo.push(good_vo);
+    }
+
+    Ok(list_vo)
 }

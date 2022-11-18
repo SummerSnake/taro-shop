@@ -1,6 +1,6 @@
-use crate::config::{ListRes, Pager};
-use crate::dtos::order_dto;
-use crate::models::order::{OrderUrlParams, OrderVO};
+use crate::config::ListRes;
+use crate::dtos::{good_dto, order_dto};
+use crate::models::order::{OrderListVO, OrderUrlParams, OrderVO};
 use crate::response::ResVO;
 use axum::http::StatusCode;
 use axum::{extract::Query, response::IntoResponse, Json};
@@ -115,22 +115,38 @@ pub async fn get_order_by_id(Query(payload): Query<OrderUrlParams>) -> impl Into
 }
 
 /**
- * @desc 查询商品列表
+ * @desc 查询订单列表
  */
-pub async fn get_orders_list(Query(payload): Query<Pager>) -> impl IntoResponse {
+pub async fn get_orders_list(Query(payload): Query<OrderUrlParams>) -> impl IntoResponse {
     let order_list = order_dto::get_list(Query(payload.clone())).await;
     let total = order_dto::get_total().await;
 
     match order_list {
         Ok(_res) => {
+            let mut order_vec = vec![];
+            for order in _res {
+                let goods_list = good_dto::get_order_related_list(Query(order.clone())).await;
+                let order_list_vo = OrderListVO {
+                    id: order.id,
+                    orderNumber: order.orderNumber,
+                    orderStatus: order.orderStatus,
+                    orderAmount: order.orderAmount,
+                    createTime: order.createTime,
+                    goodIds: order.goodIds,
+                    goodsList: goods_list.unwrap_or(vec![]),
+                };
+
+                order_vec.push(order_list_vo)
+            }
+
             let res = ListRes {
                 total: total.unwrap_or(0),
                 pageNo: payload.pageNo.unwrap_or(1),
                 pageSize: payload.pageSize.unwrap_or(10),
-                list: _res,
+                list: order_vec,
             };
 
-            Json(ResVO::<ListRes<OrderVO>>::from_result(Some(res)))
+            Json(ResVO::<ListRes<OrderListVO>>::from_result(Some(res)))
         }
         Err(err) => {
             tracing::error!("Get_orders_list: {:?}.", err);

@@ -1,6 +1,6 @@
-use crate::config::{Pager, TotalRes};
+use crate::config::TotalRes;
 use crate::db::mysql;
-use crate::models::order::{Order, OrderVO};
+use crate::models::order::{Order, OrderUrlParams, OrderVO};
 use axum::extract::Query;
 use chrono::Utc;
 use sqlx::Error;
@@ -106,7 +106,7 @@ pub async fn get_by_id(id: u64) -> Result<OrderVO, Error> {
     Ok(order_vo)
 }
 
-pub async fn get_list(Query(payload): Query<Pager>) -> Result<Vec<OrderVO>, Error> {
+pub async fn get_list(Query(payload): Query<OrderUrlParams>) -> Result<Vec<OrderVO>, Error> {
     let pool = mysql::get_pool().unwrap();
     let page_no = payload.pageNo.unwrap_or(1);
     let page_size = payload.pageSize.unwrap_or(10);
@@ -116,12 +116,15 @@ pub async fn get_list(Query(payload): Query<Pager>) -> Result<Vec<OrderVO>, Erro
             * 
         FROM 
             `order` 
+        WHERE 
+            `order_status` = ?
         ORDER BY 
             id DESC 
         limit 
             ?, ?";
 
     let list = sqlx::query_as::<_, Order>(sql)
+        .bind(&payload.orderStatus)
         .bind(limit)
         .bind(page_size)
         .fetch_all(pool)

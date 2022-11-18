@@ -4,7 +4,7 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
 
-#[derive(Serialize, Deserialize, Debug, Clone, FromRow)]
+#[derive(Debug, Clone, FromRow)]
 pub struct Ad {
     pub id: Option<u64>,
     pub title: Option<String>,
@@ -14,7 +14,7 @@ pub struct Ad {
     pub update_time: DateTime<Utc>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, FromRow)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AdVO {
     pub id: Option<u64>,
     pub title: Option<String>,
