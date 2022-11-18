@@ -31,12 +31,11 @@ class Cart extends Component {
 
   /**
    * @desc 添加商品
-   * @param id
-   * @param name
-   * @param price
+   * @param { number } id
+   * @return { void }
    */
-  addGood = async (id, name, price) => {
-    this.props.dispatch(addToCart(id, name, price));
+  addGood = async (id) => {
+    this.props.dispatch(addToCart(id));
     this.setState({
       selectorChecked: '请选择优惠券',
       discountMoney: 0,
@@ -45,8 +44,9 @@ class Cart extends Component {
   };
 
   /**
-   * 减少商品
-   * @param id
+   * @desc 减少商品
+   * @param { number } id
+   * @return { void }
    */
   subtractNum = (id) => {
     this.props.dispatch(deleteFromCart(id));
@@ -59,7 +59,8 @@ class Cart extends Component {
 
   /**
    * @desc 选择优惠券
-   * @param e
+   * @param { object } e
+   * @return { void }
    */
   onSelectChange = (e) => {
     const totalMoney = this.props.cartReducer.totalMoney;
@@ -86,8 +87,9 @@ class Cart extends Component {
   };
 
   /**
-   * 填写备注
-   * @param inputVal
+   * @desc 填写备注
+   * @param { string } inputVal
+   * @return { void }
    */
   inputValChange = (inputVal) => {
     this.setState({
@@ -96,11 +98,12 @@ class Cart extends Component {
   };
 
   /**
-   * 支付
+   * @desc 支付
+   * @return { void }
    */
   confirmPay = async () => {
-    const data = await getRequest('/mock/payApi');
-    if (data.code === 0) {
+    const res = await getRequest('/mock/payApi');
+    if (res?.code === 200) {
       Taro.requestPayment({
         timeStamp: 1,
         nonceStr: 1,
@@ -129,7 +132,7 @@ class Cart extends Component {
           {cart.map((item) => {
             return (
               <View className="goodsList" key={item.id}>
-                <Text className="goodName">{item.name}</Text>
+                <Text className="goodName">{item.title}</Text>
                 <View className="goodOperate">
                   <View className="goodIcon" onClick={this.subtractNum.bind(this, item.id)}>
                     <AtIcon value="subtract-circle" size="18" color="#2083e4" />
@@ -172,7 +175,7 @@ class Cart extends Component {
           </View>
         </View>
 
-        <AtToast isOpened={isOpen} text="优惠券金额不可以大于总金额" icon="sketch" />
+        <AtToast isOpened={isOpen} text="优惠券金额不可以大于总金额" icon="close-circle" />
       </View>
     );
   }

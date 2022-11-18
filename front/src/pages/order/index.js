@@ -1,127 +1,133 @@
 import Taro, { getCurrentInstance } from '@tarojs/taro';
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Input, ScrollView, Image } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
 import Loading from '../../components/Loading/index';
 import { getRequest } from '../../utils/api';
 import './index.less';
 
-class Order extends Component {
-  constructor() {
-    super(...arguments);
-    this.state = {
-      orderType: 0,
-      searchVal: '',
-      orderList: [],
-    };
-  }
+function Order() {
+  const {
+    router: { params = {} },
+  } = getCurrentInstance() && getCurrentInstance();
 
-  componentDidMount = () => {
-    const {
-      router: { params = {} },
-    } = getCurrentInstance() && getCurrentInstance();
-    const { orderType = 0 } = params;
-
-    this.fetchApi(orderType);
-    this.setState({ orderType });
-  };
+  const [searchVal, setSearchVal] = useState('');
+  const [orderList, setOrderList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   /**
    * @desc 搜索事件
    * @param { object }  e
+   * @return { void }
    */
-  handleSearch = (e) => {
-    this.setState({ isLoading: true });
+  const handleSearch = (e) => {
+    setIsLoading(true);
 
-    const { value } = e && e.detail && e.detail;
+    const { value } = e?.detail;
 
     if (value) {
-      let { orderList = [] } = this.state;
-      orderList = orderList.filter((item) => value === item.goodName);
-      this.setState({ orderList });
+      let arr = orderList.filter((item) => value === item.goodName);
+      setOrderList({ orderList: arr });
     } else {
-      const { orderType = 0 } = this.state;
-      this.fetchApi(orderType);
+      handleFetchData();
     }
 
-    this.setState({
-      searchVal: value,
-      isLoading: false,
-    });
+    setSearchVal(value);
+    setIsLoading(true);
   };
 
   /**
    * @desc 清空搜索框内容
+   * @return { void }
    */
-  handleClearSearchVal = () => {
-    this.setState({ searchVal: '' });
+  const handleClearSearchVal = () => {
+    setSearchVal('');
+    handleFetchData();
+  };
 
-    const { orderType = 0 } = this.state;
-    this.fetchApi(orderType);
+  /**
+   * @desc 跳转商品详情
+   * @param { number } id
+   * @return { void }
+   */
+  const goGoodInfo = (id) => {
+    Taro.navigateTo({
+      url: `/pages/goodInfo/index?id=${id}`,
+    });
   };
 
   /**
    * @desc 获取数据
-   * @param { number } orderType
+   * @return { void }
    */
-  fetchApi = async (orderType) => {
-    this.setState({ isLoading: true });
+  const handleFetchData = async () => {
+    setIsLoading(true);
+    const res = await getRequest('/order/list', { orderStatus: params?.orderStatus });
 
-    const res = await getRequest('/order', { orderType });
-    if (res && res.status === 200) {
-      const { data = [] } = res;
-
-      this.setState({ orderList: data });
+    if (res?.code === 200) {
+      setOrderList(res?.data?.list);
     }
 
-    this.setState({ isLoading: false });
+    setIsLoading(false);
   };
 
-  render() {
-    const { orderList = [], searchVal = '', isLoading = false } = this.state;
+  useEffect(() => {
+    handleFetchData();
+  }, []);
 
-    return (
-      <View className="orderContainer">
-        <View className="searchWrap">
-          <Input
-            className="searchInput"
-            type="text"
-            placeholder="请输入商品名称"
-            value={searchVal}
-            onInput={this.handleSearch.bind(this)}
-          />
-          <View className="removeIcon" onClick={this.handleClearSearchVal}>
-            <AtIcon value="close-circle" size="20" color="#ccc" />
-          </View>
+  return (
+    <View className="orderContainer">
+      <View className="searchWrap">
+        <Input
+          className="searchInput"
+          type="text"
+          placeholder="请输入商品名称"
+          value={searchVal}
+          onInput={handleSearch}
+        />
+        <View className="removeIcon" onClick={handleClearSearchVal}>
+          <AtIcon value="close-circle" size="20" color="#ccc" />
         </View>
+      </View>
 
-        <ScrollView className="scrollView" scrollY scrollWithAnimation>
-          {Array.isArray(orderList) &&
-            orderList.length > 0 &&
-            orderList.map((order) => {
-              return (
-                <View className="cardWrap" key={order.id}>
-                  <View className="cardDom">
+      <ScrollView className="scrollView" scrollY scrollWithAnimation>
+        {Array.isArray(orderList) &&
+          orderList.map((order) => {
+            return (
+              <View className="cardWrap" key={order.id}>
+                <View className="cardTitle">
+                  {order.orderStatus === 1
+                    ? '未支付'
+                    : order.orderStatus === 2
+                    ? '待发货'
+                    : order.orderStatus === 3
+                    ? '已发货'
+                    : order.orderStatus === 4
+                    ? '待评价'
+                    : '已完成'}
+                </View>
+
+                <View className="cardTxt">订单编号：{order.orderNumber}</View>
+
+                {order?.goodsList.map((item) => (
+                  <View className="cardDom" onClick={() => goGoodInfo(item?.id)}>
                     <View className="cardImgWrap">
-                      <Image className="cardImg" src={order.imgUrl} />
+                      <Image className="cardImg" src={item.imgUrl} />
                     </View>
                     <View className="cardCon">
-                      <View className="cardTitle">{order.goodName}</View>
-                      <View className="cardType">
-                        {order.orderType === 1 ? '待收货' : '已收货'}
-                      </View>
-                      <View className="cardTxt">{order.goodDesc}</View>
+                      <View className="cardTitle">{item.title}</View>
+                      <View className="cardTxt">{item.description}</View>
                     </View>
                   </View>
-                </View>
-              );
-            })}
-        </ScrollView>
+                ))}
+              </View>
+            );
+          })}
+      </ScrollView>
 
-        <Loading isLoading={isLoading} />
-      </View>
-    );
-  }
+      <Loading isLoading={isLoading} />
+    </View>
+  );
 }
 
 export default Order;

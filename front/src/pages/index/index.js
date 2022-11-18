@@ -21,6 +21,17 @@ function Index() {
   const [isLoading, setIsLoading] = useState(false);
 
   /**
+   * @desc 跳转商品列表
+   * @param { number } index
+   * @return { void }
+   */
+  const goGoodList = (index) => {
+    Taro.navigateTo({
+      url: `/pages/goodList/index?iconId=${index}`,
+    });
+  };
+
+  /**
    * @desc 获取数据
    * @param { number } iconId
    * @return { void }
@@ -34,17 +45,6 @@ function Index() {
     }
 
     setIsLoading(false);
-  };
-
-  /**
-   * @desc 跳转商品列表
-   * @param { number } index
-   * @return { void }
-   */
-  const goGoodList = (index) => {
-    Taro.navigateTo({
-      url: `/pages/goodList/index?iconId=${index}`,
-    });
   };
 
   useEffect(() => {

@@ -4,13 +4,13 @@ const DELETE_FROM_CART = 'DELETE_FROM_CART';
 /**
  * @desc 添加商品
  * @param id 商品id
- * @param name 商品名字
+ * @param title 商品名字
  * @param price 商品价格
  */
-function addToCart(id, name, price) {
+function addToCart(id, title, price) {
   return {
     type: ADD_TO_CART,
-    payload: { id, name, price },
+    payload: { id, title, price },
   };
 }
 

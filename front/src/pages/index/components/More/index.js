@@ -8,12 +8,12 @@ function More(props) {
 
   /**
    * @desc 跳转商品详情
-   * @param { object } item
+   * @param { number } id
    * @return { void }
    */
-  const goGoodInfo = (item) => {
+  const goGoodInfo = (id) => {
     Taro.navigateTo({
-      url: `/pages/goodInfo/index?id=${item?.id}&name=${item?.title}&price=${item?.price}`,
+      url: `/pages/goodInfo/index?id=${id}`,
     });
   };
 
@@ -23,7 +23,7 @@ function More(props) {
       {Array.isArray(list) &&
         list.map((item) => {
           return (
-            <View className="moreItemWrap" key={item.id} onClick={() => goGoodInfo(item)}>
+            <View className="moreItemWrap" key={item.id} onClick={() => goGoodInfo(item?.id)}>
               <View className="moreImgWrap">
                 <Image className="moreImg" src={item.imgUrl} />
               </View>

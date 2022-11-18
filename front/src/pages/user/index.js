@@ -45,11 +45,11 @@ class User extends Component {
 
   /**
    * @desc 跳转订单列表
-   * @param { number } type
+   * @param { number } status
    */
-  handleGoOrder = (type) => {
+  handleGoOrder = (status) => {
     Taro.navigateTo({
-      url: `/pages/order/index?orderType=${type}`,
+      url: `/pages/order/index?orderStatus=${status}`,
     });
   };
 
@@ -80,17 +80,17 @@ class User extends Component {
 
           <View className="iconListWrap">
             <View className="iconList">
-              <View className="iconItem" onClick={this.handleGoOrder.bind(this, 0)}>
-                <AtIcon value="lightning-bolt" size="30" color="#999" />
-                <View className="iconItemTxt">全部订单</View>
-              </View>
               <View className="iconItem" onClick={this.handleGoOrder.bind(this, 1)}>
-                <AtIcon value="heart" size="30" color="#999" />
-                <View className="iconItemTxt">待收货</View>
+                <AtIcon value="lightning-bolt" size="30" color="#999" />
+                <View className="iconItemTxt">未支付</View>
               </View>
               <View className="iconItem" onClick={this.handleGoOrder.bind(this, 2)}>
+                <AtIcon value="heart" size="30" color="#999" />
+                <View className="iconItemTxt">待发货</View>
+              </View>
+              <View className="iconItem" onClick={this.handleGoOrder.bind(this, 3)}>
                 <AtIcon value="heart-2" size="30" color="#999" />
-                <View className="iconItemTxt">已收货</View>
+                <View className="iconItemTxt">已发货</View>
               </View>
             </View>
           </View>

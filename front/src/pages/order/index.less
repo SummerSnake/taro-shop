@@ -1,7 +1,7 @@
 .orderContainer {
   height: 100vh;
   background: linear-gradient(180deg, rgba(242, 242, 242, 1), rgba(242, 242, 242, 1));
-  font-family: "Microsoft YaHei UI", serif;
+  font-family: 'Microsoft YaHei UI', serif;
   .searchWrap {
     position: relative;
     height: 100px;
@@ -33,17 +33,27 @@
     }
   }
   .scrollView {
-    height: calc(~"100vh - 100px");
+    height: calc(~'100vh - 100px');
     box-sizing: border-box;
-    padding: 24px 0;
+    padding: 24px 30px;
     .cardWrap {
-      padding: 0 30px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      .cardTitle {
+        font-size: 32px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+      }
+      .cardTxt {
+        font-size: 28px;
+        color: #999;
+      }
       .cardDom {
         padding: 20px;
         margin-bottom: 24px;
-        background-color: #fff;
-        box-shadow: 1px 1px 3px 1px rgba(181, 181, 181, 0.5);
-        border-radius: 12px;
+        border-bottom: 1px solid #f3f3f3;
         .cardImgWrap {
           float: left;
           width: 120px;
@@ -55,19 +65,10 @@
           }
         }
         .cardCon {
-          .cardTitle {
-            font-size: 32px;
-            font-weight: 600;
-            color: #333;
-          }
           .cardType {
             font-size: 28px;
             color: #d82b2f;
             margin: 10px 0;
-          }
-          .cardTxt {
-            font-size: 28px;
-            color: #999;
           }
         }
       }

@@ -165,13 +165,11 @@ class GoodList extends Component {
   /**
    * @desc 跳转商品详情
    * @param { number } id
-   * @param { string } title
-   * @param { number } price
    * @return { void }
    */
-  goGoodInfo = (id, title, price) => {
+  goGoodInfo = (id) => {
     Taro.navigateTo({
-      url: `/pages/goodInfo/index?id=${id}&name=${title}&price=${price}`,
+      url: `/pages/goodInfo/index?id=${id}`,
     });
   };
 
@@ -238,16 +236,13 @@ class GoodList extends Component {
                 {child?.list.map((item) => {
                   return (
                     <View className="tabCon" key={item.id}>
-                      <View
-                        className="itemImgWrap"
-                        onClick={this.goGoodInfo.bind(this, item.id, item.title, item.price)}
-                      >
+                      <View className="itemImgWrap" onClick={this.goGoodInfo.bind(this, item.id)}>
                         <Image className="itemImg" src={item.imgUrl} mode="widthFix" />
                       </View>
                       <View className="itemTxtWrap">
-                        <View onClick={this.goGoodInfo.bind(this, item.id, item.title, item.price)}>
+                        <View onClick={this.goGoodInfo.bind(this, item.id)}>
                           <Text className="itemTxt">{item.title}</Text>
-                          <View className="itemCon">{item.desc}</View>
+                          <View className="itemCon">{item.description}</View>
                         </View>
 
                         <View className="itemPrice">

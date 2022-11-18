@@ -15,7 +15,7 @@ class CartGoodList extends Component {
   }
 
   /**
-   * 添加商品
+   * @desc 添加商品
    * @param id
    * @param e
    */
@@ -26,7 +26,7 @@ class CartGoodList extends Component {
   };
 
   /**
-   * 减少商品
+   * @desc 减少商品
    * @param id
    * @param e
    */
@@ -40,7 +40,7 @@ class CartGoodList extends Component {
   };
 
   /**
-   * 关闭蒙层
+   * @desc 关闭蒙层
    */
   shadeNone = () => {
     this.props.onIsOpen('1');
@@ -57,11 +57,10 @@ class CartGoodList extends Component {
       >
         <View className="buyingInfo" style={{ display: isOpen ? 'block' : 'none' }}>
           {Array.isArray(cart) &&
-            cart.length > 0 &&
             cart.map((good) => {
               return (
                 <View className="orderDom" key={good.id}>
-                  <Text className="buyingItemTxt">{good.name}</Text>
+                  <Text className="buyingItemTxt">{good.title}</Text>
                   <Text className="buyingItemTxt">￥{good.price * good.num}</Text>
                   <View className="buyingItemOperate">
                     <View className="buyingItemIcon" onClick={this.subtractNum.bind(this, good.id)}>
