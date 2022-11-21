@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { addToCart } from '../../store/actions/cartActions';
 import CartGoodList from '../../components/CartGoodList/index';
 import Loading from '../../components/Loading/index';
-import { getRequest } from '../../utils/api';
+import { getRequest, postRequest } from '../../utils/api';
 import './index.less';
 
 @connect(({ cartReducer }) => ({
@@ -136,13 +136,24 @@ class GoodList extends Component {
   };
 
   /**
-   * @desc 跳转购物车页面
+   * @desc 创建订单 - 跳转购物车页面
    * @return { void }
    */
-  goCart = () => {
-    Taro.navigateTo({
-      url: `/pages/cart/index`,
+  goCart = async () => {
+    const { cartReducer = {} } = this.props;
+    const { cart = [] } = cartReducer;
+    const goodIdArr = cart.map((item) => item?.id);
+
+    const res = await postRequest('/order/create', {
+      orderAmount: cartReducer?.totalMoney,
+      goodIds: goodIdArr.join(),
     });
+
+    if (res?.code === 200) {
+      Taro.navigateTo({
+        url: `/pages/cart/index`,
+      });
+    }
   };
 
   /**
