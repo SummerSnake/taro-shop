@@ -128,8 +128,8 @@ pub async fn get_orders_list(Query(payload): Query<OrderUrlParams>) -> impl Into
                 let goods_list = good_dto::get_order_related_list(Query(order.clone())).await;
                 let order_list_vo = OrderListVO {
                     id: order.id,
-                    orderNumber: order.orderNumber,
-                    orderStatus: order.orderStatus,
+                    orderNumber: order.orderNumber.unwrap_or(String::new()),
+                    orderStatus: order.orderStatus.unwrap_or(1),
                     orderAmount: order.orderAmount,
                     createTime: order.createTime,
                     goodIds: order.goodIds,

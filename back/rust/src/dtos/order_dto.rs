@@ -4,6 +4,7 @@ use crate::models::order::{Order, OrderUrlParams, OrderVO};
 use axum::extract::Query;
 use chrono::Utc;
 use sqlx::Error;
+use uuid::Uuid;
 
 pub async fn create(payload: OrderVO) -> Result<u64, Error> {
     let pool = mysql::get_pool().unwrap();
@@ -21,8 +22,8 @@ pub async fn create(payload: OrderVO) -> Result<u64, Error> {
             (?, ?, ?, ?, ?, ?)";
 
     let affected_row = sqlx::query(sql)
-        .bind(&payload.orderNumber)
-        .bind(&payload.orderStatus)
+        .bind(Uuid::new_v4().simple().to_string())
+        .bind(1)
         .bind(&payload.orderAmount)
         .bind(Utc::now())
         .bind(Utc::now())
@@ -96,8 +97,8 @@ pub async fn get_by_id(id: u64) -> Result<OrderVO, Error> {
 
     let order_vo = OrderVO {
         id: order.id,
-        orderNumber: order.order_number,
-        orderStatus: order.order_status,
+        orderNumber: Some(order.order_number),
+        orderStatus: Some(order.order_status),
         orderAmount: order.order_amount,
         createTime: Some(order.create_time),
         goodIds: order.good_ids,
@@ -119,7 +120,7 @@ pub async fn get_list(Query(payload): Query<OrderUrlParams>) -> Result<Vec<Order
         WHERE 
             `order_status` = ?
         ORDER BY 
-            id DESC 
+            id ASC 
         limit 
             ?, ?";
 
@@ -134,8 +135,8 @@ pub async fn get_list(Query(payload): Query<OrderUrlParams>) -> Result<Vec<Order
     for order in list {
         let order_vo = OrderVO {
             id: order.id,
-            orderNumber: order.order_number,
-            orderStatus: order.order_status,
+            orderNumber: Some(order.order_number),
+            orderStatus: Some(order.order_status),
             orderAmount: order.order_amount,
             createTime: Some(order.create_time),
             goodIds: order.good_ids,

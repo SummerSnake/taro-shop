@@ -20,8 +20,8 @@ pub struct Order {
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct OrderVO {
     pub id: Option<u64>,
-    pub orderNumber: String,
-    pub orderStatus: u8,
+    pub orderNumber: Option<String>,
+    pub orderStatus: Option<u8>,
     pub orderAmount: Decimal,
     pub createTime: Option<DateTime<Utc>>,
     pub goodIds: String,

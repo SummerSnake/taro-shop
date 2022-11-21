@@ -111,7 +111,7 @@ pub async fn get_list(Query(payload): Query<AdUrlParams>) -> Result<Vec<AdVO>, E
         WHERE
             `type` = ?
         ORDER BY 
-            `id` DESC";
+            `id` ASC";
 
     let list = sqlx::query_as::<_, Ad>(sql)
         .bind(payload.r#type)
