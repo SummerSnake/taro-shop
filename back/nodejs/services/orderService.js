@@ -1,6 +1,7 @@
 /**
- * 订单列表相关接口
+ * 订单相关接口
  */
+const { v4: uuidv4 } = require('uuid');
 const { querySql } = require('../utils/mysql');
 const { CODE_ERROR, CODE_SUCCESS } = require('../config/codeConfig');
 
@@ -108,6 +109,44 @@ async function getOrderListApi(req, res, next) {
   }
 }
 
+/**
+ * @desc 创建订单接口
+ */
+async function postCreateOrderApi(req, res, next) {
+  if (!req) {
+    res.json({
+      code: CODE_ERROR,
+      msg: '请求失败',
+      data: null,
+    });
+  }
+
+  const {
+    body: { orderAmount = 0, goodIds = '' },
+  } = req;
+  const orderNumber = uuidv4().replaceAll('-', '');
+
+  const sql =
+    'INSERT INTO `order` (order_number, order_status, order_amount, create_time, update_time, good_ids) values ';
+  const createOrderSql = `${sql}('${orderNumber}', 1, ${orderAmount}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '${goodIds}')`;
+  const resultSetHeader = await querySql(createOrderSql);
+
+  if (resultSetHeader?.affectedRows === 1) {
+    res.json({
+      code: CODE_SUCCESS,
+      msg: '操作成功',
+      data: null,
+    });
+  } else {
+    res.json({
+      code: CODE_ERROR,
+      msg: '操作失败',
+      data: null,
+    });
+  }
+}
+
 module.exports = {
   getOrderListApi,
+  postCreateOrderApi,
 };
