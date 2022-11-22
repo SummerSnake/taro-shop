@@ -1,11 +1,11 @@
 /**
- * 商品详情路由模块
+ * 订单列表路由模块
  */
 const express = require('express');
 const router = express.Router();
 const service = require('../services/orderService');
 
-// 商品详情接口
-router.get('/order', service.getOrderListApi);
+// 订单列表接口
+router.get('/order/list', service.getOrderListApi);
 
 module.exports = router;

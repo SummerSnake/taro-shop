@@ -2,7 +2,7 @@
  * 首页相关接口
  */
 const { querySql } = require('../utils/mysql');
-const { STATUS_ERROR, STATUS_SUCCESS } = require('../config/codeConfig');
+const { CODE_ERROR, CODE_SUCCESS } = require('../config/codeConfig');
 
 /**
  * @desc 首页查询接口
@@ -10,55 +10,81 @@ const { STATUS_ERROR, STATUS_SUCCESS } = require('../config/codeConfig');
 function getHomeApi(req, res, next) {
   let data = {};
 
-  const homeSql = 'SELECT * FROM home';
-  querySql(homeSql).then((_res) => {
+  // 查询广告表
+  const adSql = 'SELECT * FROM ad';
+  querySql(adSql).then((_res) => {
     if (_res) {
-      const { iconList = [], imgList = [] } = data;
+      const swipperList = [];
+      const iconList = [];
+      let bannerUrl = '';
       const list = JSON.parse(JSON.stringify(_res));
 
       list.forEach((item) => {
+        const itemVo = {
+          id: item?.id,
+          title: item?.title,
+          type: item?.type,
+          imgUrl: item?.img_url,
+          createTime: item?.create_time,
+        };
+
         if (item.type === 1) {
-          iconList.push(item);
+          swipperList.push(itemVo);
         }
         if (item.type === 2) {
-          imgList.push(item);
+          bannerUrl = item.img_url;
         }
         if (item.type === 3) {
-          data.logoImgUrl = item.logoImgUrl;
+          iconList.push(itemVo);
         }
       });
 
+      // 查询商品表
       const goodSql = 'SELECT * FROM good';
       querySql(goodSql).then((_res) => {
         if (_res) {
-          const { moreList = [], singleList = [] } = data;
+          const singleList = [];
+          const goodsList = [];
           const list = JSON.parse(JSON.stringify(_res));
 
           list.forEach((item) => {
-            if (item.isActivity === 1) {
-              singleList.push(item);
+            const itemVo = {
+              id: item?.id,
+              title: item?.title,
+              price: item?.price,
+              imgUrl: item?.img_url,
+              description: item?.description,
+              type: item?.type,
+              isActivity: item?.is_activity,
+              salesVolume: item?.sales_volume,
+              imgList: item?.img_list,
+              createTime: item?.create_time,
+            };
+
+            if (item.is_activity === 1) {
+              singleList.push(itemVo);
             } else {
-              moreList.push(item);
+              goodsList.push(itemVo);
             }
           });
 
           data = {
-            ...data,
+            bannerUrl,
+            swipperList,
             iconList,
-            imgList,
             singleList,
-            moreList,
+            goodsList,
           };
 
           if (Object.keys(data).length > 0) {
             res.json({
-              status: STATUS_SUCCESS,
+              code: CODE_SUCCESS,
               msg: '请求成功',
               data,
             });
           } else {
             res.json({
-              status: STATUS_ERROR,
+              code: CODE_ERROR,
               msg: '服务器错误',
               data: null,
             });

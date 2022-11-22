@@ -6,6 +6,6 @@ const router = express.Router();
 const service = require('../services/goodInfoService');
 
 // 商品详情接口
-router.get('/goodInfo', service.getGoodInfoApi);
+router.get('/good/info', service.getGoodInfoApi);
 
 module.exports = router;
