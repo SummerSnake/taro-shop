@@ -72,7 +72,7 @@ npm run dev
 
 #---------------------------------------------------------------
 
-# 后端
+# node 后端
 
 taro 商城小程序 node.js 后端
 node.js + mysql 入门项目
@@ -85,8 +85,8 @@ node.js + express + mysql + nodemon
 
 ```
 
-yarn -i
-yarn dev || yarn start || nodemon server.js
+npm ci
+npm run start || nodemon server.js
 
 ```
 
@@ -103,3 +103,38 @@ yarn dev || yarn start || nodemon server.js
     │   ├── mqsql.js                    // sql连接配置
     ├── package.json                // 项目依赖
     └── server.js                   // 入口文件
+
+#---------------------------------------------------------------
+
+# rust 后端
+
+taro 商城小程序 rust 后端
+rust + axum + mysql 入门项目
+
+# 技术栈
+
+rust + axum + mysql
+
+# 项目运行
+
+```
+
+cargo run
+
+```
+
+# 业务介绍
+
+目录结构
+
+    ├── src                         // 源码目录
+    │   ├── config                      // 公共配置
+    │   ├── db                          // sql连接配置
+    │   ├── dtos                        // 数据库操作
+    │   ├── hanlders                    // 接口操作
+    │   ├── models                      // 数据模型
+    │   ├── response                    // 接口返回配置
+    │   ├── router                      // 路由
+    │   ├── main.rs                     // 入口文件
+    ├── .env                        // 环境变量
+    └── Cargo.toml                  // 项目依赖

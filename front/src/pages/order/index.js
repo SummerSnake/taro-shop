@@ -26,14 +26,14 @@ function Order() {
     const { value } = e?.detail;
 
     if (value) {
-      let arr = orderList.filter((item) => value === item.goodName);
-      setOrderList({ orderList: arr });
+      let arr = orderList.filter((item) => value === item.orderNumber);
+      setOrderList(arr);
     } else {
       handleFetchData();
     }
 
     setSearchVal(value);
-    setIsLoading(true);
+    setIsLoading(false);
   };
 
   /**
@@ -81,7 +81,7 @@ function Order() {
         <Input
           className="searchInput"
           type="text"
-          placeholder="请输入商品名称"
+          placeholder="请输入订单编号"
           value={searchVal}
           onInput={handleSearch}
         />
