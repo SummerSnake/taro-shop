@@ -1,121 +1,94 @@
 import Taro from '@tarojs/taro';
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { View, Input } from '@tarojs/components';
 import { AtToast } from 'taro-ui';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { editUserInfo } from '../../store/actions/userActions';
 import './index.less';
 
-@connect(({ userReducer }) => ({
-  userReducer,
-}))
-class UserEdit extends Component {
-  constructor() {
-    super(...arguments);
-    this.state = {
-      consignee: '',
-      address: '',
-      phone: '',
-      isOpen: false,
-    };
-  }
+function UserEdit() {
+  const userReducer = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
 
-  componentDidMount = () => {
-    const { userReducer = {} } = this.props;
+  const [userInfo, setUserInfo] = useState({
+    phone: userReducer.phone,
+    address: userReducer.address,
+    consignee: userReducer.consignee,
+  });
+  const [isOpen, setIsOpen] = useState(false);
 
-    this.setState({
-      consignee: userReducer.consignee,
-      address: userReducer.address,
-      phone: userReducer.phone,
+  /**
+   * @desc input change 事件
+   * @param { sign } string
+   * @param { object } e
+   * @return { void }
+   */
+  const handleInputChange = (sign, e) => {
+    setUserInfo({
+      ...userInfo,
+      [sign]: e?.target.value,
     });
   };
 
   /**
-   * @desc 收货人搜索框
-   * @param { object } e
-   */
-  onConsigneeChange = (e) => {
-    this.setState({ consignee: e.detail.value });
-  };
-
-  /**
-   * @desc 收货地址搜索框
-   * @param { object } e
-   */
-  onAddressChange = (e) => {
-    this.setState({ address: e.detail.value });
-  };
-
-  /**
-   * @desc 联系电话搜索框
-   * @param { object } e
-   */
-  onPhoneChange = (e) => {
-    this.setState({ phone: e.detail.value });
-  };
-
-  /**
    * @desc 提交
+   * @return { void }
    */
-  submitEdit = () => {
-    this.setState({ isOpen: true });
-    this.props.dispatch(editUserInfo(this.state.consignee, this.state.address, this.state.phone));
+  const handleSubmit = () => {
+    setIsOpen(true);
+    dispatch(editUserInfo(userInfo?.consignee, userInfo?.address, userInfo?.phone));
 
     setTimeout(() => {
-      this.setState({ isOpen: false });
+      setIsOpen(false);
       Taro.navigateBack();
     }, 2000);
   };
 
-  render() {
-    const { consignee, address, phone, isOpen } = this.state;
-
-    return (
-      <View className="userEditWrap">
-        <View className="infoItem">
-          <View className="prefixDom">收货人：</View>
-          <View className="inputDom">
-            <Input
-              type="text"
-              value={consignee}
-              onChange={this.onConsigneeChange.bind(this)}
-              className="inputNode"
-            />
-          </View>
+  return (
+    <View className="userEditWrap">
+      <View className="infoItem">
+        <View className="prefixDom">收货人：</View>
+        <View className="inputDom">
+          <Input
+            type="text"
+            value={userInfo?.consignee}
+            onInput={(e) => handleInputChange('consignee', e)}
+            className="inputNode"
+          />
         </View>
-
-        <View className="infoItem">
-          <View className="prefixDom">收货地址：</View>
-          <View className="inputDom">
-            <Input
-              type="text"
-              value={address}
-              onChange={this.onAddressChange.bind(this)}
-              className="inputNode"
-            />
-          </View>
-        </View>
-
-        <View className="infoItem">
-          <View className="prefixDom">联系电话：</View>
-          <View className="inputDom">
-            <Input
-              type="text"
-              value={phone}
-              onChange={this.onPhoneChange.bind(this)}
-              className="inputNode"
-            />
-          </View>
-        </View>
-
-        <View className="submitBtn" onClick={this.submitEdit.bind(this)}>
-          提交
-        </View>
-
-        <AtToast isOpened={isOpen} text="修改成功" icon="heart-2" />
       </View>
-    );
-  }
+
+      <View className="infoItem">
+        <View className="prefixDom">收货地址：</View>
+        <View className="inputDom">
+          <Input
+            type="text"
+            value={userInfo?.address}
+            onInput={(e) => handleInputChange('address', e)}
+            className="inputNode"
+          />
+        </View>
+      </View>
+
+      <View className="infoItem">
+        <View className="prefixDom">联系电话：</View>
+        <View className="inputDom">
+          <Input
+            type="text"
+            value={userInfo?.phone}
+            onInput={(e) => handleInputChange('phone', e)}
+            className="inputNode"
+          />
+        </View>
+      </View>
+
+      <View className="submitBtn" onClick={handleSubmit}>
+        提交
+      </View>
+
+      <AtToast isOpened={isOpen} text="修改成功" icon="check-circle" />
+    </View>
+  );
 }
 
 export default UserEdit;
